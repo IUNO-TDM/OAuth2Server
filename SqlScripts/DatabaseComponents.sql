@@ -34,31 +34,29 @@ CREATE SEQUENCE ScopeID START 1;
 CREATE SEQUENCE AuthorizationCodeID START 1; 
 -- ##########################################################################
 --CreateUser
-CREATE FUNCTION createusers(vexternalid character varying, 
-							vroleuuid integer,
+CREATE FUNCTION createusers(vexternalid character varying,  
 							vusername character varying,
 							vfirstname character varying,
 						    vlastname character varying,
 							vuseremail character varying,
-							vsource character varying,
+							voauth2provider character varying,
 							vimgpath character varying,
 							vthumbnail bytea) 
      RETURNS void AS
   $BODY$
 		#variable_conflict use_column
 		DECLARE vUserID integer := (select nextval('UserID'));      
-				vUserUUID uuid := (select uuid_generate_v4()); 
-				vRoleID integer :=(select roleid from roles where roleuuid = vRoleUUID);
+				vUserUUID uuid := (select uuid_generate_v4());  
       BEGIN	
-		INSERT INTO users (userid,externalid,useruuid,roleid,username,firstname,lastname,useremail,source,createdat,imgpath,thumbnail)
-		VALUES(vUserID,vexternalid,vUserUUID,vRoleID,vusername,vfirstname,vlastname,vuseremail,vsource,now(),vimgpath,vthumbnail);
+		INSERT INTO users (userid,externalid,useruuid,username,firstname,lastname,useremail,oauth2provider,createdat,imgpath,thumbnail)
+		VALUES(vUserID,vexternalid,vUserUUID,vusername,vfirstname,vlastname,vuseremail,voauth2provider,now(),vimgpath,vthumbnail);
       END;
   $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 -- ##########################################################################
 --CreateUserRoles
-CREATE FUNCTION createusersroles(vuseruuid integer, vroleuuid integer, vexternalid character varying) 
+CREATE FUNCTION createusersroles(vuseruuid uuid, vroleuuid uuid) 
      RETURNS void AS
   $BODY$
 		#variable_conflict use_column
@@ -73,16 +71,15 @@ CREATE FUNCTION createusersroles(vuseruuid integer, vroleuuid integer, vexternal
   COST 100;
 -- ##########################################################################
 -- CreateRoles
-CREATE FUNCTION createroles(vrolename character varying, vroledescription character varying, vscopeuuid uuid) 
+CREATE FUNCTION createroles(vrolename character varying, vroledescription character varying) 
      RETURNS void AS
   $BODY$
 		#variable_conflict use_column
 		DECLARE vRoleID integer := (select nextval('RoleID'));      
-				vRoleUUID uuid := (select uuid_generate_v4()); 
-				vScopeID integer := (select scopeid from scopes where scopeuuid = vscopeuuid);
+				vRoleUUID uuid := (select uuid_generate_v4());  
 			BEGIN
-				INSERT INTO roles (roleid,roleuuid,rolename,roledescription,scopeid)
-				VALUES(vRoleID,vRoleUUID,vrolename,vroledescription,vScopeID);
+				INSERT INTO roles (roleid,roleuuid,rolename,roledescription)
+				VALUES(vRoleID,vRoleUUID,vrolename,vroledescription);
 			END;
   $BODY$
   LANGUAGE 'plpgsql' VOLATILE
@@ -130,8 +127,7 @@ CREATE FUNCTION createscopes(visdefault boolean,vparameters character varying,vd
   $BODY$
        #variable_conflict use_column
 	   DECLARE 	vScopeID integer := (select nextval('ScopeID'));
-				vScopeUUID uuid := (select uuid_generate_v4());
-				vClientID integer := (select clientid from clients where clientuuid = vclientuuid);
+				vScopeUUID uuid := (select uuid_generate_v4()); 
 		BEGIN		
       INSERT INTO scopes (scopeid,scopeuuid,isdefault,parameters,description,createdat)
        VALUES(vScopeID,vScopeUUID,visdefault,vparameters,vdescription,now());
@@ -141,7 +137,8 @@ CREATE FUNCTION createscopes(visdefault boolean,vparameters character varying,vd
   COST 100;
 -- ##########################################################################
 -- CreateClients
-CREATE FUNCTION createclients(vclientname character varying,vclientsecret character varying,vredirecturi character varying,vgranttypes character varying,vscopeuuid integer,vuseruuid integer) 
+CREATE FUNCTION createclients(vclientname character varying,vclientsecret character varying,
+							vredirecturi character varying,vgranttypes character varying,vscopeuuid uuid,vuseruuid uuid) 
      RETURNS void AS
   $BODY$
 		#variable_conflict use_column
@@ -209,3 +206,18 @@ $BODY$
   COST 100;
 ALTER FUNCTION public.createlog(integer, character varying, character varying, character varying)
   OWNER TO postgres;
+-- ##########################################################################
+--CreateScopeRoles
+CREATE FUNCTION createscopesroles(vscopeuuid uuid, vroleuuid uuid) 
+     RETURNS void AS
+  $BODY$
+		#variable_conflict use_column
+		DECLARE	vScopeID integer := (select scopeid from scopes where scopeuuid = vscopeuuid);      				
+				vRoleID integer :=(select roleid from roles where roleuuid = vRoleUUID); 
+		BEGIN			
+			INSERT INTO scopesroles (scopeid,roleid)
+			VALUES(vScopeID,vRoleID);
+      END;
+  $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;

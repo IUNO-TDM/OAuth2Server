@@ -125,7 +125,7 @@ CREATE
     FirstName  VARCHAR (250) ,
     LastName   VARCHAR (250),
     UserEmail  VARCHAR (2000) ,
-    "Source"   VARCHAR (250) ,
+    OAuth2Provider   VARCHAR (250) ,
     CreatedAt  timestamp without time zone ,
     UpdatedAt  timestamp without time zone ,
     ImgPath    VARCHAR (1000) ,
