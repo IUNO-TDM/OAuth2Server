@@ -9,9 +9,8 @@
 CREATE
   TABLE AccessTokens
   (
-    AccessTokenID   INTEGER NOT NULL ,
-    AccessTokenUUID UUID NOT NULL ,
-    AccessToken     VARCHAR (256) ,
+    AccessTokenID   INTEGER NOT NULL ,    
+    AccessToken     VARCHAR (256) NOT NULL,
     Expires         timestamp without time zone NOT NULL ,
     ScopeID         INTEGER NOT NULL ,
     ClientID        INTEGER NOT NULL ,
@@ -25,7 +24,7 @@ CREATE
   TABLE AuthorizationCodes
   (
     AuthorizationCodeID   INTEGER NOT NULL ,
-    AuthorizationCodeUUID UUID NOT NULL ,
+    AuthorizationCode	  VARCHAR(256) NOT NULL ,
     Expires               timestamp without time zone NOT NULL ,
     RedirectURI           VARCHAR (4000) ,
     ClientID              INTEGER ,
@@ -75,7 +74,7 @@ CREATE
   TABLE RefreshTokens
   (
     RefreshTokenID   INTEGER NOT NULL ,
-    RefreshTokenUUID UUID ,
+    RefreshToken 	 VARCHAR(256) NOT NULL ,
     Expires          timestamp without time zone ,
     ScopeID          INTEGER NOT NULL ,
     ClientID         INTEGER NOT NULL ,

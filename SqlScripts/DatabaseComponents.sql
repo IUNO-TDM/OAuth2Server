@@ -86,39 +86,43 @@ CREATE FUNCTION createroles(vrolename character varying, vroledescription charac
   COST 100;
 -- ##########################################################################
 -- CreateAccessTokens
-CREATE FUNCTION createaccesstokens(accesstoken character varying,expires timestamp without time zone,scopeuuid uuid,clientuuid uuid,useruuid uuid,createdat timestamp without time zone) 
+CREATE FUNCTION createaccesstokens(expires timestamp without time zone,scopeuuid uuid,clientuuid uuid,useruuid uuid) 
      RETURNS void AS
   $BODY$
 	  #variable_conflict use_column
       DECLARE 	vAccessTokenID integer := (select nextval('AccessTokenID'));      
-				vAccessTokenUUID uuid := (select uuid_generate_v4()); 
+				vAccessToken varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v1mc())::text,'-','')); 
 				vUserID integer := (select userid from users where useruuid = useruuid); 
 				vScopeID integer := (select scopeid from scopes where scopeuuid = scopeuuid);
 				vClientID integer := (select clientid from clients where clientuuid = clientuuid);
 		BEGIN		
-			INSERT INTO accesstokens (accesstokenid,accesstokenuuid,accesstoken,expires,scopeid,clientid,userid,createdat)
-			VALUES(vAccessTokenID,vAccessTokenUUID,vaccesstoken,vexpires,vScopeID,vclientid,vUserID,now());
+			INSERT INTO accesstokens (accesstokenid,accesstoken,expires,scopeid,clientid,userid,createdat)
+			VALUES(vAccessTokenID,vAccessToken,vexpires,vScopeID,vclientid,vUserID,now());
 		END;
   $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 -- ##########################################################################
 -- CreateRefreshTokens  
-CREATE FUNCTION createrefreshtokens(vexpires timestamp without time zone,vscopeuuid integer,vclientuuid integer,vuseruuid integer) 
-     RETURNS void AS
-  $BODY$     
+CREATE OR REPLACE FUNCTION public.createrefreshtokens(
+    vexpires timestamp without time zone,
+    vscopeuuid uuid,
+    vclientuuid uuid,
+    vuseruuid uuid)
+  RETURNS void AS
+$BODY$     
 	  #variable_conflict use_column
-      DECLARE 	vRefreshTokenID integer := (select nextval('RefreshTokenID'));      
-				vRefreshTokenUUID uuid := (select uuid_generate_v4());
-				vUserID integer := (select userid from users where useruuid = vuseruuid); 
-				vScopeID integer := (select scopeid from scopes where scopeuuid = vscopeuuid);
-				vClientID integer := (select clientid from clients where clientuuid = vclientuuid);				
-		BEGIN		
-      INSERT INTO refreshtokens (refreshtokenid,refreshtokenuuid,expires,scopeid,clientid,userid,createdat)
-       VALUES(vRefreshTokenID,vRefreshTokenUUID,vexpires,vScopeID,vClientID,vUserID,now());
-      END;
+      DECLARE 	vRefreshTokenID integer := (select nextval('RefreshID'));      
+		vRefreshToken varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v4())::text,'-',''));
+		vUserID integer := (select userid from users where useruuid = vuseruuid); 
+		vScopeID integer := (select scopeid from scopes where scopeuuid = vscopeuuid);
+		vClientID integer := (select clientid from clients where clientuuid = vclientuuid);				
+	BEGIN		
+		INSERT INTO refreshtokens (refreshtokenid,RefreshToken,expires,scopeid,clientid,userid,createdat)
+		VALUES(vRefreshTokenID,vRefreshToken,vexpires,vScopeID,vClientID,vUserID,now());
+	END;
   $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
+  LANGUAGE plpgsql VOLATILE
   COST 100;
 -- ##########################################################################
 -- CreateScopes  
@@ -155,17 +159,17 @@ CREATE FUNCTION createclients(vclientname character varying,vclientsecret charac
   COST 100;
 -- ##########################################################################
 -- CreateAuthorizationCode
-CREATE FUNCTION createauthorizationcodes(vexpires timestamp without time zone,vredirecturi character varying,vclientuuid integer,vuseruuid integer) 
+CREATE FUNCTION createauthorizationcodes(vexpires timestamp without time zone,vredirecturi character varying,vclientuuid uuid,vuseruuid uuid) 
      RETURNS void AS
   $BODY$
       #variable_conflict use_column
 	   DECLARE 	vAuthorizationCodeID integer := (select nextval('AuthorizationCodeID'));
-				vAuthorizationCodeUUID uuid := (select uuid_generate_v4());
+				vAuthorizationCode varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v1mc())::text,'-',''));
 				vUserID integer := (select userid from users where useruuid = vuseruuid);
 				vClientID integer := (select clientid from clients where clientuuid = vclientuuid); 
 	   BEGIN			
-      INSERT INTO authorizationcodes (authorizationcodeid,authorizationcodeuuid,expires,redirecturi,clientid,userid,createdat)
-       VALUES(vauthorizationcodeid,vAuthorizationCodeUUID,vexpires,vredirecturi,vClientID,vUserID,now());
+      INSERT INTO authorizationcodes (authorizationcodeid,authorizationcode,expires,redirecturi,clientid,userid,createdat)
+       VALUES(vauthorizationcodeid,vAuthorizationCode,vexpires,vredirecturi,vClientID,vUserID,now());
       END;
   $BODY$
   LANGUAGE 'plpgsql' VOLATILE
