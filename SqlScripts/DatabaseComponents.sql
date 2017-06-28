@@ -86,15 +86,15 @@ CREATE FUNCTION createroles(vrolename character varying, vroledescription charac
   COST 100;
 -- ##########################################################################
 -- CreateAccessTokens
-CREATE FUNCTION createaccesstokens(expires timestamp without time zone,scopeuuid uuid,clientuuid uuid,useruuid uuid) 
+CREATE FUNCTION createaccesstokens(vexpires timestamp without time zone,vscopeuuid uuid,vclientuuid uuid,vuseruuid uuid) 
      RETURNS void AS
   $BODY$
 	  #variable_conflict use_column
       DECLARE 	vAccessTokenID integer := (select nextval('AccessTokenID'));      
 				vAccessToken varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v1mc())::text,'-','')); 
-				vUserID integer := (select userid from users where useruuid = useruuid); 
-				vScopeID integer := (select scopeid from scopes where scopeuuid = scopeuuid);
-				vClientID integer := (select clientid from clients where clientuuid = clientuuid);
+				vUserID integer := (select userid from users where useruuid = vuseruuid); 
+				vScopeID integer := (select scopeid from scopes where scopeuuid = vscopeuuid);
+				vClientID integer := (select clientid from clients where clientuuid = vclientuuid);
 		BEGIN		
 			INSERT INTO accesstokens (accesstokenid,accesstoken,expires,scopeid,clientid,userid,createdat)
 			VALUES(vAccessTokenID,vAccessToken,vexpires,vScopeID,vclientid,vUserID,now());
