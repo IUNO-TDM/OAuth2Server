@@ -193,7 +193,7 @@ CREATE FUNCTION createaccesstoken(vexpires timestamp without time zone,vscopeuui
 		-- RETURN
 		RETURN QUERY (select 
 					AccessToken,
-					Expires,
+					Expires at time zone 'utc',
 					vscopeuuid as scopeuuid,
 					vclientuuid as clientuuid,
 					vuseruuid as useruuid,
@@ -252,7 +252,7 @@ $BODY$
 		-- RETURN
 		RETURN QUERY (select 
 					RefreshToken,
-					Expires,
+					Expires at time zone 'utc',
 					vscopeuuid as scopeuuid,
 					vclientuuid as clientuuid,
 					vuseruuid as useruuid,
@@ -394,7 +394,8 @@ CREATE FUNCTION createauthorizationcode(vexpires timestamp without time zone,vre
 		Expires timestamp with time zone,
 		RedirectURI character varying,
 		ClientUUID uuid,
-		UserUUID uuid
+		UserUUID uuid,
+		CreatedAt timestamp with time zone
 	 ) AS
   $BODY$
       #variable_conflict use_column
