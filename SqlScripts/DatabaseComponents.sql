@@ -124,7 +124,7 @@ CREATE FUNCTION createrole(vrolename character varying, vroledescription charact
      RETURNS TABLE (
 	 roleuuid uuid,
 	 rolename character varying,
-	 roledescription character varying,
+	 roledescription character varying
 	 )
 	 AS
   $BODY$
@@ -188,7 +188,7 @@ CREATE FUNCTION createaccesstoken(vexpires timestamp without time zone,vscopeuui
                                 'Expires: ' || cast(vexpires as varchar) || 
 								', ScopeID: ' || cast(vScopeID as varchar) ||
 								', ClientID: ' || cast(vClientID as varchar) ||
-								', UserID: ' || cast(vUserID as varchar);
+								', UserID: ' || cast(vUserID as varchar));
 		
 		-- RETURN
 		RETURN QUERY (select 
@@ -207,7 +207,7 @@ CREATE FUNCTION createaccesstoken(vexpires timestamp without time zone,vscopeuui
                                 'Expires: ' || cast(vexpires as varchar) || 
 								', ScopeID: ' || cast(vScopeID as varchar) ||
 								', ClientID: ' || cast(vClientID as varchar) ||
-								', UserID: ' || cast(vUserID as varchar);
+								', UserID: ' || cast(vUserID as varchar));
 								
 		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at createaccesstoken';
         -- End Log if error 
@@ -247,7 +247,7 @@ $BODY$
                                 'Expires: ' || cast(vexpires as varchar) || 
 								', ScopeID: ' || cast(vScopeID as varchar) ||
 								', ClientID: ' || cast(vClientID as varchar) ||
-								', UserID: ' || cast(vUserID as varchar);
+								', UserID: ' || cast(vUserID as varchar));
 		
 		-- RETURN
 		RETURN QUERY (select 
@@ -266,7 +266,7 @@ $BODY$
                                 'Expires: ' || cast(vexpires as varchar) || 
 								', ScopeID: ' || cast(vScopeID as varchar) ||
 								', ClientID: ' || cast(vClientID as varchar) ||
-								', UserID: ' || cast(vUserID as varchar);
+								', UserID: ' || cast(vUserID as varchar));
 								
 		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at createrefreshtoken';
         -- End Log if error 
@@ -297,7 +297,7 @@ CREATE FUNCTION createscope(visdefault boolean,vparameters character varying,vde
         perform public.createlog(0,'Created Scope sucessfully', 'createscope', 
                                 'IsDefault: ' || cast(vIsDefault as varchar) || 
 								', vParameters: ' || vparameters ||
-								', Description: ' || vdescription;
+								', Description: ' || vdescription);
 		
 		-- RETURN
 		RETURN QUERY (select 
@@ -314,7 +314,7 @@ CREATE FUNCTION createscope(visdefault boolean,vparameters character varying,vde
         perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE, 'createscope', 
                                 'IsDefault: ' || cast(vIsDefault as varchar) || 
 								', vParameters: ' || vparameters ||
-								', Description: ' || vdescription;
+								', Description: ' || vdescription);
 								
 		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at createscope';
         -- End Log if error 
@@ -355,7 +355,7 @@ CREATE FUNCTION createclient(vclientname character varying,vclientsecret charact
 								', RedirectURI: ' || vredirecturi ||
 								', GrantTypes: ' || vgranttypes ||
 								', ScopeID: ' || cast(vScopeID as varchar) ||
-								', UserID: ' || cast(vUserID as varchar);
+								', UserID: ' || cast(vUserID as varchar));
 								
 		RETURN QUERY (
 			select 	ClientUUID,
@@ -366,8 +366,8 @@ CREATE FUNCTION createclient(vclientname character varying,vclientsecret charact
 					ScopeUUID,
 					UserUUID,
 					CreatedAt at time zone 'utc'
-			from clients where clientid = vClientID;
-		);
+			from clients where clientid = vClientID);
+		
 		
 		exception when others then 
         -- Begin Log if error
@@ -377,7 +377,7 @@ CREATE FUNCTION createclient(vclientname character varying,vclientsecret charact
 								', RedirectURI: ' || vredirecturi ||
 								', GrantTypes: ' || vgranttypes ||
 								', ScopeID: ' || cast(vScopeID as varchar) ||
-								', UserID: ' || cast(vUserID as varchar);
+								', UserID: ' || cast(vUserID as varchar));
 								
 		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at createclient';
         -- End Log if error 
@@ -411,7 +411,7 @@ CREATE FUNCTION createauthorizationcode(vexpires timestamp without time zone,vre
                                 'Expires: ' || cast(vexpires as varchar) ||  
 								', RedirectURI: ' || vredirecturi ||
 								', ClientID: ' || cast(vClientID as varchar) || 
-								', UserID: ' || cast(vUserID as varchar);
+								', UserID: ' || cast(vUserID as varchar));
 								
 		RETURN QUERY (
 			select 	AuthorisationCode, 
@@ -420,8 +420,8 @@ CREATE FUNCTION createauthorizationcode(vexpires timestamp without time zone,vre
 					vClientUUID as ClientUUID,
 					vUserUUID as UserUUID,
 					CreatedAt at time zone 'utc'
-			from authorizationcodes where authorizationcodeid = vAuthorizationCodeID;
-		);
+			from authorizationcodes where authorizationcodeid = vAuthorizationCodeID);
+		
 		
 		exception when others then 
         -- Begin Log if error
@@ -429,7 +429,7 @@ CREATE FUNCTION createauthorizationcode(vexpires timestamp without time zone,vre
                                 'Expires: ' || cast(vexpires as varchar) ||  
 								', RedirectURI: ' || vredirecturi ||
 								', ClientID: ' || cast(vClientID as varchar) || 
-								', UserID: ' || cast(vUserID as varchar);
+								', UserID: ' || cast(vUserID as varchar));
 								
 		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at createauthorizationcode';
         -- End Log if error 
@@ -489,23 +489,15 @@ CREATE FUNCTION createscopesroles(vscopeuuid uuid, vroleuuid uuid)
 		-- Begin Log if success
         perform public.createlog(0,'Created ScopesRoles sucessfully', 'createscopesroles', 
                                 'ScopeID: ' || cast(vscopeuuid as varchar) ||  
-								', RoleID: ' || cast(vroleid as varchar);
+								', RoleID: ' || cast(vroleid as varchar));
 								
-		RETURN QUERY (
-			select 	AuthorisationCode, 
-					Expires at time zone 'utc',
-					RedirectURI, 
-					vClientUUID as ClientUUID,
-					vUserUUID as UserUUID,
-					CreatedAt at time zone 'utc'
-			from authorizationcodes where authorizationcodeid = vAuthorizationCodeID;
-		);
+		 
 		
 		exception when others then 
         -- Begin Log if error
         perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE,'createscopesroles', 
                                 'ScopeID: ' || cast(vscopeuuid as varchar) ||  
-								', RoleID: ' || cast(vroleid as varchar);
+								', RoleID: ' || cast(vroleid as varchar));
 								
 		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at createscopesroles';
         -- End Log if error 
