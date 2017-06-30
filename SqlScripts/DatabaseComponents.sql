@@ -138,7 +138,7 @@ CREATE FUNCTION createrole(vrolename character varying, vroledescription charact
 			-- Begin Log if success
         perform public.createlog(0,'Created Role sucessfully', 'CreateRole', 
                                 'RoleName: ' || vRoleName || 
-								', RoleDescription: ' || vRoleDescripton);
+								', RoleDescription: ' || vroledescription);
 		
 		-- RETURN
 		RETURN QUERY (select 	roles.roleuuid,
@@ -152,7 +152,7 @@ CREATE FUNCTION createrole(vrolename character varying, vroledescription charact
         -- Begin Log if error
         perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE, 'CreateRole', 
                                 'RoleName: ' || vRoleName || 
-								', RoleDescription: ' || vRoleDescripton);
+								', RoleDescription: ' || vroledescription);
 								
 		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at CreateUsersRoles';
         -- End Log if error 
@@ -459,11 +459,11 @@ $BODY$
 		 vConnName text := 'conn';
 	      vConnExist bool := (select ('{' || vConnName || '}')::text[] <@ (select dblink_get_connections()));
       BEGIN       
-		set role dblink_loguser;
+		set role oauthdb_loguser;
 		if(not vConnExist or vConnExist is null) then				
-				perform dblink_connect(vConnName,'fdtest');  
+				perform dblink_connect(vConnName,'oauthdb_server');  
 			else			
-				set role dblink_loguser;		 
+				set role oauthdb_loguser;		 
 		end if;	
 				perform dblink(vConnName,vSqlCmd);
 				perform dblink_disconnect(vConnName); 
