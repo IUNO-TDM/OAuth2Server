@@ -506,3 +506,104 @@ CREATE FUNCTION createscopesroles(vscopeuuid uuid, vroleuuid uuid)
   $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
+-- ##########################################################################  
+--GetUser
+create function public.getUser (in vuseruuid character varying,in vaccesstoken character varying)
+	returns table (
+		username character varying,
+		externalid character varying
+	) as
+	$BODY$
+		select us.useremail, us.externalid from users us
+		join accesstokens at
+		on us.userid = at.userid
+		where us.useruuid = (vuseruuid)::uuid
+		and at.accesstoken = vaccesstoken;
+	$BODY$
+Language SQL Volatile
+-- ##########################################################################  
+--GetAccessToken
+create function public.getAccessToken (in vaccesstoken character varying)
+	returns table (
+		accesstokenuuid character varying,
+		expires timestamp with time zone,
+		scopeuuid uuid,
+		clientuuid uuid,
+		useruuid uuid,
+		createdat timestamp with time zone
+	) as
+	$BODY$
+		select	at.accesstoken,
+			at.expires at time zone 'utc',
+			sc.scopeuuid,
+			cl.clientuuid,
+			us.useruuid,
+			at.createdat at time zone 'utc'
+		from accesstokens at
+		join scopes sc on at.scopeid = sc.scopeid
+		join clients cl on at.clientid = cl.clientid
+		join users us on at.userid = us.userid
+		where at.accesstoken = vaccesstoken;
+	$BODY$
+Language SQL Volatile
+-- ##########################################################################  
+--GetClient
+create function getClient (vClientUUID uuid, vClientSecret character varying)
+	RETURNS TABLE (
+		clientUUID uuid,
+		clientName character varying,
+		redirectUri character varying,
+		grantTypes character varying
+	)
+	AS
+	$BODY$
+		select 	clientUUID,
+			clientName,
+			redirectUri,
+			grantTypes			
+		from clients
+		where clientuuid = vClientUUID::uuid
+		and clientsecret = vClientSecret;
+	$BODY$
+Language SQL Volatile
+-- ##########################################################################
+--GetAuthorizationCode
+create function public.getAuthorizationCode(vAuthCode character varying)
+	Returns Table (
+		authorizationcode character varying,
+		expires timestamp with time zone,
+		redirectUri character varying,
+		clientuuid uuid,
+		useruuid uuid,
+		createdat timestamp with time zone
+		
+	)
+	as
+	$BODY$
+		select  authorizationcode,
+			expires at time zone 'utc',
+			ac.redirectUri,
+			cl.clientuuid,
+			us.useruuid,
+			ac.createdat at time zone 'utc'
+		from authorizationcodes ac
+		join clients cl on ac.clientid = cl.clientid
+		join users us on ac.userid = us.userid
+		where ac.authorizationcode = vAuthCode
+	$BODY$
+Language Sql Volatile
+-- ##########################################################################
+--GetUserFromClient
+create function public.getUserFromClient (in vclientuuid character varying)
+	returns table (
+		username character varying,
+		externalid character varying
+	) as
+	$BODY$
+		select us.useremail, us.externalid from users us
+		join accesstokens at
+		on us.userid = at.userid
+		join clients cl on cl.clientid = us.userid
+		where cl.clientuuid = vClientUUID::uuid;		
+	$BODY$
+Language SQL Volatile
