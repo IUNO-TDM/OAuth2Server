@@ -5,11 +5,14 @@
 var logger = require('../../global/logger');
 var request = require('request');
 var defaultStrategy = require('./default');
+var config = require('../../config/config_loader');
 
-function getUserInfo(token) {
+function getUserAndTokenInfo(token) {
 
     var userInfo;
-    request('https://www.googleapis.com/oauth2/v3/userinfo?access_token=' + token, function (err, response, body) {
+    var tokenInfo;
+
+    request(config.OAUTH_ORIGINS.GOOGLE_USER_INFO + '?access_token=' + token, function (err, response, body) {
         if (err) {
             logger.crit(err);
         }
@@ -19,18 +22,41 @@ function getUserInfo(token) {
         userInfo = JSON.parse(body);
     });
 
-    require('deasync').loopWhile(function(){return !userInfo;});
+    request(config.OAUTH_ORIGINS.GOOGLE_TOKEN_INFO + '?access_token=' + token, function (err, response, body) {
+        if (err) {
+            logger.crit(err);
+        }
+        // logger.debug(response);
+        logger.debug(body);
 
-    return userInfo;
+        tokenInfo = JSON.parse(body);
+    });
+
+    require('deasync').loopWhile(function () {
+        return !userInfo || !tokenInfo;
+    });
+
+
+    return {
+        userInfo: userInfo,
+        tokenInfo: tokenInfo
+    };
 }
 
 function getUser(id, token) {
     logger.info('getUser (google)');
-    var userInfo = getUserInfo(token);
+    var dict = getUserAndTokenInfo(token);
 
 
-    if (userInfo.sub !== id) {
+    if (dict.userInfo.sub !== id) {
         return false;
+    }
+
+    //Check if the token was requested by one of our trusted clients
+    //aud 	always 	Identifies the audience that this ID token is intended for. It must be one of the OAuth 2.0 client IDs of your application.
+    console.log(config.ALLOWED_CLIENT_IDS.indexOf(dict.tokenInfo.aud));
+    if (config.ALLOWED_CLIENT_IDS.indexOf(dict.tokenInfo.aud) < 0) {
+        return false
     }
 
     //TODO: Check if user exists
@@ -40,8 +66,8 @@ function getUser(id, token) {
 
     if (userExists) {
         return {
-            ext_id: userInfo.sub,
-            username: userInfo.email
+            ext_id: dict.userInfo.sub,
+            username: dict.userInfo.email
         }
     }
     else {
