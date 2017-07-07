@@ -162,79 +162,85 @@ CREATE FUNCTION createrole(vrolename character varying, vroledescription charact
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 -- ##########################################################################
--- CreateAccessTokens
-CREATE FUNCTION createaccesstoken(vexpires timestamp without time zone,vscopeuuid uuid,vclientuuid uuid,vuseruuid uuid) 
-     RETURNS TABLE (
-		AccessToken varchar,
-	    Expires timestamp with time zone,
-		ScopeUUID uuid,
-		ClientUUID uuid,
-		UserUUID uuid,
-		CreatedAt timestamp with time zone
-	 ) AS
-  $BODY$
+-- saveToken
+CREATE FUNCTION public.saveToken(
+    IN vAccessToken character varying,
+    IN vexpiresAccToken timestamp without time zone,
+    IN vRefreshToken character varying,
+    IN vexpiresRefToken timestamp without time zone,
+    IN vscopeuuid uuid,
+    IN vclientuuid uuid,
+    IN vuseruuid uuid)
+  RETURNS TABLE(accesstoken character varying, 
+		expiresAccToken timestamp with time zone, 
+		refreshtoken character varying, 
+		expiresRefToken timestamp with time zone,
+		scopeuuid uuid, 
+		clientuuid uuid, 
+		useruuid uuid, 
+		createdat timestamp with time zone) AS
+$BODY$
 	  #variable_conflict use_column
       DECLARE 	vAccessTokenID integer := (select nextval('AccessTokenID'));      
-				vAccessToken varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v1mc())::text,'-','')); 
+				--vAccessToken varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v1mc())::text,'-','')); 
 				vUserID integer := (select userid from users where useruuid = vuseruuid); 
 				vScopeID integer := (select scopeid from scopes where scopeuuid = vscopeuuid);
 				vClientID integer := (select clientid from clients where clientuuid = vclientuuid);
 		BEGIN		
 			INSERT INTO accesstokens (accesstokenid,accesstoken,expires,scopeid,clientid,userid,createdat)
-			VALUES(vAccessTokenID,vAccessToken,vexpires,vScopeID,vclientid,vUserID,now());
+			VALUES(vAccessTokenID,vAccessToken,vexpiresAccToken,vScopeID,vclientid,vUserID,now());
 		
 			-- Begin Log if success
-        perform public.createlog(0,'Created AccessToken sucessfully', 'createaccesstoken', 
-                                'Expires: ' || cast(vexpires as varchar) || 
+        perform public.createlog(0,'Created AccessToken sucessfully', 'saveToken', 
+                                'Expires: ' || cast(vexpiresAccToken as varchar) || 
 								', ScopeID: ' || cast(vScopeID as varchar) ||
 								', ClientID: ' || cast(vClientID as varchar) ||
 								', UserID: ' || cast(vUserID as varchar));
+		if(vRefreshToken is not null and vexpiresRefToken is not null) then
+			perform createRefreshToken(vRefreshToken, vexpiresRefToken, vscopeuuid, vclientuuid, vuseruuid);	
+		end if;
+		
 		
 		-- RETURN
-		RETURN QUERY (select 
-					AccessToken,
-					Expires at time zone 'utc',
+		RETURN QUERY (select    vAccessToken,
+					vexpiresAccToken at time zone 'utc',
+					vRefreshToken,
+					vexpiresRefToken at time zone 'utc',
 					vscopeuuid as scopeuuid,
 					vclientuuid as clientuuid,
 					vuseruuid as useruuid,
-					createdat at time zone 'utc'
-			from accesstokens ac
+					ac.createdat at time zone 'utc'
+			from accesstokens ac  
 			where accesstokenid = vAccessTokenID);
 			
 		exception when others then 
         -- Begin Log if error
-        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE,  'createaccesstoken', 
-                                'Expires: ' || cast(vexpires as varchar) || 
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE,  'saveToken', 
+                                'Expires: ' || cast(vexpiresAccToken as varchar) || 
 								', ScopeID: ' || cast(vScopeID as varchar) ||
 								', ClientID: ' || cast(vClientID as varchar) ||
 								', UserID: ' || cast(vUserID as varchar));
 								
-		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at createaccesstoken';
+		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at saveToken';
         -- End Log if error 
 		
 		END;
   $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
+  LANGUAGE plpgsql VOLATILE
   COST 100;
 -- ##########################################################################
 -- CreateRefreshTokens  
 CREATE FUNCTION public.createrefreshtoken(
-    vexpires timestamp without time zone,
-    vscopeuuid uuid,
-    vclientuuid uuid,
-    vuseruuid uuid)
-  RETURNS TABLE (
-		RefreshToken varchar,
-	    Expires timestamp with time zone,
-		ScopeUUID uuid,
-		ClientUUID uuid,
-		UserUUID uuid,
-		CreatedAt timestamp with time zone
-	 ) AS
+    IN vRefreshToken character varying,
+    IN vexpires timestamp without time zone,
+    IN vscopeuuid uuid,
+    IN vclientuuid uuid,
+    IN vuseruuid uuid)
+  RETURNS TABLE(refreshtoken character varying, expires timestamp with time zone, scopeuuid uuid, clientuuid uuid, useruuid uuid, createdat timestamp with time zone) AS
 $BODY$     
 	  #variable_conflict use_column
       DECLARE 	vRefreshTokenID integer := (select nextval('RefreshID'));      
-		vRefreshToken varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v4())::text,'-',''));
+		--vRefreshToken varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v4())::text,'-',''));
 		vUserID integer := (select userid from users where useruuid = vuseruuid); 
 		vScopeID integer := (select scopeid from scopes where scopeuuid = vscopeuuid);
 		vClientID integer := (select clientid from clients where clientuuid = vclientuuid);				
