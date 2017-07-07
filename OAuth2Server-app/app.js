@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var clientAuthentication = require('./oauth/client_authentication');
 
 var app = express();
 
@@ -18,6 +18,7 @@ app.use(cookieParser());
 // Load all routes
 
 app.use('/oauth', require('./routes/oauth'));
+app.use('/tokeninfo', clientAuthentication.http_auth, require('./routes/tokeninfo'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

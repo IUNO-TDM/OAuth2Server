@@ -27,8 +27,7 @@ router.all('/token', function (req, res, next) {
             return res.status(500).json(err)
         })
     }
-)
-;
+);
 
 router.get('/authorise', function (req, res, next) {
 
