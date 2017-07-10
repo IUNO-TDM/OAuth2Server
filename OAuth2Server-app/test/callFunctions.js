@@ -35,3 +35,8 @@ var scope = '57339e6f-a44b-4c52-95f8-afafd73f206b'
 var clientid = '43d9bfb5-cdf4-4a00-9658-175397a69efc'
 var userid = 'd6959d6c-bac6-4ad0-b3a2-4df87334c475'
 var dataSaveToken = func.saveToken(accessToken, expieresAccessToken, refreshToken, expiresRefreshToken, scope, clientid, userid);
+
+
+//Test GetAuthorizationCode()
+var code = 'ff1218a7a7724b0d8edcd1d6d34561c5f800453c5da811e78edd37cc11887d89';
+var dataAccToken = func.getAuthorizationCode(code);

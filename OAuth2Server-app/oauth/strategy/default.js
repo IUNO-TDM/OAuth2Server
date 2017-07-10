@@ -6,6 +6,7 @@ var dbToken = require('../../database/function/tokens');
 var dbUser = require('../../database/function/user');
 var dbClient = require('../../database/function/client');
 var dbScope = require('../../database/function/scope');
+var dbAuthorization = require('../../database/function/authorization');
 
 function getAccessToken(bearerToken) {
     var _err;
@@ -74,7 +75,7 @@ function saveToken(accessToken, expiresAccessToken, refreshToken, expiresRefresh
 function getAuthorizationCode(code) {
     var _err;
     var _data;
-    dbToken.getAuthorizationCode( function(err, data) {
+    dbAuthorization.getAuthorizationCode(code, function(err, data) {
         _err = err;
         _data = data;
     });
