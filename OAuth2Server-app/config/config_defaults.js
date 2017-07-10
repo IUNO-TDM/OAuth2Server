@@ -27,5 +27,6 @@ self.OAUTH_ORIGINS = {
     GOOGLE_USER_INFO: 'https://www.googleapis.com/oauth2/v3/userinfo'
 }
 
+self.DB_CONNECTION_STRING = "";
 
 module.exports = self;

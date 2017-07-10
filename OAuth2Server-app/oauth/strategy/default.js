@@ -2,14 +2,27 @@
  * Created by beuttlerma on 04.07.17.
  */
 var logger = require('../../global/logger');
+var dbToken = require('../../database/function/tokens');
+var dbUser = require('../../database/function/user');
+var dbClient = require('../../database/function/client');
+var dbScope = require('../../database/function/scope');
 
 function getAccessToken(bearerToken) {
-    logger.info("getAccessToken", bearerToken);
+    var _err;
+    var _data;
+    dbToken.getAccessToken(bearerToken, function(err, data) {
+        _err = err;
+       _data = data;
+    });
 
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+
+    return _data;
 }
 
 function getClient(clientId, clientSecret) {
-    logger.info("getClient", clientId, clientSecret);
 
     //TODO: Get and verify client with local database
     var clientWithGrants = {};
@@ -20,9 +33,19 @@ function getClient(clientId, clientSecret) {
     return clientWithGrants;
 }
 
+function getUser(username, accesstoken) {
+    var _err;
+    var _data;
+    dbUser.getUser(username, accesstoken, function(err, data) {
+        _err = err;
+        _data = data;
+    });
 
-function getUser(username, password) {
-    logger.info('getUser');
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+
+    return _data;
 }
 
 function revokeAuthorizationCode(code) {
@@ -33,22 +56,34 @@ function revokeToken(token) {
     logger.info("revokeToken", token);
 }
 
+function saveToken(accessToken, expiresAccessToken, refreshToken, expiresRefreshToken, scope, clientid, userid) {
+    var _err;
+    var _data;
+    dbToken.saveToken(accessToken, expiresAccessToken, refreshToken, expiresRefreshToken, scope, clientid, userid, function(err, data) {
+        _err = err;
+        _data = data;
+    });
 
-function saveToken(token, client, user) {
-    logger.info("saveToken", token, client, user);
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
 
-    return {
-        client: client,
-        user: user,
-        accessToken: token.accessToken,
-        accessTokenExpiresAt: token.accessTokenExpiresAt,
-        refreshToken: token.refreshToken,
-        refreshTokenExpiresAt: token.refreshTokenExpiresAt
-    }
+    return _data;
 }
 
 function getAuthorizationCode(code) {
-    logger.info("getAuthorizationCode", code);
+    var _err;
+    var _data;
+    dbToken.getAuthorizationCode( function(err, data) {
+        _err = err;
+        _data = data;
+    });
+
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+
+    return _data;
 }
 
 function saveAuthorizationCode(code, client, user) {
@@ -56,12 +91,33 @@ function saveAuthorizationCode(code, client, user) {
 }
 
 function getUserFromClient(client) {
-    logger.info("getUserFromClient", client);
+    var _err;
+    var _data;
+    dbUser.getUserFromClient(client, function(err, data) {
+        _err = err;
+        _data = data;
+    });
+
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+
+    return _data;
 }
 
 function getRefreshToken(refreshToken) {
-    logger.info("getRefreshToken", refreshToken);
-    return refreshToken;
+    var _err;
+    var _data;
+    dbToken.getRefreshToken(refreshToken, function(err, data) {
+        _err = err;
+        _data = data;
+    });
+
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+
+    return _data;
 }
 
 function validateScope(token, scope) {

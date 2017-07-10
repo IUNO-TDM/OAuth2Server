@@ -7,7 +7,7 @@ var db = require('../db_connection');
 var self = {};
 
 
-self.getUser = function(userid, accesstoken) {
+self.getUser = function(userid, accesstoken, callback) {
     db.func('getUser', [userid, accesstoken])
         .then(function (data) {
             if (data && data.length) {
@@ -23,14 +23,14 @@ self.getUser = function(userid, accesstoken) {
         });
 };
 
-self.getUserFromClient = function(clientId) {
+self.getUserFromClient = function(clientId, callback) {
     db.func('getUserFromClient', [clientId])
         .then(function (data) {
             if (data && data.length) {
                 data = data[0];
             }
 
-            logger.debug('GetUser result: ' + JSON.stringify(data));
+            logger.debug('getUserFromClient result: ' + JSON.stringify(data));
             callback(null, data);
         })
         .catch(function (error) {
