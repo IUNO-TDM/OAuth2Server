@@ -23,4 +23,22 @@ self.getAuthorizationCode = function(code, callback) {
         });
 };
 
+
+self.saveAuthorizationCode = function(code, expires, redirecturi, client, user, callback) {
+    db.func('CreateAuthorizationCode', [code,  expires, redirecturi, client, user])
+        .then(function (data) {
+            if (data && data.length) {
+                data = data[0];
+            }
+
+            logger.debug('SaveAuthorizationCode result: ' + JSON.stringify(data));
+            callback(null, data);
+        })
+        .catch(function (error) {
+            logger.crit(error);
+            callback(error);
+        });
+};
+
+
 module.exports = self;

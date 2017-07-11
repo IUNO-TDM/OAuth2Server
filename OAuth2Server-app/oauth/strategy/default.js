@@ -13,7 +13,7 @@ function getAccessToken(bearerToken) {
     var _data;
     dbToken.getAccessToken(bearerToken, function(err, data) {
         _err = err;
-       _data = data;
+        _data = data;
     });
 
     require('deasync').loopWhile(function () {
@@ -23,15 +23,27 @@ function getAccessToken(bearerToken) {
     return _data;
 }
 
-function getClient(clientId, clientSecret) {
+function getClient(clientID, clientSecret) {
 
     //TODO: Get and verify client with local database
-    var clientWithGrants = {};
+   /* var clientWithGrants = {};
     clientWithGrants.client_id = clientId;
     clientWithGrants.grants = ['authorization_code', 'password', 'refresh_token', 'client_credentials'];
     clientWithGrants.redirectUris = ['http://localhost:3004/auth/google/callback'];
 
-    return clientWithGrants;
+    return clientWithGrants;*/
+    var _err;
+    var _data;
+    dbClient.getClient(clientID, clientSecret, function(err, data) {
+        _err = err;
+        _data = data;
+    });
+
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+
+    return _data;
 }
 
 function getUser(username, accesstoken) {
@@ -87,8 +99,19 @@ function getAuthorizationCode(code) {
     return _data;
 }
 
-function saveAuthorizationCode(code, client, user) {
-    logger.info("saveAuthorizationCode", code, client, user);
+function saveAuthorizationCode(code, expires, redirecturi, client, user) {
+    var _err;
+    var _data;
+    dbAuthorization.saveAuthorizationCode(code, expires, redirecturi, client, user, function(err, data) {
+        _err = err;
+        _data = data;
+    });
+
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+
+    return _data;
 }
 
 function getUserFromClient(client) {
@@ -117,7 +140,6 @@ function getRefreshToken(refreshToken) {
     require('deasync').loopWhile(function () {
         return !_err && !_data;
     });
-
     return _data;
 }
 

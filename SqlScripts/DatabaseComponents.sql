@@ -394,7 +394,7 @@ CREATE FUNCTION createclient(vclientname character varying,vclientsecret charact
   COST 100;
 -- ##########################################################################
 -- CreateAuthorizationCode
-CREATE FUNCTION createauthorizationcode(vexpires timestamp without time zone,vredirecturi character varying,vclientuuid uuid,vuseruuid uuid) 
+CREATE FUNCTION createauthorizationcode(vAuthorizationCode character varying, vexpires timestamp without time zone,vredirecturi character varying,vclientuuid uuid,vuseruuid uuid) 
      RETURNS TABLE (
 		AuthorisationCode character varying,
 		Expires timestamp with time zone,
@@ -406,7 +406,7 @@ CREATE FUNCTION createauthorizationcode(vexpires timestamp without time zone,vre
   $BODY$
       #variable_conflict use_column
 	   DECLARE 	vAuthorizationCodeID integer := (select nextval('AuthorizationCodeID'));
-				vAuthorizationCode varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v1mc())::text,'-',''));
+				--vAuthorizationCode varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v1mc())::text,'-',''));
 				vUserID integer := (select userid from users where useruuid = vuseruuid);
 				vClientID integer := (select clientid from clients where clientuuid = vclientuuid); 
 	   BEGIN			

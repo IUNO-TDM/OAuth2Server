@@ -7,14 +7,14 @@ var db = require('../db_connection');
 var self = {};
 
 
-self.getClient = function(clientid, clientsecret) {
+self.getClient = function(clientid, clientsecret, callback) {
     db.func('getClient', [clientid, clientsecret])
         .then(function (data) {
             if (data && data.length) {
                 data = data[0];
             }
 
-            logger.debug('GetUser result: ' + JSON.stringify(data));
+            logger.debug('GetClient result: ' + JSON.stringify(data));
             callback(null, data);
         })
         .catch(function (error) {
@@ -22,3 +22,5 @@ self.getClient = function(clientid, clientsecret) {
             callback(error);
         });
 };
+
+module.exports = self;
