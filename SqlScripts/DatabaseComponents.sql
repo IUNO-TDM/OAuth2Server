@@ -512,3 +512,19 @@ CREATE FUNCTION createscopesroles(vscopeuuid uuid, vroleuuid uuid)
   $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
+-- ##########################################################################
+--GetUserByExternalID
+CREATE FUNCTION public.GetUserByExternalID(
+    IN vExternalID character varying,
+    IN vaccesstoken character varying)
+  RETURNS TABLE(username character varying, externalid character varying) AS
+$BODY$
+		select us.useremail, us.externalid from users us
+		join accesstokens at
+		on us.userid = at.userid
+		where us.externalid = vExternalID
+		and at.accesstoken = vaccesstoken;
+	$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;

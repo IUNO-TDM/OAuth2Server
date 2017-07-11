@@ -23,6 +23,22 @@ self.getUser = function(userid, accesstoken, callback) {
         });
 };
 
+self.getUserByExternalID = function(userid, callback) {
+    db.func('getUserByExternalID', [userid])
+        .then(function (data) {
+            if (data && data.length) {
+                data = data[0];
+            }
+
+            logger.debug('getUserByExternalID result: ' + JSON.stringify(data));
+            callback(null, data);
+        })
+        .catch(function (error) {
+            logger.crit(error);
+            callback(error);
+        });
+};
+
 self.getUserFromClient = function(clientId, callback) {
     db.func('getUserFromClient', [clientId])
         .then(function (data) {
@@ -39,14 +55,14 @@ self.getUserFromClient = function(clientId, callback) {
         });
 };
 
-self.saveToken = function(accessToken, expiresAccToken, refreshToken, expiresRefToken, scopeuuid, clientuuid, useruuid, callback) {
-    db.func('saveToken', [accessToken, expiresAccToken, refreshToken, expiresRefToken, scopeuuid, clientuuid, useruuid])
+self.createUser = function(externalid, username, firstname, lastname, useremail, oauth2provider, imgpath, thumbnail, callback) {
+    db.func('createUser', [externalid, username, firstname, lastname, useremail, oauth2provider, imgpath, thumbnail])
         .then(function (data) {
             if (data && data.length) {
                 data = data[0];
             }
 
-            logger.debug('saveToken result: ' + JSON.stringify(data));
+            logger.debug('createUser result: ' + JSON.stringify(data));
             callback(null,data);
         })
         .catch(function (error){
