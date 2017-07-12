@@ -163,22 +163,15 @@ CREATE FUNCTION createrole(vrolename character varying, vroledescription charact
   COST 100;
 -- ##########################################################################
 -- saveToken
-CREATE FUNCTION public.saveToken(
-    IN vAccessToken character varying,
-    IN vexpiresAccToken timestamp without time zone,
-    IN vRefreshToken character varying,
-    IN vexpiresRefToken timestamp without time zone,
+CREATE FUNCTION public.savetoken(
+    IN vaccesstoken character varying,
+    IN vexpiresacctoken timestamp without time zone,
+    IN vrefreshtoken character varying,
+    IN vexpiresreftoken timestamp without time zone,
     IN vscopeuuid uuid,
     IN vclientuuid uuid,
     IN vuseruuid uuid)
-  RETURNS TABLE(accesstoken character varying, 
-		expiresAccToken timestamp with time zone, 
-		refreshtoken character varying, 
-		expiresRefToken timestamp with time zone,
-		scopeuuid uuid, 
-		clientuuid uuid, 
-		useruuid uuid, 
-		createdat timestamp with time zone) AS
+  RETURNS TABLE(accessToken character varying, accessTokenExpiresAt timestamp with time zone, refreshToken character varying, refreshTokenExpiresAt timestamp with time zone, scope uuid, id uuid, useruuid uuid, createdat timestamp with time zone) AS
 $BODY$
 	  #variable_conflict use_column
       DECLARE 	vAccessTokenID integer := (select nextval('AccessTokenID'));      
@@ -227,7 +220,8 @@ $BODY$
 		END;
   $BODY$
   LANGUAGE plpgsql VOLATILE
-  COST 100;
+  COST 100
+  ROWS 1000;
 -- ##########################################################################
 -- CreateRefreshTokens  
 CREATE FUNCTION public.createrefreshtoken(
@@ -394,7 +388,7 @@ CREATE FUNCTION createclient(vclientname character varying,vclientsecret charact
   COST 100;
 -- ##########################################################################
 -- CreateAuthorizationCode
-CREATE FUNCTION createauthorizationcode(vexpires timestamp without time zone,vredirecturi character varying,vclientuuid uuid,vuseruuid uuid) 
+CREATE FUNCTION createauthorizationcode(vAuthorizationCode character varying, vexpires timestamp without time zone,vredirecturi character varying,vclientuuid uuid,vuseruuid uuid) 
      RETURNS TABLE (
 		AuthorisationCode character varying,
 		Expires timestamp with time zone,
@@ -406,7 +400,7 @@ CREATE FUNCTION createauthorizationcode(vexpires timestamp without time zone,vre
   $BODY$
       #variable_conflict use_column
 	   DECLARE 	vAuthorizationCodeID integer := (select nextval('AuthorizationCodeID'));
-				vAuthorizationCode varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v1mc())::text,'-',''));
+				--vAuthorizationCode varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v1mc())::text,'-',''));
 				vUserID integer := (select userid from users where useruuid = vuseruuid);
 				vClientID integer := (select clientid from clients where clientuuid = vclientuuid); 
 	   BEGIN			
@@ -512,3 +506,80 @@ CREATE FUNCTION createscopesroles(vscopeuuid uuid, vroleuuid uuid)
   $BODY$
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
+-- ##########################################################################
+--GetUserByExternalID
+CREATE FUNCTION public.getuserbyexternalid(
+    IN vexternalid character varying)
+  RETURNS TABLE(
+	id uuid,
+	externalid character varying,
+	username character varying, 
+	firstname character varying,
+	lastname character varying,
+	useremail character varying,
+	oauth2provider character varying,
+	createdat timestamp with time zone,
+	updatedat timestamp with time zone,
+	imgpath character varying,
+	thumbnail bytea	
+	) AS
+$BODY$
+		select 	us.useruuid,
+			us.externalid,
+			us.username,
+			us.firstname,
+			us.lastname,
+			us.useremail,
+			us.oauth2provider,
+			us.createdat at time zone 'utc',
+			us.updatedat at time zone 'utc',
+			us.imgpath,
+			us.thumbnail			 
+		from users us 
+		where us.externalid = vExternalID;
+	$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+-- ##########################################################################
+--GetClient
+CREATE FUNCTION public.getclient(
+    IN vclientuuid uuid,
+    IN vclientsecret character varying)
+  RETURNS TABLE(id uuid, clientname character varying, redirecturis text[], grants text[], scope varchar) AS
+$BODY$
+		select 	clientUUID,
+			clientName,
+			redirectUri,
+			grantTypes,
+			scopeuuid::varchar			
+		from clients cl
+		join scopes sc on cl.scopeid = sc.scopeid
+		where clientuuid = vClientUUID::uuid
+		and clientsecret = vClientSecret;
+	$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000; 
+-- ##########################################################################
+--GetUserByID
+CREATE FUNCTION public.getuserbyid(IN vuseruuid uuid)
+  RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+$BODY$ 
+	SELECT  useruuid,
+		externalid,
+		firstname,
+		lastname,            
+		useremail,
+		oauth2provider, 
+		thumbnail,
+		imgpath,           
+		createdat at time zone 'utc',       
+		updatedat at time zone 'utc'
+    FROM Users WHERE UserUUID = vUserUUID;
+    $BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.getuserbyid(uuid)
+  OWNER TO postgres;

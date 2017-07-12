@@ -6,6 +6,9 @@ var logger = require('../../global/logger');
 var request = require('request');
 var defaultStrategy = require('./default');
 var config = require('../../config/config_loader');
+var dbUser = require('../../database/function/user');
+var oauth2Provider = 'google';
+var helper = require('../../services/helper_service');
 
 function getUserAndTokenInfo(token) {
 
@@ -54,28 +57,38 @@ function getUser(id, token) {
 
     //Check if the token was requested by one of our trusted clients
     //aud 	always 	Identifies the audience that this ID token is intended for. It must be one of the OAuth 2.0 client IDs of your application.
-    console.log(config.ALLOWED_CLIENT_IDS.indexOf(dict.tokenInfo.aud));
     if (config.ALLOWED_CLIENT_IDS.indexOf(dict.tokenInfo.aud) < 0) {
         return false
     }
 
     //TODO: Check if user exists
-    //TODO: Retrieve user uuid from the database
+    var user;
+    dbUser.getUserByExternalID(id, function (err, _user) {
+        user = _user;
+    });
 
-    var userExists = true;
+    require('deasync').loopWhile(function () {
+        return !user;
+    });
 
-    if (userExists) {
-        return {
-            ext_id: dict.userInfo.sub,
-            username: dict.userInfo.email
-        }
+    if (user && helper.isArray(user)) {
+        user = false;
     }
-    else {
-        //TODO: Create new user with token info and return new user
+
+    if (!user) {
+        dbUser.createUser(dict.userInfo.sub, dict.userInfo.name, dict.userInfo.given_name, dict.userInfo.family_name,
+            dict.userInfo.email, oauth2Provider, dict.userInfo.picture, null, function (err, _user) {
+                user = _user;
+            });
     }
 
-    return false;
+    require('deasync').loopWhile(function () {
+        return !user;
+    });
+
+    return user;
 }
+
 
 module.exports = {
     //generateOAuthAccessToken, optional - used for jwt
@@ -93,5 +106,5 @@ module.exports = {
     saveToken: defaultStrategy.saveToken,
     saveAuthorizationCode: defaultStrategy.saveAuthorizationCode,
     validateScope: defaultStrategy.validateScope,
-    verifyScope: defaultStrategy.verifyScope,
-}
+    verifyScope: defaultStrategy.verifyScope
+};

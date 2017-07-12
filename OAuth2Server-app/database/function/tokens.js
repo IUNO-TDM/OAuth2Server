@@ -30,7 +30,7 @@ self.getRefreshToken = function(token, callback) {
                 data = data[0];
             }
 
-            logger.debug('GetAccessToken result: ' + JSON.stringify(data));
+            logger.debug('getRefreshToken result: ' + JSON.stringify(data));
             callback(null, data);
         })
         .catch(function (error) {

@@ -2,27 +2,64 @@
  * Created by beuttlerma on 04.07.17.
  */
 var logger = require('../../global/logger');
+var dbToken = require('../../database/function/tokens');
+var dbUser = require('../../database/function/user');
+var dbClient = require('../../database/function/client');
+var dbScope = require('../../database/function/scope');
+var dbAuthorization = require('../../database/function/authorization');
 
 function getAccessToken(bearerToken) {
-    logger.info("getAccessToken", bearerToken);
+    logger.info('GetAccessToken', bearerToken);
+    var _err;
+    var _data;
+    dbToken.getAccessToken(bearerToken, function (err, data) {
+        _err = err;
+        _data = data;
+    });
 
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+
+    return _data;
 }
 
-function getClient(clientId, clientSecret) {
-    logger.info("getClient", clientId, clientSecret);
-
+function getClient(clientID, clientSecret) {
+    logger.info('GetClient ', clientID, clientSecret);
     //TODO: Get and verify client with local database
-    var clientWithGrants = {};
-    clientWithGrants.client_id = clientId;
-    clientWithGrants.grants = ['authorization_code', 'password', 'refresh_token', 'client_credentials'];
-    clientWithGrants.redirectUris = ['http://localhost:3004/auth/google/callback'];
+    /* var clientWithGrants = {};
+     clientWithGrants.client_id = clientId;
+     clientWithGrants.grants = ['authorization_code', 'password', 'refresh_token', 'client_credentials'];
+     clientWithGrants.redirectUris = ['http://localhost:3004/auth/google/callback'];
 
-    return clientWithGrants;
+     // return clientWithGrants;*/
+    var _err;
+    var _data;
+    dbClient.getClient(clientID, clientSecret, function (err, data) {
+        _err = err;
+        _data = data;
+    });
+
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+    return _data;
 }
-
 
 function getUser(username, password) {
-    logger.info('getUser');
+    logger.info('GetUser ', username, password);
+    var _err;
+    var _data;
+    dbUser.getUser(username, password, function (err, data) {
+        _err = err;
+        _data = data;
+    });
+
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+
+    return _data;
 }
 
 function revokeAuthorizationCode(code) {
@@ -31,47 +68,118 @@ function revokeAuthorizationCode(code) {
 
 function revokeToken(token) {
     logger.info("revokeToken", token);
+    //TODO: Delete Refresh Token
+    return true;
 }
 
+function saveToken(accessToken, client, user) {
+    logger.info('SaveToken ', accessToken, client, user);
 
-function saveToken(token, client, user) {
-    logger.info("saveToken", token, client, user);
+    var _err;
+    var _data;
+    dbToken.saveToken(accessToken.accessToken, accessToken.accessTokenExpiresAt, accessToken.refreshToken,
+        accessToken.refreshTokenExpiresAt, accessToken.scope,
+        client.id, user.id, function (err, data) {
+            _err = err;
+            _data = data;
+        });
 
-    return {
-        client: client,
-        user: user,
-        accessToken: token.accessToken,
-        accessTokenExpiresAt: token.accessTokenExpiresAt,
-        refreshToken: token.refreshToken,
-        refreshTokenExpiresAt: token.refreshTokenExpiresAt
-    }
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+
+    return _data;
 }
 
 function getAuthorizationCode(code) {
-    logger.info("getAuthorizationCode", code);
+    logger.info('GetAuthorizationCode ', code);
+    var _err;
+    var _data;
+    dbAuthorization.getAuthorizationCode(code, function (err, data) {
+        _err = err;
+        _data = data;
+    });
+
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+
+    return _data;
 }
 
-function saveAuthorizationCode(code, client, user) {
-    logger.info("saveAuthorizationCode", code, client, user);
+function saveAuthorizationCode(code, expires, redirecturi, client, user) {
+    logger.info('SaveAuthorizationCode ' ,code, expires, redirecturi, client, user);
+
+    var _err;
+    var _data;
+    dbAuthorization.saveAuthorizationCode(code, expires, redirecturi, client, user, function (err, data) {
+        _err = err;
+        _data = data;
+    });
+
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+
+    return _data;
 }
 
 function getUserFromClient(client) {
-    logger.info("getUserFromClient", client);
+    logger.info('GetUserFromClient ', client);
+
+    var _err;
+    var _data;
+    dbUser.getUserFromClient(client, function (err, data) {
+        _err = err;
+        _data = data;
+    });
+
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+
+    return _data;
 }
 
 function getRefreshToken(refreshToken) {
-    logger.info("getRefreshToken", refreshToken);
-    return refreshToken;
+    logger.info('GetRefreshToken ', refreshToken);
+    var _err;
+    var _data;
+    dbToken.getRefreshToken(refreshToken, function (err, data) {
+        _err = err;
+        _data = data;
+    });
+
+    require('deasync').loopWhile(function () {
+        return !_err && !_data;
+    });
+
+    _data.client = {id: _data.client};
+
+    var user;
+    dbUser.getUserByID(_data.user, function(err, _user){
+         user = _user;
+    });
+    require('deasync').loopWhile(function () {
+         return !user;
+    });
+
+   _data.user = user;
+
+    return _data;
 }
 
-function validateScope(token, scope) {
-    logger.info("validateScope", token, scope);
-    return (token.scope === scope && scope !== null) ? scope : false
+function validateScope(user, client, scope) {
+    logger.info("validateScope", user, client, scope);
+    //TODO: Validate scopes if needed
+    //return (user.scope === client.scope) ? scope : false
+    return client.scope;
 }
 
 function verifyScope(token, scope) {
     logger.info("verifyScope", token, scope);
-    return token.scope === scope
+    //TODO: Validate scopes if needed
+    return true;
 }
 
 module.exports = {
