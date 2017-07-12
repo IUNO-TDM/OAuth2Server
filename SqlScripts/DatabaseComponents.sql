@@ -171,7 +171,7 @@ CREATE FUNCTION public.savetoken(
     IN vscopeuuid uuid,
     IN vclientuuid uuid,
     IN vuseruuid uuid)
-  RETURNS TABLE(accessToken character varying, accessTokenExpiresAt timestamp with time zone, refreshToken character varying, refreshTokenExpiresAt timestamp with time zone, scope uuid, id uuid, useruuid uuid, createdat timestamp with time zone) AS
+  RETURNS TABLE("accessToken" character varying, "accessTokenExpiresAt" timestamp with time zone, "refreshToken" character varying, "refreshTokenExpiresAt" timestamp with time zone, scope uuid, client uuid, "user" uuid, createdat timestamp with time zone) AS
 $BODY$
 	  #variable_conflict use_column
       DECLARE 	vAccessTokenID integer := (select nextval('AccessTokenID'));      
@@ -326,13 +326,13 @@ CREATE FUNCTION createscope(visdefault boolean,vparameters character varying,vde
 -- ##########################################################################
 -- CreateClients
 CREATE FUNCTION createclient(vclientname character varying,vclientsecret character varying,
-							vredirecturi character varying,vgranttypes character varying,vscopeuuid uuid,vuseruuid uuid) 
+							vredirecturis text[],vgranttypes text[],vscopeuuid uuid,vuseruuid uuid) 
      RETURNS TABLE (
 		ClientUUID uuid,
 		ClientName character varying,
 		ClientSecret character varying,
-		RedirectURI character varying,
-		GrantTypes character varying,
+		RedirectURIs text[],
+		Grants text[],
 		ScopeUUID uuid,
 		UserUUID uuid,
 		CreatedAt timestamp with time zone
@@ -345,15 +345,13 @@ CREATE FUNCTION createclient(vclientname character varying,vclientsecret charact
 				vUserID integer := (select userid from users where useruuid = vuseruuid);
 				vScopeID integer := (select scopeid from scopes where scopeuuid = vscopeuuid);
       BEGIN		
-		INSERT INTO clients (clientid,clientuuid,clientname,clientsecret,redirecturi,granttypes,scopeid,userid,createdat)
-		VALUES(vClientID,vClientUUID,vclientname,vclientsecret,vredirecturi,vgranttypes,vScopeID,vUserID,now());
+		INSERT INTO clients (clientid,clientuuid,clientname,clientsecret,redirecturis,grants,scopeid,userid,createdat)
+		VALUES(vClientID,vClientUUID,vclientname,vclientsecret,vredirecturis,vgranttypes,vScopeID,vUserID,now());
 		
 		-- Begin Log if success
         perform public.createlog(0,'Created Client sucessfully', 'createclient', 
                                 'ClientName: ' || vClientName || 
 								', ClientSecret: ' || vclientsecret ||
-								', RedirectURI: ' || vredirecturi ||
-								', GrantTypes: ' || vgranttypes ||
 								', ScopeID: ' || cast(vScopeID as varchar) ||
 								', UserID: ' || cast(vUserID as varchar));
 								
@@ -361,8 +359,8 @@ CREATE FUNCTION createclient(vclientname character varying,vclientsecret charact
 			select 	ClientUUID,
 					ClientName,
 					ClientSecret,
-					RedirectURI,
-					GrantTypes,
+					RedirectURIs,
+					Grants,
 					ScopeUUID,
 					UserUUID,
 					CreatedAt at time zone 'utc'
@@ -374,10 +372,9 @@ CREATE FUNCTION createclient(vclientname character varying,vclientsecret charact
         perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE,'createclient', 
                                 'ClientName: ' || vClientName || 
 								', ClientSecret: ' || vclientsecret ||
-								', RedirectURI: ' || vredirecturi ||
-								', GrantTypes: ' || vgranttypes ||
 								', ScopeID: ' || cast(vScopeID as varchar) ||
 								', UserID: ' || cast(vUserID as varchar));
+								
 								
 		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at createclient';
         -- End Log if error 
@@ -543,24 +540,24 @@ $BODY$
   ROWS 1000;
 -- ##########################################################################
 --GetClient
-CREATE FUNCTION public.getclient(
+ CREATE FUNCTION public.getclient(
     IN vclientuuid uuid,
     IN vclientsecret character varying)
-  RETURNS TABLE(id uuid, clientname character varying, redirecturis text[], grants text[], scope varchar) AS
+  RETURNS TABLE(id uuid, clientname character varying, redirecturis text[], grants text[], scope character varying) AS
 $BODY$
 		select 	clientUUID,
 			clientName,
-			redirectUri,
-			grantTypes,
+			redirectUris,
+			grants,
 			scopeuuid::varchar			
 		from clients cl
-		join scopes sc on cl.scopeid = sc.scopeid
+		left outer join scopes sc on cl.scopeid = sc.scopeid
 		where clientuuid = vClientUUID::uuid
 		and clientsecret = vClientSecret;
 	$BODY$
   LANGUAGE sql VOLATILE
   COST 100
-  ROWS 1000; 
+  ROWS 1000;
 -- ##########################################################################
 --GetUserByID
 CREATE FUNCTION public.getuserbyid(IN vuseruuid uuid)
@@ -583,3 +580,23 @@ $BODY$
   ROWS 1000;
 ALTER FUNCTION public.getuserbyid(uuid)
   OWNER TO postgres;
+-- ##########################################################################
+--GetAccessToken
+CREATE FUNCTION public.getaccesstoken(IN vaccesstoken character varying)
+  RETURNS TABLE(accesstokenuuid character varying, expires timestamp with time zone, scopeuuid uuid, clientuuid uuid, useruuid uuid, createdat timestamp with time zone) AS
+$BODY$
+		select	at.accesstoken,
+			at.expires at time zone 'utc',
+			sc.scopeuuid,
+			cl.clientuuid,
+			us.useruuid,
+			at.createdat at time zone 'utc'
+		from accesstokens at		
+		join clients cl on at.clientid = cl.clientid
+		join users us on at.userid = us.userid
+		left outer join scopes sc on at.scopeid = sc.scopeid
+		where at.accesstoken = vaccesstoken;
+	$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000; 

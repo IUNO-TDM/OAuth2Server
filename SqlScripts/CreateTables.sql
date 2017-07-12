@@ -1,38 +1,39 @@
 -- Generiert von Oracle SQL Developer Data Modeler 4.0.3.853
---   am/um:        2017-06-28 14:32:56 MESZ
+--   am/um:        2017-07-12 14:34:02 MESZ
 --   Site:      DB2/UDB 8.1
---   Typ:      DB2/UDB 8.1
-
-
-
+--   Typ:      DB2/UDB 8.1 
 
 CREATE
   TABLE AccessTokens
   (
-    AccessTokenID   INTEGER NOT NULL ,    
-    AccessToken     VARCHAR (256) NOT NULL,
-    Expires         timestamp without time zone NOT NULL ,
-    ScopeID         INTEGER NOT NULL ,
-    ClientID        INTEGER NOT NULL ,
-    UserID          INTEGER NOT NULL ,
-    CreatedAt       timestamp without time zone NOT NULL
+    AccessTokenID INTEGER NOT NULL ,
+    AccessToken   VARCHAR (256) ,
+    Expires       timestamp without time zone NOT NULL ,
+    ScopeID       INTEGER ,
+    ClientID      INTEGER NOT NULL ,
+    UserID        INTEGER NOT NULL ,
+    CreatedAt     timestamp without time zone NOT NULL
   ) ;
 ALTER TABLE AccessTokens ADD CONSTRAINT AccessTokens_PK PRIMARY KEY (
 AccessTokenID ) ;
+ALTER TABLE AccessTokens ADD CONSTRAINT AccessTokens__UN UNIQUE ( AccessToken )
+;
 
 CREATE
   TABLE AuthorizationCodes
   (
-    AuthorizationCodeID   INTEGER NOT NULL ,
-    AuthorizationCode	  VARCHAR(256) NOT NULL ,
-    Expires               timestamp without time zone NOT NULL ,
-    RedirectURI           VARCHAR (4000) ,
-    ClientID              INTEGER ,
-    UserID                INTEGER NOT NULL ,
-    CreatedAt             timestamp without time zone NOT NULL
+    AuthorizationCodeID INTEGER NOT NULL ,
+    AuthorizationCode   VARCHAR (256) NOT NULL ,
+    Expires             timestamp without time zone NOT NULL ,
+    RedirectURI         VARCHAR (4000) ,
+    ClientID            INTEGER ,
+    UserID              INTEGER NOT NULL ,
+    CreatedAt           timestamp without time zone NOT NULL
   ) ;
 ALTER TABLE AuthorizationCodes ADD CONSTRAINT AuthorizationCodes_PK PRIMARY KEY
 ( AuthorizationCodeID ) ;
+ALTER TABLE AuthorizationCodes ADD CONSTRAINT AuthorizationCodes__UN UNIQUE (
+AuthorizationCode ) ;
 
 CREATE
   TABLE Clients
@@ -41,9 +42,9 @@ CREATE
     ClientUUID   UUID NOT NULL ,
     ClientName   VARCHAR (256) ,
     ClientSecret VARCHAR (80) ,
-    RedirectURI  VARCHAR (4000) ,
-    GrantTypes   VARCHAR (80) ,
-    ScopeID      INTEGER NOT NULL ,
+    RedirectURIs Text[] ,
+    Grants       Text[] ,
+    ScopeID      INTEGER,
     UserID       INTEGER NOT NULL ,
     CreatedAt    timestamp without time zone NOT NULL
   ) ;
@@ -73,16 +74,18 @@ ALTER TABLE LogTable ADD CONSTRAINT LogTable_PK PRIMARY KEY ( LogID ) ;
 CREATE
   TABLE RefreshTokens
   (
-    RefreshTokenID   INTEGER NOT NULL ,
-    RefreshToken 	 VARCHAR(256) NOT NULL ,
-    Expires          timestamp without time zone ,
-    ScopeID          INTEGER NOT NULL ,
-    ClientID         INTEGER NOT NULL ,
-    UserID           INTEGER NOT NULL ,
-    CreatedAt        timestamp without time zone NOT NULL
+    RefreshTokenID INTEGER NOT NULL ,
+    RefreshToken   VARCHAR (256) NOT NULL ,
+    Expires        timestamp without time zone ,
+    ScopeID        INTEGER ,
+    ClientID       INTEGER NOT NULL ,
+    UserID         INTEGER NOT NULL ,
+    CreatedAt      timestamp without time zone NOT NULL
   ) ;
 ALTER TABLE RefreshTokens ADD CONSTRAINT RefreshTockens_PK PRIMARY KEY (
 RefreshTokenID ) ;
+ALTER TABLE RefreshTokens ADD CONSTRAINT RefreshTokens__UN UNIQUE (
+RefreshToken ) ;
 
 CREATE
   TABLE Roles
@@ -93,13 +96,14 @@ CREATE
     RoleDescription VARCHAR (4000)
   ) ;
 ALTER TABLE Roles ADD CONSTRAINT Roles_PK PRIMARY KEY ( RoleID ) ;
+ALTER TABLE Roles ADD CONSTRAINT Roles__UN UNIQUE ( RoleName ) ;
 
 CREATE
   TABLE Scopes
   (
     ScopeID     INTEGER NOT NULL ,
     ScopeUUID   UUID ,
-    IsDefault   BOOLEAN ,
+    IsDefault   bool ,
     Parameters  VARCHAR (4000) ,
     Description VARCHAR (4000) ,
     CreatedAt   timestamp without time zone NOT NULL
@@ -117,20 +121,22 @@ CREATE
 CREATE
   TABLE Users
   (
-    UserID     INTEGER NOT NULL ,
-    ExternalID VARCHAR (4000) NOT NULL ,
-    UserUUID   UUID NOT NULL ,
-    UserName   VARCHAR (250) NOT NULL ,
-    FirstName  VARCHAR (250) ,
-    LastName   VARCHAR (250),
-    UserEmail  VARCHAR (2000) ,
-    OAuth2Provider   VARCHAR (250) ,
-    CreatedAt  timestamp without time zone ,
-    UpdatedAt  timestamp without time zone ,
-    ImgPath    VARCHAR (1000) ,
-    Thumbnail  Bytea
+    UserID         INTEGER NOT NULL ,
+    ExternalID     VARCHAR (4000) ,
+    UserUUID       UUID NOT NULL ,
+    UserName       VARCHAR (250) NOT NULL ,
+    UserPwd        VARCHAR ,
+    FirstName      VARCHAR (250) ,
+    LastName       VARCHAR ,
+    UserEmail      VARCHAR (2000) ,
+    OAuth2Provider VARCHAR (250) ,
+    CreatedAt      timestamp without time zone ,
+    UpdatedAt      timestamp without time zone ,
+    ImgPath        VARCHAR (1000) ,
+    Thumbnail 	   bytea
   ) ;
 ALTER TABLE Users ADD CONSTRAINT Users_PK PRIMARY KEY ( UserID ) ;
+ALTER TABLE Users ADD CONSTRAINT Users__UN UNIQUE ( UserName, UserEmail ) ;
 
 CREATE
   TABLE UsersRoles
@@ -144,79 +150,79 @@ RoleID ) ;
 ALTER TABLE AccessTokens ADD CONSTRAINT AccessTokens_Clients_FK FOREIGN KEY (
 ClientID ) REFERENCES Clients ( ClientID ) ON
 DELETE
-  NO ACTION;
+  NO ACTION ;
 
 ALTER TABLE AccessTokens ADD CONSTRAINT AccessTokens_Scopes_FK FOREIGN KEY (
 ScopeID ) REFERENCES Scopes ( ScopeID ) ON
 DELETE
-  NO ACTION;
+  NO ACTION ;
 
 ALTER TABLE AccessTokens ADD CONSTRAINT AccessTokens_Users_FK FOREIGN KEY (
 UserID ) REFERENCES Users ( UserID ) ON
 DELETE
-  NO ACTION;
+  NO ACTION ;
 
 ALTER TABLE AuthorizationCodes ADD CONSTRAINT AuthorizationCodes_Users_FK
 FOREIGN KEY ( UserID ) REFERENCES Users ( UserID ) ON
 DELETE
-  NO ACTION;
+  NO ACTION ;
 
 ALTER TABLE Clients ADD CONSTRAINT Clients_Scopes_FK FOREIGN KEY ( ScopeID )
 REFERENCES Scopes ( ScopeID ) ON
 DELETE
-  NO ACTION;
+  NO ACTION ;
 
 ALTER TABLE Clients ADD CONSTRAINT Clients_Users_FK FOREIGN KEY ( UserID )
 REFERENCES Users ( UserID ) ON
 DELETE
-  NO ACTION;
+  NO ACTION ;
 
 ALTER TABLE LogTable ADD CONSTRAINT LogTable_LogStatus_FK FOREIGN KEY (
 LogStatusID ) REFERENCES LogStatus ( LogStatusID ) ON
 DELETE
-  NO ACTION;
+  NO ACTION ;
 
 ALTER TABLE RefreshTokens ADD CONSTRAINT RefreshTockens_Clients_FK FOREIGN KEY
 ( ClientID ) REFERENCES Clients ( ClientID ) ON
 DELETE
-  NO ACTION;
+  NO ACTION ;
 
 ALTER TABLE RefreshTokens ADD CONSTRAINT RefreshTockens_Scopes_FK FOREIGN KEY (
 ScopeID ) REFERENCES Scopes ( ScopeID ) ON
 DELETE
-  NO ACTION;
+  NO ACTION ;
 
 ALTER TABLE RefreshTokens ADD CONSTRAINT RefreshTockens_Users_FK FOREIGN KEY (
 UserID ) REFERENCES Users ( UserID ) ON
 DELETE
-  NO ACTION;
+  NO ACTION ;
 
 ALTER TABLE ScopesRoles ADD CONSTRAINT ScopesRoles_Roles_FK FOREIGN KEY (
 RoleID ) REFERENCES Roles ( RoleID ) ON
 DELETE
-  NO ACTION;
+  NO ACTION ;
 
 ALTER TABLE ScopesRoles ADD CONSTRAINT ScopesRoles_Scopes_FK FOREIGN KEY (
 ScopeID ) REFERENCES Scopes ( ScopeID ) ON
 DELETE
-  NO ACTION;
+  NO ACTION ;
 
 ALTER TABLE UsersRoles ADD CONSTRAINT UsersRoles_Roles_FK FOREIGN KEY ( RoleID
 ) REFERENCES Roles ( RoleID ) ON
 DELETE
-  NO ACTION;
+  NO ACTION ;
 
 ALTER TABLE UsersRoles ADD CONSTRAINT UsersRoles_Users_FK FOREIGN KEY ( UserID
 ) REFERENCES Users ( UserID ) ON
 DELETE
-  NO ACTION;
+  NO ACTION ;
 
 
 -- Zusammenfassungsbericht für Oracle SQL Developer Data Modeler: 
 -- 
 -- CREATE TABLE                            11
 -- CREATE INDEX                             0
--- ALTER TABLE                             25
+-- ALTER TABLE                             30
 -- CREATE VIEW                              0
 -- CREATE PACKAGE                           0
 -- CREATE PACKAGE BODY                      0

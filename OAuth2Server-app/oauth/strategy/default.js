@@ -168,14 +168,11 @@ function getRefreshToken(refreshToken) {
 
 function validateScope(user, client, scope) {
     logger.info("validateScope", user, client, scope);
-    //TODO: Validate scopes if needed
-    //return (user.scope === client.scope) ? scope : false
-    return client.scope;
+    return (user.scope === client.scope) ? scope : false
 }
 
 function verifyScope(token, scope) {
     logger.info("verifyScope", token, scope);
-    //TODO: Validate scopes if needed
     return true;
 }
 
@@ -208,7 +205,7 @@ module.exports = {
     revokeToken: revokeToken,
     saveToken: saveToken,
     saveAuthorizationCode: saveAuthorizationCode,
-    validateScope: validateScope,
-    verifyScope: verifyScope,
     validateToken: validateToken,
-};
+    // validateScope: validateScope,
+    // verifyScope: verifyScope,
+}
