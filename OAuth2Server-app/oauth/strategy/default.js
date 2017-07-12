@@ -179,6 +179,20 @@ function verifyScope(token, scope) {
     return true;
 }
 
+function validateToken(token) {
+    logger.info('ValidateToken ', token);
+
+
+    var isValid = true;
+
+    isValid = isValid && token;
+    isValid = isValid && token.useruuid;
+    isValid = isValid && new Date(token.expires) > new Date();
+
+
+    return isValid;
+}
+
 module.exports = {
     //generateOAuthAccessToken, optional - used for jwt
     //generateAuthorizationCode, optional
@@ -196,4 +210,5 @@ module.exports = {
     saveAuthorizationCode: saveAuthorizationCode,
     validateScope: validateScope,
     verifyScope: verifyScope,
-}
+    validateToken: validateToken,
+};
