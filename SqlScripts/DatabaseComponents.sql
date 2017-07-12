@@ -43,7 +43,7 @@ CREATE FUNCTION createuser(vexternalid character varying,
 							vimgpath character varying,
 							vthumbnail bytea) 
      RETURNS TABLE (
-	UserUUID uuid,
+	id uuid,
 	UserFirstName varchar(250),
 	UserLastName varchar(250), 
 	UserEmail varchar(250),
