@@ -3,7 +3,7 @@
  */
 
 
-var oAuth = require('../oauth/oauth')('default');
+var oAuth = require('../oauth/strategy/default');
 var basicAuth = require('basic-auth');
 
 var self = {};

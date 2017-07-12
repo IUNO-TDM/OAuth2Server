@@ -26,13 +26,7 @@ function getAccessToken(bearerToken) {
 
 function getClient(clientID, clientSecret) {
     logger.info('GetClient ', clientID, clientSecret);
-    //TODO: Get and verify client with local database
-    /* var clientWithGrants = {};
-     clientWithGrants.client_id = clientId;
-     clientWithGrants.grants = ['authorization_code', 'password', 'refresh_token', 'client_credentials'];
-     clientWithGrants.redirectUris = ['http://localhost:3004/auth/google/callback'];
 
-     // return clientWithGrants;*/
     var _err;
     var _data;
     dbClient.getClient(clientID, clientSecret, function (err, data) {
@@ -64,10 +58,13 @@ function getUser(username, password) {
 
 function revokeAuthorizationCode(code) {
     logger.info("revokeAuthorizationCode ", code);
+    logger.warn('-- NOT IMPLEMENTED YET --');
+    return false;
 }
 
 function revokeToken(token) {
     logger.info("revokeToken", token);
+    logger.warn('-- NOT IMPLEMENTED YET --');
     //TODO: Delete Refresh Token
     return true;
 }
@@ -77,7 +74,6 @@ function saveToken(accessToken, client, user) {
 
     var _err;
     var _data;
-
     dbToken.saveToken(accessToken.accessToken, accessToken.accessTokenExpiresAt, accessToken.refreshToken,
         accessToken.refreshTokenExpiresAt, accessToken.scope,
         client.id, user.id, function (err, data) {
@@ -172,15 +168,26 @@ function getRefreshToken(refreshToken) {
 
 function validateScope(user, client, scope) {
     logger.info("validateScope", user, client, scope);
-    //TODO: Validate scopes if needed
-    //return (user.scope === client.scope) ? scope : false
-    return false;
+    return (user.scope === client.scope) ? scope : false
 }
 
 function verifyScope(token, scope) {
     logger.info("verifyScope", token, scope);
-    //TODO: Validate scopes if needed
     return true;
+}
+
+function validateToken(token) {
+    logger.info('ValidateToken ', token);
+
+
+    var isValid = true;
+
+    isValid = isValid && token;
+    isValid = isValid && token.useruuid;
+    isValid = isValid && new Date(token.expires) > new Date();
+
+
+    return isValid;
 }
 
 module.exports = {
@@ -198,6 +205,7 @@ module.exports = {
     revokeToken: revokeToken,
     saveToken: saveToken,
     saveAuthorizationCode: saveAuthorizationCode,
+    validateToken: validateToken,
     // validateScope: validateScope,
     // verifyScope: verifyScope,
 }

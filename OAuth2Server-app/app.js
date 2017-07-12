@@ -19,6 +19,7 @@ app.use(cookieParser());
 
 app.use('/oauth', require('./routes/oauth'));
 app.use('/tokeninfo', clientAuthentication.http_auth, require('./routes/tokeninfo'));
+app.use('/userinfo', clientAuthentication.http_auth, require('./routes/userinfo'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
