@@ -55,6 +55,22 @@ self.getUserFromClient = function(clientId, callback) {
         });
 };
 
+self.getUserByID = function(userid, callback) {
+    db.func('getUserByID', [userid])
+        .then(function (data) {
+            if (data && data.length) {
+                data = data[0];
+            }
+
+            logger.debug('GetUser result: ' + JSON.stringify(data));
+            callback(null, data);
+        })
+        .catch(function (error) {
+            logger.crit(error);
+            callback(error);
+        });
+};
+
 self.createUser = function(externalid, username, firstname, lastname, useremail, oauth2provider, imgpath, thumbnail, callback) {
     db.func('createUser', [externalid, username, firstname, lastname, useremail, oauth2provider, imgpath, thumbnail])
         .then(function (data) {

@@ -9,6 +9,7 @@ var dbScope = require('../../database/function/scope');
 var dbAuthorization = require('../../database/function/authorization');
 
 function getAccessToken(bearerToken) {
+    logger.info('GetAccessToken', bearerToken);
     var _err;
     var _data;
     dbToken.getAccessToken(bearerToken, function (err, data) {
@@ -24,7 +25,7 @@ function getAccessToken(bearerToken) {
 }
 
 function getClient(clientID, clientSecret) {
-
+    logger.info('GetClient ', clientID, clientSecret);
     //TODO: Get and verify client with local database
     /* var clientWithGrants = {};
      clientWithGrants.client_id = clientId;
@@ -46,6 +47,7 @@ function getClient(clientID, clientSecret) {
 }
 
 function getUser(username, password) {
+    logger.info('GetUser ', username, password);
     var _err;
     var _data;
     dbUser.getUser(username, password, function (err, data) {
@@ -66,9 +68,13 @@ function revokeAuthorizationCode(code) {
 
 function revokeToken(token) {
     logger.info("revokeToken", token);
+    //TODO: Delete Refresh Token
+    return true;
 }
 
 function saveToken(accessToken, client, user) {
+    logger.info('SaveToken ', accessToken, client, user);
+
     var _err;
     var _data;
     dbToken.saveToken(accessToken.accessToken, accessToken.accessTokenExpiresAt, accessToken.refreshToken,
@@ -86,6 +92,7 @@ function saveToken(accessToken, client, user) {
 }
 
 function getAuthorizationCode(code) {
+    logger.info('GetAuthorizationCode ', code);
     var _err;
     var _data;
     dbAuthorization.getAuthorizationCode(code, function (err, data) {
@@ -101,6 +108,8 @@ function getAuthorizationCode(code) {
 }
 
 function saveAuthorizationCode(code, expires, redirecturi, client, user) {
+    logger.info('SaveAuthorizationCode ' ,code, expires, redirecturi, client, user);
+
     var _err;
     var _data;
     dbAuthorization.saveAuthorizationCode(code, expires, redirecturi, client, user, function (err, data) {
@@ -116,6 +125,8 @@ function saveAuthorizationCode(code, expires, redirecturi, client, user) {
 }
 
 function getUserFromClient(client) {
+    logger.info('GetUserFromClient ', client);
+
     var _err;
     var _data;
     dbUser.getUserFromClient(client, function (err, data) {
@@ -131,6 +142,7 @@ function getUserFromClient(client) {
 }
 
 function getRefreshToken(refreshToken) {
+    logger.info('GetRefreshToken ', refreshToken);
     var _err;
     var _data;
     dbToken.getRefreshToken(refreshToken, function (err, data) {
@@ -141,13 +153,27 @@ function getRefreshToken(refreshToken) {
     require('deasync').loopWhile(function () {
         return !_err && !_data;
     });
+
+    _data.client = {id: _data.client};
+
+    var user;
+    dbUser.getUserByID(_data.user, function(err, _user){
+         user = _user;
+    });
+    require('deasync').loopWhile(function () {
+         return !user;
+    });
+
+   _data.user = user;
+
     return _data;
 }
 
-function validateScope(token, scope) {
-    logger.info("validateScope", token, scope);
+function validateScope(user, client, scope) {
+    logger.info("validateScope", user, client, scope);
     //TODO: Validate scopes if needed
-    return scope;
+    //return (user.scope === client.scope) ? scope : false
+    return client.scope;
 }
 
 function verifyScope(token, scope) {
