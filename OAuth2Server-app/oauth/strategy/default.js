@@ -77,6 +77,7 @@ function saveToken(accessToken, client, user) {
 
     var _err;
     var _data;
+
     dbToken.saveToken(accessToken.accessToken, accessToken.accessTokenExpiresAt, accessToken.refreshToken,
         accessToken.refreshTokenExpiresAt, accessToken.scope,
         client.id, user.id, function (err, data) {
@@ -173,7 +174,7 @@ function validateScope(user, client, scope) {
     logger.info("validateScope", user, client, scope);
     //TODO: Validate scopes if needed
     //return (user.scope === client.scope) ? scope : false
-    return client.scope;
+    return false;
 }
 
 function verifyScope(token, scope) {
@@ -197,6 +198,6 @@ module.exports = {
     revokeToken: revokeToken,
     saveToken: saveToken,
     saveAuthorizationCode: saveAuthorizationCode,
-    validateScope: validateScope,
-    verifyScope: verifyScope,
+    // validateScope: validateScope,
+    // verifyScope: verifyScope,
 }
