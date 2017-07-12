@@ -3,7 +3,7 @@
  */
 
 
-var oAuth = require('../oauth/oauth')();
+var oAuth = require('../oauth/oauth')('default');
 var basicAuth = require('basic-auth');
 
 var self = {};
