@@ -15,6 +15,8 @@
 CREATE EXTENSION "uuid-ossp";
 -- Install Extension dblink
 CREATE EXTENSION "dblink";
+-- Install crypto
+create extension "pgcrypto";
 -- Create Sequences
 -- UserID
 CREATE SEQUENCE UserID START 1; 
@@ -43,7 +45,7 @@ CREATE FUNCTION createuser(vexternalid character varying,
 							vimgpath character varying,
 							vthumbnail bytea) 
      RETURNS TABLE (
-	UserUUID uuid,
+	id uuid,
 	UserFirstName varchar(250),
 	UserLastName varchar(250), 
 	UserEmail varchar(250),
@@ -600,3 +602,83 @@ $BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000; 
+-- ##########################################################################
+--GetUser with pwd
+CREATE FUNCTION public.getuser(
+    IN vuseruuid character varying,
+    IN vUserPwd character varying) 
+
+   RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+$BODY$ 
+	SELECT  useruuid,
+		externalid,
+		firstname,
+		lastname,            
+		useremail,
+		oauth2provider, 
+		thumbnail,
+		imgpath,           
+		createdat at time zone 'utc',       
+		updatedat at time zone 'utc'
+		from users us 	
+		where us.useruuid = (vuseruuid)::uuid
+		and us.userpwd = (crypt(vUserPwd,us.userpwd))
+	$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.getuser(character varying, character varying)
+  OWNER TO postgres;
+-- ##########################################################################
+--CreateUser with pwd  
+CREATE OR REPLACE FUNCTION public.createuser(
+    IN vexternalid character varying,
+    IN vusername character varying,
+    IN vfirstname character varying,
+    IN vlastname character varying,
+    IN vuseremail character varying,
+    IN voauth2provider character varying,
+    IN vimgpath character varying,
+    IN vthumbnail bytea,
+    IN vUserPwd character varying)
+  RETURNS TABLE(useruuid uuid, userfirstname character varying, userlastname character varying, useremail character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+$BODY$
+		#variable_conflict use_column
+		DECLARE vUserID integer := (select nextval('UserID'));      
+			vUserUUID uuid := (select uuid_generate_v4());  
+			vUserPwd varchar := (select crypt(vUserPwd, gen_salt('bf')));
+      BEGIN									
+		INSERT INTO users (userid,externalid,useruuid,username,firstname,lastname,useremail,oauth2provider,createdat,imgpath,thumbnail, userPwd)
+		VALUES(vUserID,vexternalid,vUserUUID,vusername,vfirstname,vlastname,vuseremail,voauth2provider,now(),vimgpath,vthumbnail, vUserPWD);
+		
+		-- Begin Log if success
+        perform public.createlog(0,'Created User sucessfully', 'CreateUser', 
+                                'UserID: ' || cast(vUserID as varchar) || ', UserFirstName: ' 
+                                || vfirstname || ', UserLastName: ' || vlastname 
+                                || ', ' 
+                                || vuseremail);
+								
+		-- RETURN
+		RETURN QUERY (select 	users.useruuid,
+				users.firstname,
+				users.lastname,
+				users.useremail,
+				users.createdat at time zone 'utc',
+				users.updatedat at time zone 'utc'
+			from users where users.useruuid = vUserUUID);      
+         
+        
+        exception when others then 
+        -- Begin Log if error
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE, 'CreateUser', 
+                                'UserID: ' || cast(vUserID as varchar) || ', UserFirstName: ' 
+                                || vfirstname || ', UserLastName: ' || vlastname 
+                                || ', ' 
+                                || vuseremail);
+		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at CreateUser';
+        -- End Log if error 
+      END;
+  $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;

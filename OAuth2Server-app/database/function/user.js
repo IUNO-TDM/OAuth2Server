@@ -7,8 +7,8 @@ var db = require('../db_connection');
 var self = {};
 
 
-self.getUser = function(userid, accesstoken, callback) {
-    db.func('getUser', [userid, accesstoken])
+self.getUser = function(userid, password, callback) {
+    db.func('getUser', [userid, password])
         .then(function (data) {
             if (data && data.length) {
                 data = data[0];
