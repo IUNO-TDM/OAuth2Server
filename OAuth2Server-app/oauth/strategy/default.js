@@ -126,7 +126,7 @@ function getUserFromClient(client) {
 
     var _err;
     var _data;
-    dbUser.getUserFromClient(client, function (err, data) {
+    dbUser.getUserFromClient(client.id, function (err, data) {
         _err = err;
         _data = data;
     });
@@ -134,6 +134,8 @@ function getUserFromClient(client) {
     require('deasync').loopWhile(function () {
         return !_err && !_data;
     });
+
+    _data.id = _data.useruuid;
 
     return _data;
 }
