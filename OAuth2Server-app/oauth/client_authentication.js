@@ -6,8 +6,8 @@
 var oAuth = require('../oauth/strategy/default');
 var basicAuth = require('basic-auth');
 
-var self = {};
-self.http_auth = function (req, res, next) {
+
+module.exports = function (req, res, next) {
     function unauthorized(res) {
         res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
         return res.sendStatus(401);
@@ -28,5 +28,3 @@ self.http_auth = function (req, res, next) {
         return unauthorized(res);
     }
 };
-
-module.exports = self;

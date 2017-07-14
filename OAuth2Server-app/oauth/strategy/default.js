@@ -12,6 +12,8 @@ function getAccessToken(bearerToken) {
     logger.info('GetAccessToken', bearerToken);
     var _err;
     var _data;
+    var _user;
+
     dbToken.getAccessToken(bearerToken, function (err, data) {
         _err = err;
         _data = data;
@@ -20,6 +22,21 @@ function getAccessToken(bearerToken) {
     require('deasync').loopWhile(function () {
         return !_err && !_data;
     });
+
+
+    dbUser.getUserByID(_data.user, function (err, user) {
+        _err = err;
+        _user = user;
+    });
+
+    require('deasync').loopWhile(function () {
+        return !_err && !_user;
+    });
+
+    _data.user = _user;
+    _data.client = {
+        id: _data.client
+    };
 
     return _data;
 }
@@ -105,7 +122,7 @@ function getAuthorizationCode(code) {
 }
 
 function saveAuthorizationCode(code, expires, redirecturi, client, user) {
-    logger.info('SaveAuthorizationCode ' ,code, expires, redirecturi, client, user);
+    logger.info('SaveAuthorizationCode ', code, expires, redirecturi, client, user);
 
     var _err;
     var _data;
@@ -156,14 +173,14 @@ function getRefreshToken(refreshToken) {
     _data.client = {id: _data.client};
 
     var user;
-    dbUser.getUserByID(_data.user, function(err, _user){
-         user = _user;
+    dbUser.getUserByID(_data.user, function (err, _user) {
+        user = _user;
     });
     require('deasync').loopWhile(function () {
-         return !user;
+        return !user;
     });
 
-   _data.user = user;
+    _data.user = user;
 
     return _data;
 }

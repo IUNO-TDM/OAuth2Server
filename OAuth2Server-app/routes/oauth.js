@@ -29,10 +29,6 @@ router.all('/token', function (req, res, next) {
     }
 );
 
-router.get('/authorise', function (req, res, next) {
-
-});
-
 /**
  * Password Grant
  */
