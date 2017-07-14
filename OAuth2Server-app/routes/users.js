@@ -46,7 +46,7 @@ router.get('/:id/image', validate({query: require('../schema/users_schema').GetS
 
             var imgPath = data.imgpath;
 
-            if (imgPath) {
+            if (imgPath && imgPath.length) {
                 var path = require('path');
                 res.sendFile(path.resolve(imgPath));
             }
