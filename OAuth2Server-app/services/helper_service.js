@@ -18,5 +18,4 @@ self.buildFullUrlFromRequest = function(req) {
 };
 
 
-
 module.exports = self;

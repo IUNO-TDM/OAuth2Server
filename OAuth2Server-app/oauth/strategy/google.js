@@ -9,6 +9,7 @@ var config = require('../../config/config_loader');
 var dbUser = require('../../database/function/user');
 var oauth2Provider = 'google';
 var helper = require('../../services/helper_service');
+var downloadService = require('../../services/download_service');
 
 function getUserAndTokenInfo(token) {
 
@@ -76,10 +77,18 @@ function getUser(id, token) {
     }
 
     if (!user) {
-        dbUser.createUser(dict.userInfo.sub, dict.userInfo.name, dict.userInfo.given_name, dict.userInfo.family_name,
-            dict.userInfo.email, oauth2Provider, dict.userInfo.picture, null, function (err, _user) {
-                user = _user;
-            });
+        downloadService.downloadImageFromUrl(dict.userInfo.picture, function(err, filePath) {
+            var imagePath = '';
+
+            if (!err) {
+                imagePath = filePath;
+            }
+
+            dbUser.createUser(dict.userInfo.sub, dict.userInfo.name, dict.userInfo.given_name, dict.userInfo.family_name,
+                dict.userInfo.email, oauth2Provider, imagePath, null, function (err, _user) {
+                    user = _user;
+                });
+        });
     }
 
     require('deasync').loopWhile(function () {
