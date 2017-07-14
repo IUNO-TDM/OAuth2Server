@@ -24,10 +24,18 @@ router.get('/:id', validate({query: require('../schema/users_schema').GetSingle}
             next(err);
         }
         else {
+
+            //Check if user is requesting his own information or the information of a foreign one
+            if (req.user.user.id !== req.params['id']) {
+                data = {
+                    id: data.id,
+                    username: data.username
+                }
+            }
+
             res.json(data);
         }
     });
-
 });
 
 router.get('/:id/image', validate({query: require('../schema/users_schema').GetSingle}), function (req, res, next) {

@@ -4,8 +4,13 @@
 var oauthServer = require('oauth2-server');
 var Request = oauthServer.Request;
 var Response = oauthServer.Response;
-
+var helper = require('../services/helper_service');
 var oauth = require('./oauth')('default');
+
+function unauthorized(res) {
+    res.set('WWW-Authenticate', 'Bearer realm=OAUTH Token required');
+    return res.sendStatus(401);
+}
 
 module.exports = function (req, res, next) {
     var request = new Request({
@@ -18,7 +23,9 @@ module.exports = function (req, res, next) {
 
     oauth.authenticate(request, response, {})
         .then(function (token) {
-            // Request is authorized.
+            if (!token || helper.isArray(token)) {
+                return unauthorized(res);
+            }
             req.user = token;
             next()
         })
