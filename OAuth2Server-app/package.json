@@ -13,6 +13,7 @@
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "express-jsonschema": "^1.1.6",
+    "lodash": "^4.17.4",
     "mime-types": "^2.1.15",
     "morgan": "~1.8.1",
     "oauth2-server": "^3.0.0-b2",

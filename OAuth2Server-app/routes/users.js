@@ -13,46 +13,42 @@ var express = require('express');
 var router = express.Router();
 var logger = require('../global/logger');
 var validate = require('express-jsonschema').validate;
-var helper = require('../services/helper_service');
-var userDB = require('../database/function/user');
+var User = require('../database/model/user');
 
 
 router.get('/:id', validate({query: require('../schema/users_schema').GetSingle}), function (req, res, next) {
 
-    userDB.getUserByID(req.params['id'], function (err, data) {
+    User.FindSingle(req.params['id'], function (err, user) {
         if (err) {
             next(err);
         }
         else {
 
-            //Check if user is requesting his own information or the information of a foreign one
+            //Check if user is requesting his own information or the information of a foreign user
             if (req.user.user.id !== req.params['id']) {
-                data = {
-                    id: data.id,
-                    username: data.username
-                }
+                return res.json(user.getPublicData());
             }
 
-            res.json(data);
+            return res.json(user.getPrivateData());
         }
     });
 });
 
 router.get('/:id/image', validate({query: require('../schema/users_schema').GetSingle}), function (req, res, next) {
 
-    userDB.getUserByID(req.params['id'], function (err, data) {
+    User.FindSingle(req.params['id'], function (err, user) {
         if (err) {
             next(err);
         }
         else {
-            if (!data || !Object.keys(data).length) {
+            if (!user || !Object.keys(user).length) {
                 logger.info('No user found for id: ' + req.param['id']);
                 res.sendStatus(404);
 
                 return;
             }
 
-            var imgPath = data.imgpath;
+            var imgPath = user.imgpath;
 
             if (imgPath && imgPath.length) {
                 var path = require('path');

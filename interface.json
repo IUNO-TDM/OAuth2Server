@@ -401,9 +401,6 @@
         "oauth2provider": {
           "type": "string"
         },
-        "thumbnail": {
-          "type": "string"
-        },
         "imgpath": {
           "type": "string"
         },
