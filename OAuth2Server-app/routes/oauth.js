@@ -29,9 +29,7 @@ router.all('/token', function (req, res, next) {
     }
 );
 
-/**
- * Password Grant
- */
+
 router.post('/authorise', function (req, res, next) {
     var request = new Request(req);
     var response = new Response(res);

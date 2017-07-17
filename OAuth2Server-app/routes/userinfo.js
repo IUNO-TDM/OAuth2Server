@@ -12,7 +12,7 @@ var helper = require('../services/helper_service');
 
 router.get('/', validate({query: require('../schema/userinfo_schema')}), function (req, res, next) {
 
-        var tokenInfo = oAuth.getAccessToken(req.query['accessToken']);
+        var tokenInfo = oAuth.getAccessToken(req.query['access_token']);
 
         //Validate token
         if (!oAuth.validateToken(tokenInfo)) {
@@ -20,7 +20,7 @@ router.get('/', validate({query: require('../schema/userinfo_schema')}), functio
             return res.sendStatus(401);
         }
 
-        dbUser.getUserByID(tokenInfo.useruuid, function (err, user) {
+        dbUser.getUserByID(tokenInfo.user.id, function (err, user) {
             if (err) {
                 return next(err);
             }

@@ -62,7 +62,6 @@ function getUser(id, token) {
         return false
     }
 
-    //TODO: Check if user exists
     var user;
     dbUser.getUserByExternalID(id, function (err, _user) {
         user = _user;

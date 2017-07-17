@@ -18,6 +18,7 @@ app.use(cookieParser());
 
 // Load all routes
 
+app.use('/oauth', require('./routes/oauth'));
 app.use('/tokeninfo', clientAuthentication, require('./routes/tokeninfo'));
 app.use('/userinfo', clientAuthentication, require('./routes/userinfo'));
 app.use('/users', tokenAuthentication, require('./routes/users'));
