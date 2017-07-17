@@ -1,0 +1,429 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "OAuth2Server"
+  },
+  "host": "localhost:3006",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/x-www-form-urlencoded"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "TDM_Auth": {
+      "type": "oauth2",
+      "flow": "accessCode",
+      "authorizationUrl": "http://localhost:3006/oauth/authorise",
+      "tokenUrl": "http://localhost:3006/oauth/token",
+      "scopes": {
+        "default": "Undefined",
+        "dashboard": "view dashboard",
+        "createRecipe": "create a recipe",
+        "viewRecipe": "view a recipe",
+        "viewSecureRecipe": "view a secure recipe",
+        "editRecipe": "edit a recipe",
+        "editSecureRecipe": "edit a secure recipe",
+        "viewUserProfile": "view the user profile",
+        "editUserProfile": "edit user profile",
+        "admin": "admin ui"
+      }
+    },
+    "Client_Auth": {
+      "type": "basic",
+      "description": "Basic Client authentication with ClienID:ClientSecret"
+    }
+  },
+  "paths": {
+    "/oauth/token": {
+      "post": {
+        "security": [
+          {
+            "Client_Auth": []
+          }
+        ],
+        "description": "Requests an oAuth2 token using different authentication methods",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Authentication"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Token"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/oauth/authorise": {
+      "post": {
+        "security": [
+          {
+            "TDM_Auth": [
+              "default"
+            ]
+          }
+        ],
+        "description": "Requests an oAuth2 token with a specific scope",
+        "parameters": [
+          {
+            "name": "response_type",
+            "in": "query",
+            "type": "string",
+            "default": "code",
+            "enum": [
+              "code"
+            ],
+            "required": true
+          },
+          {
+            "name": "client_id",
+            "in": "query",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "redirect_uri",
+            "in": "query",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "scope",
+            "in": "query",
+            "type": "string",
+            "default": "default",
+            "enum": [
+              "default",
+              "dashboard",
+              "createRecipe",
+              "viewRecipe",
+              "viewSecureRecipe",
+              "editRecipe",
+              "editSecureRecipe",
+              "viewUserProfile",
+              "editUserProfile",
+              "admin"
+            ],
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Token"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/tokeninfo": {
+      "get": {
+        "security": [
+          {
+            "TDM_Auth": [
+              "default"
+            ]
+          }
+        ],
+        "description": "Returns detail information about a given token",
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Token"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/userinfo": {
+      "get": {
+        "security": [
+          {
+            "TDM_Auth": [
+              "default"
+            ]
+          }
+        ],
+        "description": "Returns the user information for a given token",
+        "parameters": [
+          {
+            "name": "access_token",
+            "in": "query",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/{userid}": {
+      "get": {
+        "security": [
+          {
+            "TDM_Auth": [
+              "default"
+            ]
+          }
+        ],
+        "description": "Returns the user information. The route will return a different amount of information depending on the token scope and user role.",
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/User"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/{userid}/image": {
+      "get": {
+        "security": [
+          {
+            "TDM_Auth": [
+              "default"
+            ]
+          }
+        ],
+        "description": "Returns the user image",
+        "parameters": [
+          {
+            "name": "userid",
+            "in": "path",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "schema": {
+              "type": "string",
+              "format": "byte"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Authentication": {
+      "type": "object",
+      "properties": {
+        "grant_type": {
+          "type": "string",
+          "default": "password",
+          "enum": [
+            "password",
+            "refresh_token",
+            "client_credentials",
+            "authorization_code"
+          ]
+        },
+        "username": {
+          "type": "string",
+          "description": "Required for grant type password"
+        },
+        "password": {
+          "type": "string",
+          "format": "password",
+          "description": "Required for grant type password"
+        },
+        "code": {
+          "type": "string",
+          "description": "Required for grant type authorization_code"
+        },
+        "refresh_token": {
+          "type": "string",
+          "description": "Required for grant type refresh_token"
+        },
+        "redirect_uri": {
+          "type": "string",
+          "description": "Required for grant type authorization_code"
+        }
+      }
+    },
+    "Token": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        },
+        "accessTokenExpiresAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "refreshTokenExpiresAt": {
+          "type": "string",
+          "format": "date"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "client": {
+          "$ref": "#/definitions/Client"
+        },
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "createdat": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "externalid": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "useremail": {
+          "type": "string"
+        },
+        "oauth2provider": {
+          "type": "string"
+        },
+        "thumbnail": {
+          "type": "string"
+        },
+        "imgpath": {
+          "type": "string"
+        },
+        "createdat": {
+          "type": "string",
+          "format": "date"
+        },
+        "updatedat": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "Client": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
