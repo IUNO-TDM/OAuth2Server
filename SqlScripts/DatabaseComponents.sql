@@ -507,21 +507,8 @@ CREATE FUNCTION createscopesroles(vscopeuuid uuid, vroleuuid uuid)
   COST 100;
 -- ##########################################################################
 --GetUserByExternalID
-CREATE FUNCTION public.getuserbyexternalid(
-    IN vexternalid character varying)
-  RETURNS TABLE(
-	id uuid,
-	externalid character varying,
-	username character varying, 
-	firstname character varying,
-	lastname character varying,
-	useremail character varying,
-	oauth2provider character varying,
-	createdat timestamp with time zone,
-	updatedat timestamp with time zone,
-	imgpath character varying,
-	thumbnail bytea	
-	) AS
+CREATE FUNCTION public.getuserbyexternalid(IN vexternalid character varying)
+  RETURNS TABLE(id uuid, externalid character varying, username character varying, firstname character varying, lastname character varying, useremail character varying, rolename varchar,oauth2provider character varying, createdat timestamp with time zone, updatedat timestamp with time zone, imgpath character varying, thumbnail bytea) AS
 $BODY$
 		select 	us.useruuid,
 			us.externalid,
@@ -529,12 +516,15 @@ $BODY$
 			us.firstname,
 			us.lastname,
 			us.useremail,
+			rl.rolename,
 			us.oauth2provider,
 			us.createdat at time zone 'utc',
 			us.updatedat at time zone 'utc',
 			us.imgpath,
 			us.thumbnail			 
 		from users us 
+		join usersroles ur on us.userid = ur.userid
+		join roles rl on rl.roleid = ur.roleid
 		where us.externalid = vExternalID;
 	$BODY$
   LANGUAGE sql VOLATILE
@@ -563,7 +553,7 @@ $BODY$
 -- ##########################################################################
 --GetUserByID
 CREATE FUNCTION public.getuserbyid(IN vuseruuid uuid)
-  RETURNS TABLE(id uuid, username character varying, externalid character varying, firstname character varying, lastname character varying, useremail character varying, oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+  RETURNS TABLE(id uuid, username character varying, externalid character varying, firstname character varying, lastname character varying, useremail character varying, rolename character varying, oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$ 
 	SELECT  useruuid,
 		username,
@@ -571,12 +561,16 @@ $BODY$
 		firstname,
 		lastname,            
 		useremail,
+		rl.rolename,
 		oauth2provider, 
 		thumbnail,
 		imgpath,           
 		createdat at time zone 'utc',       
 		updatedat at time zone 'utc'
-    FROM Users WHERE UserUUID = vUserUUID;
+    FROM Users us
+    join usersroles ur on us.userid = ur.userid
+    join roles rl on rl.roleid = ur.roleid
+    WHERE UserUUID = vUserUUID;
     $BODY$
   LANGUAGE sql VOLATILE
   COST 100
@@ -684,11 +678,14 @@ $BODY$
   ROWS 1000;
 -- ##########################################################################
 --GetUserFromClient   
-  CREATE OR REPLACE FUNCTION public.getuserfromclient(IN vclientuuid character varying)
-  RETURNS TABLE(useruuid uuid, username character varying) AS
+CREATE FUNCTION public.getuserfromclient(IN vclientuuid character varying)
+  RETURNS TABLE(useruuid uuid, username character varying, rolename varchar) AS
 $BODY$
-		select us.useruuid, us.username from users us
+		select us.useruuid, us.username, rl.rolename 
+		from users us
 		join clients cl on cl.userid = us.userid
+		join usersroles ur on us.userid = ur.userid
+		join roles rl on rl.roleid = ur.roleid 
 		where cl.clientuuid = vClientUUID::uuid;	
 	$BODY$
   LANGUAGE sql VOLATILE
