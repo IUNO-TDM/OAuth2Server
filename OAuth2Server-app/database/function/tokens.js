@@ -13,6 +13,9 @@ self.getAccessToken = function(token, callback) {
             if (data && data.length) {
                 data = data[0];
             }
+            else {
+                data = null;
+            }
 
             logger.debug('GetAccessToken result: ' + JSON.stringify(data));
             callback(null, data);
@@ -29,6 +32,9 @@ self.getRefreshToken = function(token, callback) {
             if (data && data.length) {
                 data = data[0];
             }
+            else {
+                data = null;
+            }
 
             logger.debug('getRefreshToken result: ' + JSON.stringify(data));
             callback(null, data);
@@ -44,6 +50,9 @@ self.saveToken = function(accessToken, expiresAccToken, refreshToken, expiresRef
         .then(function (data) {
             if (data && data.length) {
                 data = data[0];
+            }
+            else {
+                data = null;
             }
 
         logger.debug('saveToken result: ' + JSON.stringify(data));

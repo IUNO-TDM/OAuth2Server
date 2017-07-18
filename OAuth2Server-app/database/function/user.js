@@ -13,6 +13,9 @@ self.getUser = function(userid, password, callback) {
             if (data && data.length) {
                 data = data[0];
             }
+            else {
+                data = null;
+            }
 
             logger.debug('GetUser result: ' + JSON.stringify(data));
             callback(null, data);
@@ -28,6 +31,9 @@ self.getUserByExternalID = function(userid, callback) {
         .then(function (data) {
             if (data && data.length) {
                 data = data[0];
+            }
+            else {
+                data = null;
             }
 
             logger.debug('getUserByExternalID result: ' + JSON.stringify(data));
@@ -45,6 +51,9 @@ self.getUserFromClient = function(clientId, callback) {
             if (data && data.length) {
                 data = data[0];
             }
+            else {
+                data = null;
+            }
 
             logger.debug('getUserFromClient result: ' + JSON.stringify(data));
             callback(null, data);
@@ -60,6 +69,9 @@ self.getUserByID = function(userid, callback) {
         .then(function (data) {
             if (data && data.length) {
                 data = data[0];
+            }
+            else {
+                data = null;
             }
 
             logger.debug('GetUser result: ' + JSON.stringify(data));
@@ -77,6 +89,9 @@ self.createUser = function(externalid, username, firstname, lastname, useremail,
             if (data && data.length) {
                 data = data[0];
             }
+            else {
+                data = null;
+            }
 
             logger.debug('createUser result: ' + JSON.stringify(data));
             callback(null,data);
@@ -85,5 +100,6 @@ self.createUser = function(externalid, username, firstname, lastname, useremail,
             logger.crit(error);
             callback(error);
         });
-}
+};
+
 module.exports = self;
