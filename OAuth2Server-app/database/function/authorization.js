@@ -13,6 +13,9 @@ self.getAuthorizationCode = function(code, callback) {
             if (data && data.length) {
                 data = data[0];
             }
+            else {
+                data = null;
+            }
 
             logger.debug('GetAuthorizationCode result: ' + JSON.stringify(data));
             callback(null, data);
@@ -29,6 +32,9 @@ self.saveAuthorizationCode = function(code, expires, redirecturi, client, user, 
         .then(function (data) {
             if (data && data.length) {
                 data = data[0];
+            }
+            else {
+                data = null;
             }
 
             logger.debug('SaveAuthorizationCode result: ' + JSON.stringify(data));

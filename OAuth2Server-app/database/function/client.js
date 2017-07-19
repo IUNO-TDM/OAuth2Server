@@ -13,6 +13,9 @@ self.getClient = function(clientid, clientsecret, callback) {
             if (data && data.length) {
                 data = data[0];
             }
+            else {
+                data = null;
+            }
 
             logger.debug('GetClient result: ' + JSON.stringify(data));
             callback(null, data);

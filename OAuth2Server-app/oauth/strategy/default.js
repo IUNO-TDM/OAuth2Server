@@ -201,9 +201,9 @@ function validateToken(token) {
 
     var isValid = true;
 
-    isValid = isValid && token != undefined;
-    isValid = isValid && token.user != undefined;
-    isValid = isValid && token.user.id != undefined;
+    isValid = isValid && token !== undefined;
+    isValid = isValid && token.user !== undefined;
+    isValid = isValid && token.user.id !== undefined;
     isValid = isValid && new Date(token.accessTokenExpiresAt) > new Date();
 
 
