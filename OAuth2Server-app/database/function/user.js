@@ -62,7 +62,7 @@ self.getUserByID = function(userid, callback) {
                 data = data[0];
             }
 
-            logger.debug('GetUser result: ' + JSON.stringify(data));
+            logger.debug('GetUserByID result: ' + JSON.stringify(data));
             callback(null, data);
         })
         .catch(function (error) {
