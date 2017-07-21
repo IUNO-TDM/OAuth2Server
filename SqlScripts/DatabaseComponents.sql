@@ -326,66 +326,6 @@ CREATE FUNCTION createscope(visdefault boolean,vparameters character varying,vde
   LANGUAGE 'plpgsql' VOLATILE
   COST 100;
 -- ##########################################################################
--- CreateClients
-CREATE FUNCTION createclient(vclientname character varying,vclientsecret character varying,
-							vredirecturis text[],vgranttypes text[],vscopeuuid uuid,vuseruuid uuid) 
-     RETURNS TABLE (
-		ClientUUID uuid,
-		ClientName character varying,
-		ClientSecret character varying,
-		RedirectURIs text[],
-		Grants text[],
-		ScopeUUID uuid,
-		UserUUID uuid,
-		CreatedAt timestamp with time zone
-	 )
-	 AS
-  $BODY$
-		#variable_conflict use_column
-		DECLARE	vClientID integer := (select nextval('ClientID'));
-				vClientUUID uuid := (select uuid_generate_v4());
-				vUserID integer := (select userid from users where useruuid = vuseruuid);
-				vScopeID integer := (select scopeid from scopes where scopeuuid = vscopeuuid);
-      BEGIN		
-		INSERT INTO clients (clientid,clientuuid,clientname,clientsecret,redirecturis,grants,scopeid,userid,createdat)
-		VALUES(vClientID,vClientUUID,vclientname,vclientsecret,vredirecturis,vgranttypes,vScopeID,vUserID,now());
-		
-		-- Begin Log if success
-        perform public.createlog(0,'Created Client sucessfully', 'createclient', 
-                                'ClientName: ' || vClientName || 
-								', ClientSecret: ' || vclientsecret ||
-								', ScopeID: ' || cast(vScopeID as varchar) ||
-								', UserID: ' || cast(vUserID as varchar));
-								
-		RETURN QUERY (
-			select 	ClientUUID,
-					ClientName,
-					ClientSecret,
-					RedirectURIs,
-					Grants,
-					ScopeUUID,
-					UserUUID,
-					CreatedAt at time zone 'utc'
-			from clients where clientid = vClientID);
-		
-		
-		exception when others then 
-        -- Begin Log if error
-        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE,'createclient', 
-                                'ClientName: ' || vClientName || 
-								', ClientSecret: ' || vclientsecret ||
-								', ScopeID: ' || cast(vScopeID as varchar) ||
-								', UserID: ' || cast(vUserID as varchar));
-								
-								
-		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at createclient';
-        -- End Log if error 
-		
-      END;
-  $BODY$
-  LANGUAGE 'plpgsql' VOLATILE
-  COST 100;
--- ##########################################################################
 -- CreateAuthorizationCode
 CREATE FUNCTION createauthorizationcode(vAuthorizationCode character varying, vexpires timestamp without time zone,vredirecturi character varying,vclientuuid uuid,vuseruuid uuid) 
      RETURNS TABLE (
@@ -545,7 +485,7 @@ $BODY$
 		from clients cl
 		left outer join scopes sc on cl.scopeid = sc.scopeid
 		where clientuuid = vClientUUID::uuid
-		and clientsecret = vClientSecret;
+		and clientsecret = (crypt(vClientSecret,clientsecret))
 	$BODY$
   LANGUAGE sql VOLATILE
   COST 100
@@ -691,3 +631,58 @@ $BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000;
+-- ##########################################################################
+--CreateClient    
+  CREATE FUNCTION public.createclient(
+    IN vClientName character varying,
+    IN vClientSecret character varying,
+    IN vUserUUID uuid,
+    IN vGrants text[],
+    IN vRedirectUris text[],
+    IN vScopeUUID uuid)
+  RETURNS TABLE(id uuid, clientname character varying, redirecturis text[], grants text[], scope character varying) AS
+$BODY$
+		#variable_conflict use_column
+		DECLARE vClientID integer := (select nextval('UserID'));      
+			vClientUUID uuid := (select uuid_generate_v4());  
+			vClientPwd varchar := (select crypt(vClientSecret, gen_salt('bf')));
+			vUserID integer := (select userid from users where useruuid = vUserUUID);
+			vScopeID integer := (select scopeid from scopes where scopeuuid = vScopeUUID);
+      BEGIN									
+		INSERT INTO clients (clientid, clientuuid, clientname, clientsecret, userid, createdat, grants, redirecturis, scopeid)
+		VALUES(vClientID, vClientUUID, vClientName, vClientPwd, vUserID, now(), vGrants, vRedirectUris, vScopeID);
+		
+		-- Begin Log if success
+        perform public.createlog(0,'Created Client sucessfully', 'CreateClient', 
+                                'ClientID: ' || cast(vClientID as varchar) || ', ClientName: ' 
+                                || vClientName || ', Grants: ' || vGrants 
+                                || ', RedirectUris: ' || vRedirectUris
+				|| ', ScopeID: ' || cast(vScopeID as varchar)
+			);
+								
+		-- RETURN
+		RETURN QUERY (	select 	clientUUID,
+					clientName,
+					redirectUris,
+					grants,
+					scopeuuid::varchar			
+				from clients cl
+				left outer join scopes sc on cl.scopeid = sc.scopeid
+				where clientuuid = vClientUUID
+		);               
+        
+        exception when others then 
+        -- Begin Log if error
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE,  'CreateClient', 
+                                'ClientID: ' || cast(vClientID as varchar) || ', ClientName: ' 
+                                || vClientName || ', Grants: ' || vGrants 
+                                || ', RedirectUris: ' || vRedirectUris
+				|| ', ScopeID: ' || cast(vScopeID as varchar));
+
+	RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at CreateUser';
+        -- End Log if error 
+      END;
+  $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000; 
