@@ -1,0 +1,952 @@
+-- Generiert von Oracle SQL Developer Data Modeler 4.0.3.853
+--   am/um:        2017-07-12 14:34:02 MESZ
+--   Site:      DB2/UDB 8.1
+--   Typ:      DB2/UDB 8.1
+
+CREATE
+  TABLE AccessTokens
+  (
+    AccessTokenID INTEGER NOT NULL ,
+    AccessToken   VARCHAR (256) ,
+    Expires       timestamp without time zone NOT NULL ,
+    ScopeID       INTEGER ,
+    ClientID      INTEGER NOT NULL ,
+    UserID        INTEGER NOT NULL ,
+    CreatedAt     timestamp without time zone NOT NULL
+  ) ;
+ALTER TABLE AccessTokens ADD CONSTRAINT AccessTokens_PK PRIMARY KEY (
+AccessTokenID ) ;
+ALTER TABLE AccessTokens ADD CONSTRAINT AccessTokens__UN UNIQUE ( AccessToken )
+;
+
+CREATE
+  TABLE AuthorizationCodes
+  (
+    AuthorizationCodeID INTEGER NOT NULL ,
+    AuthorizationCode   VARCHAR (256) NOT NULL ,
+    Expires             timestamp without time zone NOT NULL ,
+    RedirectURI         VARCHAR (4000) ,
+    ClientID            INTEGER ,
+    UserID              INTEGER NOT NULL ,
+    CreatedAt           timestamp without time zone NOT NULL
+  ) ;
+ALTER TABLE AuthorizationCodes ADD CONSTRAINT AuthorizationCodes_PK PRIMARY KEY
+( AuthorizationCodeID ) ;
+ALTER TABLE AuthorizationCodes ADD CONSTRAINT AuthorizationCodes__UN UNIQUE (
+AuthorizationCode ) ;
+
+CREATE
+  TABLE Clients
+  (
+    ClientID     INTEGER NOT NULL ,
+    ClientUUID   UUID NOT NULL ,
+    ClientName   VARCHAR (256) ,
+    ClientSecret VARCHAR (80) ,
+    RedirectURIs Text[] ,
+    Grants       Text[] ,
+    ScopeID      INTEGER,
+    UserID       INTEGER NOT NULL ,
+    CreatedAt    timestamp without time zone NOT NULL
+  ) ;
+ALTER TABLE Clients ADD CONSTRAINT Clients_PK PRIMARY KEY ( ClientID ) ;
+
+CREATE
+  TABLE LogStatus
+  (
+    LogStatusID          INTEGER NOT NULL ,
+    LogStatus            VARCHAR (50) ,
+    LogStatusDescription VARCHAR (250)
+  ) ;
+ALTER TABLE LogStatus ADD CONSTRAINT LogStatus_PK PRIMARY KEY ( LogStatusID ) ;
+
+CREATE
+  TABLE LogTable
+  (
+    LogID         INTEGER NOT NULL ,
+    LogStatusID   INTEGER NOT NULL ,
+    LogMessage    VARCHAR (4000) NOT NULL ,
+    LogObjectName VARCHAR (250) ,
+    Parameters    VARCHAR (4000) ,
+    CreatedAt     timestamp without time zone NOT NULL
+  ) ;
+ALTER TABLE LogTable ADD CONSTRAINT LogTable_PK PRIMARY KEY ( LogID ) ;
+
+CREATE
+  TABLE RefreshTokens
+  (
+    RefreshTokenID INTEGER NOT NULL ,
+    RefreshToken   VARCHAR (256) NOT NULL ,
+    Expires        timestamp without time zone ,
+    ScopeID        INTEGER ,
+    ClientID       INTEGER NOT NULL ,
+    UserID         INTEGER NOT NULL ,
+    CreatedAt      timestamp without time zone NOT NULL
+  ) ;
+ALTER TABLE RefreshTokens ADD CONSTRAINT RefreshTockens_PK PRIMARY KEY (
+RefreshTokenID ) ;
+ALTER TABLE RefreshTokens ADD CONSTRAINT RefreshTokens__UN UNIQUE (
+RefreshToken ) ;
+
+CREATE
+  TABLE Roles
+  (
+    RoleID          INTEGER NOT NULL ,
+    RoleUUID        UUID NOT NULL ,
+    RoleName        VARCHAR (250) NOT NULL ,
+    RoleDescription VARCHAR (4000)
+  ) ;
+ALTER TABLE Roles ADD CONSTRAINT Roles_PK PRIMARY KEY ( RoleID ) ;
+ALTER TABLE Roles ADD CONSTRAINT Roles__UN UNIQUE ( RoleName ) ;
+
+CREATE
+  TABLE Scopes
+  (
+    ScopeID     INTEGER NOT NULL ,
+    ScopeUUID   UUID ,
+    IsDefault   bool ,
+    Parameters  VARCHAR (4000) ,
+    Description VARCHAR (4000) ,
+    CreatedAt   timestamp without time zone NOT NULL
+  ) ;
+ALTER TABLE Scopes ADD CONSTRAINT Scopes_PK PRIMARY KEY ( ScopeID ) ;
+ALTER TABLE Scopes ADD CONSTRAINT Scopes__UN UNIQUE ( Parameters ) ;
+
+CREATE
+  TABLE ScopesRoles
+  (
+    ScopeID INTEGER NOT NULL ,
+    RoleID  INTEGER NOT NULL
+  ) ;
+
+CREATE
+  TABLE Users
+  (
+    UserID         INTEGER NOT NULL ,
+    ExternalID     VARCHAR (4000) ,
+    UserUUID       UUID NOT NULL ,
+    UserName       VARCHAR (250) NOT NULL ,
+    UserPwd        VARCHAR ,
+    FirstName      VARCHAR (250) ,
+    LastName       VARCHAR ,
+    UserEmail      VARCHAR (2000) ,
+    OAuth2Provider VARCHAR (250) ,
+    CreatedAt      timestamp without time zone ,
+    UpdatedAt      timestamp without time zone ,
+    ImgPath        VARCHAR (1000) ,
+    Thumbnail 	   bytea
+  ) ;
+ALTER TABLE Users ADD CONSTRAINT Users_PK PRIMARY KEY ( UserID ) ;
+ALTER TABLE Users ADD CONSTRAINT Users__UN UNIQUE ( UserName, UserEmail ) ;
+
+CREATE
+  TABLE UsersRoles
+  (
+    UserID INTEGER NOT NULL ,
+    RoleID INTEGER NOT NULL
+  ) ;
+ALTER TABLE UsersRoles ADD CONSTRAINT UsersRoles_PK PRIMARY KEY ( UserID,
+RoleID ) ;
+
+ALTER TABLE AccessTokens ADD CONSTRAINT AccessTokens_Clients_FK FOREIGN KEY (
+ClientID ) REFERENCES Clients ( ClientID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE AccessTokens ADD CONSTRAINT AccessTokens_Scopes_FK FOREIGN KEY (
+ScopeID ) REFERENCES Scopes ( ScopeID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE AccessTokens ADD CONSTRAINT AccessTokens_Users_FK FOREIGN KEY (
+UserID ) REFERENCES Users ( UserID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE AuthorizationCodes ADD CONSTRAINT AuthorizationCodes_Users_FK
+FOREIGN KEY ( UserID ) REFERENCES Users ( UserID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE Clients ADD CONSTRAINT Clients_Scopes_FK FOREIGN KEY ( ScopeID )
+REFERENCES Scopes ( ScopeID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE Clients ADD CONSTRAINT Clients_Users_FK FOREIGN KEY ( UserID )
+REFERENCES Users ( UserID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE LogTable ADD CONSTRAINT LogTable_LogStatus_FK FOREIGN KEY (
+LogStatusID ) REFERENCES LogStatus ( LogStatusID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE RefreshTokens ADD CONSTRAINT RefreshTockens_Clients_FK FOREIGN KEY
+( ClientID ) REFERENCES Clients ( ClientID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE RefreshTokens ADD CONSTRAINT RefreshTockens_Scopes_FK FOREIGN KEY (
+ScopeID ) REFERENCES Scopes ( ScopeID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE RefreshTokens ADD CONSTRAINT RefreshTockens_Users_FK FOREIGN KEY (
+UserID ) REFERENCES Users ( UserID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE ScopesRoles ADD CONSTRAINT ScopesRoles_Roles_FK FOREIGN KEY (
+RoleID ) REFERENCES Roles ( RoleID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE ScopesRoles ADD CONSTRAINT ScopesRoles_Scopes_FK FOREIGN KEY (
+ScopeID ) REFERENCES Scopes ( ScopeID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE UsersRoles ADD CONSTRAINT UsersRoles_Roles_FK FOREIGN KEY ( RoleID
+) REFERENCES Roles ( RoleID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE UsersRoles ADD CONSTRAINT UsersRoles_Users_FK FOREIGN KEY ( UserID
+) REFERENCES Users ( UserID ) ON
+DELETE
+  NO ACTION ;
+
+
+-- Zusammenfassungsbericht für Oracle SQL Developer Data Modeler:
+--
+-- CREATE TABLE                            11
+-- CREATE INDEX                             0
+-- ALTER TABLE                             30
+-- CREATE VIEW                              0
+-- CREATE PACKAGE                           0
+-- CREATE PACKAGE BODY                      0
+-- CREATE PROCEDURE                         0
+-- CREATE FUNCTION                          0
+-- CREATE TRIGGER                           0
+-- ALTER TRIGGER                            0
+-- CREATE STRUCTURED TYPE                   0
+-- CREATE ALIAS                             0
+-- CREATE BUFFERPOOL                        0
+-- CREATE DATABASE                          0
+-- CREATE DISTINCT TYPE                     0
+-- CREATE INSTANCE                          0
+-- CREATE DATABASE PARTITION GROUP          0
+-- CREATE SCHEMA                            0
+-- CREATE SEQUENCE                          0
+-- CREATE TABLESPACE                        0
+--
+-- DROP TABLESPACE                          0
+-- DROP DATABASE                            0
+--
+-- ERRORS                                   0
+-- WARNINGS                                 0
+
+-- Create LogUser
+DO
+$$
+BEGIN
+	IF ((SELECT 1 FROM pg_roles WHERE rolname='oauthdb_loguser') is null) THEN
+	CREATE USER oauthdb_loguser WITH PASSWORD 'PASSWORD';  -- PUT YOUR PWD HERE
+	END IF;
+	CREATE FOREIGN DATA WRAPPER postgresql VALIDATOR postgresql_fdw_validator;
+	CREATE SERVER oauthdb_server FOREIGN DATA WRAPPER postgresql OPTIONS (hostaddr '127.0.0.1', dbname 'oauthdb'); -- PUT YOUR DATABASENAME HERE
+	CREATE USER MAPPING FOR oauthdb_loguser SERVER oauthdb_server OPTIONS (user 'oauthdb_loguser', password 'PASSWORD'); -- PUT YOUR PWD HERE
+	GRANT USAGE ON FOREIGN SERVER oauthdb_server TO oauthdb_loguser;
+	GRANT INSERT ON TABLE logtable TO oauthdb_loguser;
+END;
+$$;
+
+-- ##########################################################################
+-- Author: Marcel Ely Gomes
+-- Company: Trumpf Werkzeugmaschine GmbH & Co KG
+-- CreatedAt: 2017-06-28
+-- Description: Script to create OAuthDB database functions, sequences, etc.
+-- Changes:
+-- ##########################################################################
+-- Create Database
+/*CREATE DATABASE "Test"
+    WITH
+    OWNER = postgres
+    ENCODING = 'UTF8'
+    CONNECTION LIMIT = -1;*/
+-- Install Extension UUID-OSSP
+CREATE EXTENSION "uuid-ossp";
+-- Install Extension dblink
+CREATE EXTENSION "dblink";
+-- Install crypto
+create extension "pgcrypto";
+-- Create Sequences
+-- UserID
+CREATE SEQUENCE UserID START 1;
+-- LogID
+CREATE SEQUENCE LogID START 1;
+-- RoleID
+CREATE SEQUENCE RoleID START 1;
+-- AccessTokenID
+CREATE SEQUENCE AccessTokenID START 1;
+-- RefreshID
+CREATE SEQUENCE RefreshID START 1;
+-- ClientID
+CREATE SEQUENCE ClientID START 1;
+-- ScopeID
+CREATE SEQUENCE ScopeID START 1;
+-- AuthorizationCodeID
+CREATE SEQUENCE AuthorizationCodeID START 1;
+-- ##########################################################################
+--CreateUser
+CREATE FUNCTION createuser(vexternalid character varying,
+							vusername character varying,
+							vfirstname character varying,
+						    vlastname character varying,
+							vuseremail character varying,
+							voauth2provider character varying,
+							vimgpath character varying,
+							vthumbnail bytea)
+     RETURNS TABLE (
+	id uuid,
+	UserFirstName varchar(250),
+	UserLastName varchar(250),
+	UserEmail varchar(250),
+	CreatedAt timestamp with time zone,
+	UpdatedAt timestamp with time zone
+  )
+	 AS
+  $BODY$
+		#variable_conflict use_column
+		DECLARE vUserID integer := (select nextval('UserID'));
+				vUserUUID uuid := (select uuid_generate_v4());
+      BEGIN
+		INSERT INTO users (userid,externalid,useruuid,username,firstname,lastname,useremail,oauth2provider,createdat,imgpath,thumbnail)
+		VALUES(vUserID,vexternalid,vUserUUID,vusername,vfirstname,vlastname,vuseremail,voauth2provider,now(),vimgpath,vthumbnail);
+
+		-- Begin Log if success
+        perform public.createlog(0,'Created User sucessfully', 'CreateUser',
+                                'UserID: ' || cast(vUserID as varchar) || ', UserFirstName: '
+                                || vfirstname || ', UserLastName: ' || vlastname
+                                || ', '
+                                || vuseremail);
+
+		-- RETURN
+		RETURN QUERY (select 	users.useruuid,
+				users.firstname,
+				users.lastname,
+				users.useremail,
+				users.createdat at time zone 'utc',
+				users.updatedat at time zone 'utc'
+			from users where users.useruuid = vUserUUID);
+
+
+        exception when others then
+        -- Begin Log if error
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE, 'CreateUser',
+                                'UserID: ' || cast(vUserID as varchar) || ', UserFirstName: '
+                                || vfirstname || ', UserLastName: ' || vlastname
+                                || ', '
+                                || vuseremail);
+		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at CreateUser';
+        -- End Log if error
+      END;
+  $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+-- ##########################################################################
+--CreateUserRoles
+CREATE FUNCTION createusersroles(vuseruuid uuid, vroleuuid uuid)
+     RETURNS void AS
+  $BODY$
+		#variable_conflict use_column
+		DECLARE	vUserID integer := (select userid from users where useruuid = vuseruuid);
+				vRoleID integer :=(select roleid from roles where roleuuid = vRoleUUID);
+		BEGIN
+			INSERT INTO usersroles (userid,roleid)
+			VALUES(vUserID,vRoleID);
+
+		-- Begin Log if success
+        perform public.createlog(0,'Created UsersRoles sucessfully', 'CreateUsersRoles',
+                                'UserID: ' || cast(vUserID as varchar) ||
+								', RoleID: ' || cast(vRoleID as varchar));
+
+		exception when others then
+        -- Begin Log if error
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE, 'CreateUsersRoles',
+                                'UserID: ' || cast(vUserID as varchar) ||
+								', RoleID: ' || cast(vRoleID as varchar));
+
+		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at CreateUsersRoles';
+        -- End Log if error
+      END;
+  $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+-- ##########################################################################
+-- CreateRoles
+CREATE FUNCTION createrole(vrolename character varying, vroledescription character varying)
+     RETURNS TABLE (
+	 roleuuid uuid,
+	 rolename character varying,
+	 roledescription character varying
+	 )
+	 AS
+  $BODY$
+		#variable_conflict use_column
+		DECLARE vRoleID integer := (select nextval('RoleID'));
+				vRoleUUID uuid := (select uuid_generate_v4());
+			BEGIN
+				INSERT INTO roles (roleid,roleuuid,rolename,roledescription)
+				VALUES(vRoleID,vRoleUUID,vrolename,vroledescription);
+
+			-- Begin Log if success
+        perform public.createlog(0,'Created Role sucessfully', 'CreateRole',
+                                'RoleName: ' || vRoleName ||
+								', RoleDescription: ' || vroledescription);
+
+		-- RETURN
+		RETURN QUERY (select 	roles.roleuuid,
+				roles.rolename,
+				roles.roledescription --,
+				--roles.createdat at time zone 'utc',
+				--roles.updatedat at time zone 'utc'
+			from roles where roles.roleuuid = vRoleUUID);
+
+		exception when others then
+        -- Begin Log if error
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE, 'CreateRole',
+                                'RoleName: ' || vRoleName ||
+								', RoleDescription: ' || vroledescription);
+
+		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at CreateUsersRoles';
+        -- End Log if error
+
+			END;
+  $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+-- ##########################################################################
+-- saveToken
+CREATE FUNCTION public.savetoken(
+    IN vaccesstoken character varying,
+    IN vexpiresacctoken timestamp without time zone,
+    IN vrefreshtoken character varying,
+    IN vexpiresreftoken timestamp without time zone,
+    IN vscopeuuid uuid,
+    IN vclientuuid uuid,
+    IN vuseruuid uuid)
+  RETURNS TABLE("accessToken" character varying, "accessTokenExpiresAt" timestamp with time zone, "refreshToken" character varying, "refreshTokenExpiresAt" timestamp with time zone, scope uuid, client uuid, "user" uuid, createdat timestamp with time zone) AS
+$BODY$
+	  #variable_conflict use_column
+      DECLARE 	vAccessTokenID integer := (select nextval('AccessTokenID'));
+				--vAccessToken varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v1mc())::text,'-',''));
+				vUserID integer := (select userid from users where useruuid = vuseruuid);
+				vScopeID integer := (select scopeid from scopes where scopeuuid = vscopeuuid);
+				vClientID integer := (select clientid from clients where clientuuid = vclientuuid);
+		BEGIN
+			INSERT INTO accesstokens (accesstokenid,accesstoken,expires,scopeid,clientid,userid,createdat)
+			VALUES(vAccessTokenID,vAccessToken,vexpiresAccToken,vScopeID,vclientid,vUserID,now());
+
+			-- Begin Log if success
+        perform public.createlog(0,'Created AccessToken sucessfully', 'saveToken',
+                                'Expires: ' || cast(vexpiresAccToken as varchar) ||
+								', ScopeID: ' || cast(vScopeID as varchar) ||
+								', ClientID: ' || cast(vClientID as varchar) ||
+								', UserID: ' || cast(vUserID as varchar));
+		if(vRefreshToken is not null and vexpiresRefToken is not null) then
+			perform createRefreshToken(vRefreshToken, vexpiresRefToken, vscopeuuid, vclientuuid, vuseruuid);
+		end if;
+
+
+		-- RETURN
+		RETURN QUERY (select    vAccessToken,
+					vexpiresAccToken at time zone 'utc',
+					vRefreshToken,
+					vexpiresRefToken at time zone 'utc',
+					vscopeuuid as scopeuuid,
+					vclientuuid as clientuuid,
+					vuseruuid as useruuid,
+					ac.createdat at time zone 'utc'
+			from accesstokens ac
+			where accesstokenid = vAccessTokenID);
+
+		exception when others then
+        -- Begin Log if error
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE,  'saveToken',
+                                'Expires: ' || cast(vexpiresAccToken as varchar) ||
+								', ScopeID: ' || cast(vScopeID as varchar) ||
+								', ClientID: ' || cast(vClientID as varchar) ||
+								', UserID: ' || cast(vUserID as varchar));
+
+		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at saveToken';
+        -- End Log if error
+
+		END;
+  $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+-- ##########################################################################
+-- CreateRefreshTokens
+CREATE FUNCTION public.createrefreshtoken(
+    IN vRefreshToken character varying,
+    IN vexpires timestamp without time zone,
+    IN vscopeuuid uuid,
+    IN vclientuuid uuid,
+    IN vuseruuid uuid)
+  RETURNS TABLE(refreshtoken character varying, expires timestamp with time zone, scopeuuid uuid, clientuuid uuid, useruuid uuid, createdat timestamp with time zone) AS
+$BODY$
+	  #variable_conflict use_column
+      DECLARE 	vRefreshTokenID integer := (select nextval('RefreshID'));
+		--vRefreshToken varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v4())::text,'-',''));
+		vUserID integer := (select userid from users where useruuid = vuseruuid);
+		vScopeID integer := (select scopeid from scopes where scopeuuid = vscopeuuid);
+		vClientID integer := (select clientid from clients where clientuuid = vclientuuid);
+	BEGIN
+		INSERT INTO refreshtokens (refreshtokenid,RefreshToken,expires,scopeid,clientid,userid,createdat)
+		VALUES(vRefreshTokenID,vRefreshToken,vexpires,vScopeID,vClientID,vUserID,now());
+
+			-- Begin Log if success
+        perform public.createlog(0,'Created RefreshToken sucessfully', 'createrefreshtoken',
+                                'Expires: ' || cast(vexpires as varchar) ||
+								', ScopeID: ' || cast(vScopeID as varchar) ||
+								', ClientID: ' || cast(vClientID as varchar) ||
+								', UserID: ' || cast(vUserID as varchar));
+
+		-- RETURN
+		RETURN QUERY (select
+					RefreshToken,
+					Expires at time zone 'utc',
+					vscopeuuid as scopeuuid,
+					vclientuuid as clientuuid,
+					vuseruuid as useruuid,
+					createdat at time zone 'utc'
+			from refreshtokens ac
+			where refreshtokenid = vRefreshTokenID);
+
+		exception when others then
+        -- Begin Log if error
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE,  'createrefreshtoken',
+                                'Expires: ' || cast(vexpires as varchar) ||
+								', ScopeID: ' || cast(vScopeID as varchar) ||
+								', ClientID: ' || cast(vClientID as varchar) ||
+								', UserID: ' || cast(vUserID as varchar));
+
+		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at createrefreshtoken';
+        -- End Log if error
+
+	END;
+  $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+-- ##########################################################################
+-- CreateScopes
+CREATE FUNCTION createscope(visdefault boolean,vparameters character varying,vdescription character varying)
+     RETURNS TABLE (
+		ScopeUUID uuid,
+		IsDefault boolean,
+		Parameters character varying,
+		Description character varying,
+		CreatedAt timestamp with time zone
+	 ) AS
+  $BODY$
+       #variable_conflict use_column
+	   DECLARE 	vScopeID integer := (select nextval('ScopeID'));
+				vScopeUUID uuid := (select uuid_generate_v4());
+		BEGIN
+      INSERT INTO scopes (scopeid,scopeuuid,isdefault,parameters,description,createdat)
+       VALUES(vScopeID,vScopeUUID,visdefault,vparameters,vdescription,now());
+
+	   	-- Begin Log if success
+        perform public.createlog(0,'Created Scope sucessfully', 'createscope',
+                                'IsDefault: ' || cast(vIsDefault as varchar) ||
+								', vParameters: ' || vparameters ||
+								', Description: ' || vdescription);
+
+		-- RETURN
+		RETURN QUERY (select
+					ScopeUUID,
+					IsDefault,
+					Parameters,
+					Description,
+					createdat at time zone 'utc'
+			from scopes
+			where scopeid = vScopeID);
+
+		exception when others then
+        -- Begin Log if error
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE, 'createscope',
+                                'IsDefault: ' || cast(vIsDefault as varchar) ||
+								', vParameters: ' || vparameters ||
+								', Description: ' || vdescription);
+
+		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at createscope';
+        -- End Log if error
+
+      END;
+  $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+-- ##########################################################################
+-- CreateAuthorizationCode
+CREATE FUNCTION createauthorizationcode(vAuthorizationCode character varying, vexpires timestamp without time zone,vredirecturi character varying,vclientuuid uuid,vuseruuid uuid)
+     RETURNS TABLE (
+		AuthorisationCode character varying,
+		Expires timestamp with time zone,
+		RedirectURI character varying,
+		ClientUUID uuid,
+		UserUUID uuid,
+		CreatedAt timestamp with time zone
+	 ) AS
+  $BODY$
+      #variable_conflict use_column
+	   DECLARE 	vAuthorizationCodeID integer := (select nextval('AuthorizationCodeID'));
+				--vAuthorizationCode varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v1mc())::text,'-',''));
+				vUserID integer := (select userid from users where useruuid = vuseruuid);
+				vClientID integer := (select clientid from clients where clientuuid = vclientuuid);
+	   BEGIN
+      INSERT INTO authorizationcodes (authorizationcodeid,authorizationcode,expires,redirecturi,clientid,userid,createdat)
+       VALUES(vauthorizationcodeid,vAuthorizationCode,vexpires,vredirecturi,vClientID,vUserID,now());
+
+	   -- Begin Log if success
+        perform public.createlog(0,'Created AuthorisationCode sucessfully', 'createauthorizationcode',
+                                'Expires: ' || cast(vexpires as varchar) ||
+								', RedirectURI: ' || vredirecturi ||
+								', ClientID: ' || cast(vClientID as varchar) ||
+								', UserID: ' || cast(vUserID as varchar));
+
+		RETURN QUERY (
+			select 	AuthorisationCode,
+					Expires at time zone 'utc',
+					RedirectURI,
+					vClientUUID as ClientUUID,
+					vUserUUID as UserUUID,
+					CreatedAt at time zone 'utc'
+			from authorizationcodes where authorizationcodeid = vAuthorizationCodeID);
+
+
+		exception when others then
+        -- Begin Log if error
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE,'createauthorizationcode',
+                                'Expires: ' || cast(vexpires as varchar) ||
+								', RedirectURI: ' || vredirecturi ||
+								', ClientID: ' || cast(vClientID as varchar) ||
+								', UserID: ' || cast(vUserID as varchar));
+
+		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at createauthorizationcode';
+        -- End Log if error
+
+      END;
+  $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+-- ##########################################################################
+-- CreateLog
+CREATE OR REPLACE FUNCTION public.createlog(
+    vlogstatusid integer,
+    vlogmessage character varying,
+    vlogobjectname character varying,
+    vparameters character varying)
+  RETURNS void AS
+$BODY$
+      DECLARE vLogID integer:= (select nextval('LogID'));
+	      vSqlCmd varchar := 'INSERT INTO LogTable(LogID, LogStatusID, LogMessage, LogObjectName, Parameters,CreatedAt)'
+				 || 'VALUES( '
+				 || cast(vLogID as varchar)
+				 || ', ' || cast(vLogStatusID as varchar)
+				 || ', ''' || vLogMessage
+				 || ''', ''' || vLogObjectName
+				 || ''', ''' || vParameters
+				 || ''', ' || 'now())';
+		 vConnName text := 'conn';
+	      vConnExist bool := (select ('{' || vConnName || '}')::text[] <@ (select dblink_get_connections()));
+      BEGIN
+		set role oauthdb_loguser;
+		if(not vConnExist or vConnExist is null) then
+				perform dblink_connect(vConnName,'oauthdb_server');
+			else
+				set role oauthdb_loguser;
+		end if;
+				perform dblink(vConnName,vSqlCmd);
+				perform dblink_disconnect(vConnName);
+				set role postgres;
+      END;
+  $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.createlog(integer, character varying, character varying, character varying)
+  OWNER TO postgres;
+-- ##########################################################################
+--CreateScopeRoles
+CREATE FUNCTION createscopesroles(vscopeuuid uuid, vroleuuid uuid)
+     RETURNS void AS
+  $BODY$
+		#variable_conflict use_column
+		DECLARE	vScopeID integer := (select scopeid from scopes where scopeuuid = vscopeuuid);
+				vRoleID integer :=(select roleid from roles where roleuuid = vRoleUUID);
+		BEGIN
+			INSERT INTO scopesroles (scopeid,roleid)
+			VALUES(vScopeID,vRoleID);
+
+		-- Begin Log if success
+        perform public.createlog(0,'Created ScopesRoles sucessfully', 'createscopesroles',
+                                'ScopeID: ' || cast(vscopeuuid as varchar) ||
+								', RoleID: ' || cast(vroleid as varchar));
+
+
+
+		exception when others then
+        -- Begin Log if error
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE,'createscopesroles',
+                                'ScopeID: ' || cast(vscopeuuid as varchar) ||
+								', RoleID: ' || cast(vroleid as varchar));
+
+		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at createscopesroles';
+        -- End Log if error
+      END;
+  $BODY$
+  LANGUAGE 'plpgsql' VOLATILE
+  COST 100;
+-- ##########################################################################
+--GetUserByExternalID
+CREATE FUNCTION public.getuserbyexternalid(IN vexternalid character varying)
+  RETURNS TABLE(id uuid, externalid character varying, username character varying, firstname character varying, lastname character varying, useremail character varying, rolename varchar,oauth2provider character varying, createdat timestamp with time zone, updatedat timestamp with time zone, imgpath character varying, thumbnail bytea) AS
+$BODY$
+		select 	us.useruuid,
+			us.externalid,
+			us.username,
+			us.firstname,
+			us.lastname,
+			us.useremail,
+			rl.rolename,
+			us.oauth2provider,
+			us.createdat at time zone 'utc',
+			us.updatedat at time zone 'utc',
+			us.imgpath,
+			us.thumbnail
+		from users us
+		join usersroles ur on us.userid = ur.userid
+		join roles rl on rl.roleid = ur.roleid
+		where us.externalid = vExternalID;
+	$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+-- ##########################################################################
+--GetClient
+ CREATE FUNCTION public.getclient(
+    IN vclientuuid uuid,
+    IN vclientsecret character varying)
+  RETURNS TABLE(id uuid, clientname character varying, redirecturis text[], grants text[], scope character varying) AS
+$BODY$
+		select 	clientUUID,
+			clientName,
+			redirectUris,
+			grants,
+			scopeuuid::varchar
+		from clients cl
+		left outer join scopes sc on cl.scopeid = sc.scopeid
+		where clientuuid = vClientUUID::uuid
+		and clientsecret = (crypt(vClientSecret,clientsecret))
+	$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+-- ##########################################################################
+--GetUserByID
+CREATE FUNCTION public.getuserbyid(IN vuseruuid uuid)
+  RETURNS TABLE(id uuid, username character varying, externalid character varying, firstname character varying, lastname character varying, useremail character varying, rolename character varying, oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+$BODY$
+	SELECT  useruuid,
+		username,
+		externalid,
+		firstname,
+		lastname,
+		useremail,
+		rl.rolename,
+		oauth2provider,
+		thumbnail,
+		imgpath,
+		createdat at time zone 'utc',
+		updatedat at time zone 'utc'
+    FROM Users us
+    join usersroles ur on us.userid = ur.userid
+    join roles rl on rl.roleid = ur.roleid
+    WHERE UserUUID = vUserUUID;
+    $BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+-- ##########################################################################
+--GetAccessToken
+CREATE FUNCTION public.getaccesstoken(IN vaccesstoken character varying)
+  RETURNS TABLE("accessToken" character varying, "accessTokenExpiresAt" timestamp with time zone, scope uuid, client uuid, "user" uuid, createdat timestamp with time zone) AS
+$BODY$
+		select	at.accesstoken,
+			at.expires at time zone 'utc',
+			sc.scopeuuid,
+			cl.clientuuid,
+			us.useruuid,
+			at.createdat at time zone 'utc'
+		from accesstokens at
+		join clients cl on at.clientid = cl.clientid
+		join users us on at.userid = us.userid
+		left outer join scopes sc on at.scopeid = sc.scopeid
+		where at.accesstoken = vaccesstoken;
+	$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+-- ##########################################################################
+--GetUser with pwd
+CREATE OR REPLACE FUNCTION public.getuser(
+    IN vuseruuid character varying,
+    IN vUserPwd character varying)
+
+   RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, rolename character varying,  oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+$BODY$
+	SELECT  useruuid,
+		externalid,
+		firstname,
+		lastname,
+		useremail,
+		rl.rolename,
+		oauth2provider,
+		thumbnail,
+		imgpath,
+		createdat at time zone 'utc',
+		updatedat at time zone 'utc'
+		from users us
+		join usersroles ur on us.userid = ur.userid
+		join roles rl on rl.roleid = ur.roleid
+		where us.useruuid = (vuseruuid)::uuid
+		and us.userpwd = (crypt(vUserPwd,us.userpwd))
+	$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+-- ##########################################################################
+--CreateUser with pwd
+CREATE OR REPLACE FUNCTION public.createuser(
+    IN vexternalid character varying,
+    IN vusername character varying,
+    IN vfirstname character varying,
+    IN vlastname character varying,
+    IN vuseremail character varying,
+    IN voauth2provider character varying,
+    IN vimgpath character varying,
+    IN vthumbnail bytea,
+    IN vUserPwd character varying)
+  RETURNS TABLE(useruuid uuid, userfirstname character varying, userlastname character varying, useremail character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+$BODY$
+		#variable_conflict use_column
+		DECLARE vUserID integer := (select nextval('UserID'));
+			vUserUUID uuid := (select uuid_generate_v4());
+			vUserPwd varchar := (select crypt(vUserPwd, gen_salt('bf')));
+      BEGIN
+		INSERT INTO users (userid,externalid,useruuid,username,firstname,lastname,useremail,oauth2provider,createdat,imgpath,thumbnail, userPwd)
+		VALUES(vUserID,vexternalid,vUserUUID,vusername,vfirstname,vlastname,vuseremail,voauth2provider,now(),vimgpath,vthumbnail, vUserPWD);
+
+		-- Begin Log if success
+        perform public.createlog(0,'Created User sucessfully', 'CreateUser',
+                                'UserID: ' || cast(vUserID as varchar) || ', UserFirstName: '
+                                || vfirstname || ', UserLastName: ' || vlastname
+                                || ', '
+                                || vuseremail);
+
+		-- RETURN
+		RETURN QUERY (select 	users.useruuid,
+				users.firstname,
+				users.lastname,
+				users.useremail,
+				users.createdat at time zone 'utc',
+				users.updatedat at time zone 'utc'
+			from users where users.useruuid = vUserUUID);
+
+
+        exception when others then
+        -- Begin Log if error
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE, 'CreateUser',
+                                'UserID: ' || cast(vUserID as varchar) || ', UserFirstName: '
+                                || vfirstname || ', UserLastName: ' || vlastname
+                                || ', '
+                                || vuseremail);
+		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at CreateUser';
+        -- End Log if error
+      END;
+  $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+-- ##########################################################################
+--GetUserFromClient
+CREATE FUNCTION public.getuserfromclient(IN vclientuuid character varying)
+  RETURNS TABLE(useruuid uuid, username character varying, rolename varchar) AS
+$BODY$
+		select us.useruuid, us.username, rl.rolename
+		from users us
+		join clients cl on cl.userid = us.userid
+		join usersroles ur on us.userid = ur.userid
+		join roles rl on rl.roleid = ur.roleid
+		where cl.clientuuid = vClientUUID::uuid;
+	$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+-- ##########################################################################
+--CreateClient
+  CREATE FUNCTION public.createclient(
+    IN vClientName character varying,
+    IN vClientSecret character varying,
+    IN vUserUUID uuid,
+    IN vGrants text[],
+    IN vRedirectUris text[],
+    IN vScopeUUID uuid)
+  RETURNS TABLE(id uuid, clientname character varying, redirecturis text[], grants text[], scope character varying) AS
+$BODY$
+		#variable_conflict use_column
+		DECLARE vClientID integer := (select nextval('UserID'));
+			vClientUUID uuid := (select uuid_generate_v4());
+			vClientPwd varchar := (select crypt(vClientSecret, gen_salt('bf')));
+			vUserID integer := (select userid from users where useruuid = vUserUUID);
+			vScopeID integer := (select scopeid from scopes where scopeuuid = vScopeUUID);
+      BEGIN
+		INSERT INTO clients (clientid, clientuuid, clientname, clientsecret, userid, createdat, grants, redirecturis, scopeid)
+		VALUES(vClientID, vClientUUID, vClientName, vClientPwd, vUserID, now(), vGrants, vRedirectUris, vScopeID);
+
+		-- Begin Log if success
+        perform public.createlog(0,'Created Client sucessfully', 'CreateClient',
+                                'ClientID: ' || cast(vClientID as varchar) || ', ClientName: '
+                                || vClientName || ', Grants: ' || vGrants
+                                || ', RedirectUris: ' || vRedirectUris
+				|| ', ScopeID: ' || cast(vScopeID as varchar)
+			);
+
+		-- RETURN
+		RETURN QUERY (	select 	clientUUID,
+					clientName,
+					redirectUris,
+					grants,
+					scopeuuid::varchar
+				from clients cl
+				left outer join scopes sc on cl.scopeid = sc.scopeid
+				where clientuuid = vClientUUID
+		);
+
+        exception when others then
+        -- Begin Log if error
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE,  'CreateClient',
+                                'ClientID: ' || cast(vClientID as varchar) || ', ClientName: '
+                                || vClientName || ', Grants: ' || vGrants
+                                || ', RedirectUris: ' || vRedirectUris
+				|| ', ScopeID: ' || cast(vScopeID as varchar));
+
+	RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at CreateUser';
+        -- End Log if error
+      END;
+  $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
