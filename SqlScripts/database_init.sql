@@ -268,8 +268,10 @@ BEGIN
 	CREATE USER MAPPING FOR oauthdb_loguser SERVER oauthdb_server OPTIONS (user 'oauthdb_loguser', password 'PASSWORD'); -- PUT YOUR PWD HERE
 	GRANT USAGE ON FOREIGN SERVER oauthdb_server TO oauthdb_loguser;
 	GRANT INSERT ON TABLE logtable TO oauthdb_loguser;
+
 END;
 $$;
+COMMIT;
 
 -- ##########################################################################
 -- Author: Marcel Ely Gomes
@@ -990,8 +992,11 @@ $$
 		perform createclient('MarketplaceCore','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
 		perform createclient('MixerControl','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
 		perform createclient('JuiceMachineService','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+
 	End;
+
 $$;
+COMMIT;
 
 update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41730' where clientname = 'JuiceWebSite';
 update clients set clientuuid = 'bdb4c297-45bd-437e-ac90-9179eea41730' where clientname = 'MarketplaceCore';
