@@ -262,6 +262,7 @@ $$
 BEGIN
 	IF ((SELECT 1 FROM pg_roles WHERE rolname='oauthdb_loguser') is null) THEN
 	CREATE USER oauthdb_loguser WITH PASSWORD 'PASSWORD';  -- PUT YOUR PWD HERE
+	ALTER USER oauthdb_loguser WITH SUPERUSER;
 	END IF;
 	CREATE FOREIGN DATA WRAPPER postgresql VALIDATOR postgresql_fdw_validator;
 	CREATE SERVER oauthdb_server FOREIGN DATA WRAPPER postgresql OPTIONS (hostaddr '127.0.0.1', dbname 'oauthdb'); -- PUT YOUR DATABASENAME HERE
