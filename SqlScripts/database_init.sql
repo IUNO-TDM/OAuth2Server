@@ -950,3 +950,37 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
+
+-- ##########################################################################
+-- Author: Marcel Ely Gomes
+-- Company: Trumpf Werkzeugmaschine GmbH & Co KG
+-- CreatedAt: 2017-07-25
+-- Description: Create Base Data for the OAuth Database
+-- Changes:
+-- ##########################################################################
+DO
+$$
+	Declare
+		vUserUUID uuid;
+		vGrants text[] := '{authorization_code, password, refresh_token, client_credentials}';
+		vRedirectUris text[] := '{https://iuno-tdm.axoom.cloud}';
+		vRoleUUID uuid;
+	Begin
+		--Create User
+		perform createuser (null, 'Admin', null, null, 'admin@iuno.com', null, null, null,'Admin');
+		--Create Role
+		perform createrole('Admin','Admin may do anything');
+
+		--Create UsersRoles
+		vUserUUID := (select useruuid from users where username = 'Admin');
+		vRoleUUID := (select roleuuid from roles where rolename = 'Admin');
+
+		perform createusersroles(vUserUUID, vRoleUUID);
+
+		--Create Clients
+		perform createclient('JuiceWebSite','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+		perform createclient('MarketplaceCore','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+		perform createclient('MixerControl','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+		perform createclient('JuiceMachineService','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+	End;
+$$;

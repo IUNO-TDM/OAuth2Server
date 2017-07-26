@@ -70,6 +70,15 @@ CREATE
     CreatedAt     timestamp without time zone NOT NULL
   ) ;
 ALTER TABLE LogTable ADD CONSTRAINT LogTable_PK PRIMARY KEY ( LogID ) ;
+--Step0
+insert into logstatus(logstatusid,logstatus,logstatusdescription) values 
+(0,'Sucessed','Operation has successed');
+insert into logstatus(logstatusid,logstatus,logstatusdescription) values 
+(1,'ERROR','Operation has failed');
+insert into logstatus(logstatusid,logstatus,logstatusdescription) values 
+(2,'PENDING','Operation is pending');
+insert into logstatus(logstatusid,logstatus,logstatusdescription) values 
+(3,'Finished','Operation has finish');
 
 CREATE
   TABLE RefreshTokens
