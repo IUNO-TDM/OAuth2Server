@@ -262,7 +262,6 @@ $$
 BEGIN
 	IF ((SELECT 1 FROM pg_roles WHERE rolname='oauthdb_loguser') is null) THEN
 	CREATE USER oauthdb_loguser WITH PASSWORD 'PASSWORD';  -- PUT YOUR PWD HERE
-	ALTER USER oauthdb_loguser WITH SUPERUSER;
 	END IF;
 	CREATE FOREIGN DATA WRAPPER postgresql VALIDATOR postgresql_fdw_validator;
 	CREATE SERVER oauthdb_server FOREIGN DATA WRAPPER postgresql OPTIONS (hostaddr '127.0.0.1', dbname 'oauthdb'); -- PUT YOUR DATABASENAME HERE
@@ -273,7 +272,6 @@ BEGIN
 END;
 $$;
 COMMIT;
-
 -- ##########################################################################
 -- Author: Marcel Ely Gomes
 -- Company: Trumpf Werkzeugmaschine GmbH & Co KG
@@ -673,13 +671,12 @@ $BODY$
 				 || ''', ''' || vParameters
 				 || ''', ' || 'now())';
 		 vConnName text := 'conn';
+		 vConnString text := 'dbname=oauthdb port=5432 host=localhost user=oauthdb_loguser password=PASSWORD';
 	      vConnExist bool := (select ('{' || vConnName || '}')::text[] <@ (select dblink_get_connections()));
       BEGIN
-		set role oauthdb_loguser;
+
 		if(not vConnExist or vConnExist is null) then
-				perform dblink_connect(vConnName,'oauthdb_server');
-			else
-				set role oauthdb_loguser;
+				perform dblink_connect(vConnName,vConnString);
 		end if;
 				perform dblink(vConnName,vSqlCmd);
 				perform dblink_disconnect(vConnName);
