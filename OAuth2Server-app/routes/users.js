@@ -49,14 +49,14 @@ router.get('/:id/image', validate({query: require('../schema/users_schema').GetS
             }
 
             var imgPath = user.imgpath;
+            var path = require('path');
 
             if (imgPath && imgPath.length) {
-                var path = require('path');
                 res.sendFile(path.resolve(imgPath));
             }
             else {
-                logger.info('No image found for user');
-                res.sendStatus(404);
+                logger.info('No image found for user :  Sending default image instead');
+                res.sendFile(path.resolve('images/default.svg'))
             }
 
         }
