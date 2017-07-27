@@ -1,8 +1,12 @@
-This table describes the existing roles, scopes and permissions.
+# Roles, Scopes and Permissions
 
-Roles:
-    - a Role defines which data an user is allowed to access
-    - a User may have one or more roles
+This file describes the existing roles, scopes and permissions in the marketplace.
+
+**Roles**
+
+     > a Role defines which data an user is allowed to access
+
+     > a User may have one or more roles
 
 | Role                  | Description                                                                                                                            |
 ------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
@@ -13,11 +17,13 @@ Roles:
 | Admin                 | Is the main marketplace admin.                                                                                                         |
 | TechnologyAdmin       | Administrate technologies.                                                                                                             |
 
-Scopes:
-    - a scope defines which data a token owner is allowed to access
+**Scopes**
 
-Clients:
-    - a client are only able to call some pre defined scopes
+    > a scope defines which data a token owner is allowed to access
+
+**Clients**
+
+    > a client are only able to call some pre defined scopes
 
 
 | Role                 | Create | Update | Read | Delete | Data              | All | Own |
