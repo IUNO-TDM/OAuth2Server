@@ -6,7 +6,7 @@ To Deploy the Database run:
 4) DatabaseComponents.sql
 5) BaseData.sql -- Some testing data
 
-**Standard UUIDs**
+**Standard Dev UUIDs**
 
 |**Users**                  |**UUID**                               |
 |---------------------------|---------------------------------------|
