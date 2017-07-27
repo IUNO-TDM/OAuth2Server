@@ -59,6 +59,15 @@ CREATE
   ) ;
 ALTER TABLE LogStatus ADD CONSTRAINT LogStatus_PK PRIMARY KEY ( LogStatusID ) ;
 
+insert into logstatus(logstatusid,logstatus,logstatusdescription) values
+(0,'Sucessed','Operation has successed');
+insert into logstatus(logstatusid,logstatus,logstatusdescription) values
+(1,'ERROR','Operation has failed');
+insert into logstatus(logstatusid,logstatus,logstatusdescription) values
+(2,'PENDING','Operation is pending');
+insert into logstatus(logstatusid,logstatus,logstatusdescription) values
+(3,'Finished','Operation has finish');
+
 CREATE
   TABLE LogTable
   (
@@ -259,9 +268,10 @@ BEGIN
 	CREATE USER MAPPING FOR oauthdb_loguser SERVER oauthdb_server OPTIONS (user 'oauthdb_loguser', password 'PASSWORD'); -- PUT YOUR PWD HERE
 	GRANT USAGE ON FOREIGN SERVER oauthdb_server TO oauthdb_loguser;
 	GRANT INSERT ON TABLE logtable TO oauthdb_loguser;
+
 END;
 $$;
-
+COMMIT;
 -- ##########################################################################
 -- Author: Marcel Ely Gomes
 -- Company: Trumpf Werkzeugmaschine GmbH & Co KG
@@ -661,13 +671,12 @@ $BODY$
 				 || ''', ''' || vParameters
 				 || ''', ' || 'now())';
 		 vConnName text := 'conn';
+		 vConnString text := 'dbname=oauthdb port=5432 host=localhost user=oauthdb_loguser password=PASSWORD';
 	      vConnExist bool := (select ('{' || vConnName || '}')::text[] <@ (select dblink_get_connections()));
       BEGIN
-		set role oauthdb_loguser;
+
 		if(not vConnExist or vConnExist is null) then
-				perform dblink_connect(vConnName,'oauthdb_server');
-			else
-				set role oauthdb_loguser;
+				perform dblink_connect(vConnName,vConnString);
 		end if;
 				perform dblink(vConnName,vSqlCmd);
 				perform dblink_disconnect(vConnName);
@@ -896,14 +905,13 @@ $BODY$
   COST 100
   ROWS 1000;
 -- ##########################################################################
---CreateClient
-  CREATE FUNCTION public.createclient(
-    IN vClientName character varying,
-    IN vClientSecret character varying,
-    IN vUserUUID uuid,
-    IN vGrants text[],
-    IN vRedirectUris text[],
-    IN vScopeUUID uuid)
+CREATE FUNCTION public.createclient(
+    IN vclientname character varying,
+    IN vclientsecret character varying,
+    IN vuseruuid uuid,
+    IN vgrants text[],
+    IN vredirecturis text[],
+    IN vscopeuuid uuid)
   RETURNS TABLE(id uuid, clientname character varying, redirecturis text[], grants text[], scope character varying) AS
 $BODY$
 		#variable_conflict use_column
@@ -919,8 +927,8 @@ $BODY$
 		-- Begin Log if success
         perform public.createlog(0,'Created Client sucessfully', 'CreateClient',
                                 'ClientID: ' || cast(vClientID as varchar) || ', ClientName: '
-                                || vClientName || ', Grants: ' || vGrants
-                                || ', RedirectUris: ' || vRedirectUris
+                                || vClientName || ', Grants: ' || cast(vGrants as varchar)
+                                || ', RedirectUris: ' || cast(vRedirectUris as varchar)
 				|| ', ScopeID: ' || cast(vScopeID as varchar)
 			);
 
@@ -937,10 +945,10 @@ $BODY$
 
         exception when others then
         -- Begin Log if error
-        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE,  'CreateClient',
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE, 'CreateClient',
                                 'ClientID: ' || cast(vClientID as varchar) || ', ClientName: '
-                                || vClientName || ', Grants: ' || vGrants
-                                || ', RedirectUris: ' || vRedirectUris
+                                || vClientName || ', Grants: ' || cast(vGrants as varchar)
+                                || ', RedirectUris: ' || cast(vRedirectUris as varchar)
 				|| ', ScopeID: ' || cast(vScopeID as varchar));
 
 	RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at CreateUser';
@@ -950,7 +958,6 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
-
 -- ##########################################################################
 -- Author: Marcel Ely Gomes
 -- Company: Trumpf Werkzeugmaschine GmbH & Co KG
@@ -965,6 +972,7 @@ $$
 		vGrants text[] := '{authorization_code, password, refresh_token, client_credentials}';
 		vRedirectUris text[] := '{https://iuno-tdm.axoom.cloud}';
 		vRoleUUID uuid;
+
 	Begin
 		--Create User
 		perform createuser (null, 'Admin', null, null, 'admin@iuno.com', null, null, null,'Admin');
@@ -982,5 +990,13 @@ $$
 		perform createclient('MarketplaceCore','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
 		perform createclient('MixerControl','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
 		perform createclient('JuiceMachineService','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+
 	End;
+
 $$;
+COMMIT;
+
+update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41730' where clientname = 'JuiceWebSite';
+update clients set clientuuid = 'bdb4c297-45bd-437e-ac90-9179eea41730' where clientname = 'MarketplaceCore';
+update clients set clientuuid = 'cdb4c297-45bd-437e-ac90-9179eea41730' where clientname = 'MixerControl';
+update clients set clientuuid = 'ddb4c297-45bd-437e-ac90-9179eea41730' where clientname = 'JuiceMachineService';
