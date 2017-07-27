@@ -25,6 +25,7 @@ This file describes the existing roles, scopes and permissions in the marketplac
 
     > a client are only able to call some pre defined scopes
 
+**Permissions**
 
 | Role                 | Create | Update | Read | Delete | Data              | All | Own |
 |----------------------|--------|--------|------|--------|-------------------|-----|-----|
