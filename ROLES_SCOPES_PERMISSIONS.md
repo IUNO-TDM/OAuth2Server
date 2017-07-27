@@ -1,3 +1,25 @@
+This table describes the existing roles, scopes and permissions.
+
+Roles:
+    - a Role defines which data an user is allowed to access
+    - a User may have one or more roles
+
+| Role                  | Description                                                                                                                            |
+------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| Public                | Everyone that visit the marketplace without login. The public role Is only allowed to read a pre defined area (e.g. Landing Page).     |
+| MachineOperator       | It can be the machine owner as well as the machine operator.                                                                           |
+| TechnologyDataOwner   | Is the creator and administrator of Technology Data                                                                                    |                                                 |
+| MarketplaceComponent  | Marketplace components may be services (e.g. Web Service) using the marketplace core or other marketplace interfaces.                  |
+| Admin                 | Is the main marketplace admin.                                                                                                         |
+| TechnologyAdmin       | Administrate technologies.                                                                                                             |
+
+Scopes:
+    - a scope defines which data a token owner is allowed to access
+
+Clients:
+    - a client are only able to call some pre defined scopes
+
+
 | Role                 | Create | Update | Read | Delete | Data              | All | Own |
 |----------------------|--------|--------|------|--------|-------------------|-----|-----|
 | Public               |        |        | x    |        | public reports    | x   |     |
