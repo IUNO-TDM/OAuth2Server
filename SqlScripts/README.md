@@ -16,7 +16,7 @@ To Deploy the Database run:
 | PublicUser                | adb4c297-45bd-437e-ac90-9179eea41733  |
 | JuiceWebSiteUser          | adb4c297-45bd-437e-ac90-9179eea41734  |
 | MarketplaceCoreUser       | adb4c297-45bd-437e-ac90-9179eea41735  |
-| MixerControlUser         | adb4c297-45bd-437e-ac90-9179eea41736  |
+| MixerControlUser          | adb4c297-45bd-437e-ac90-9179eea41736  |
 | JuiceMachineServiceUser   | adb4c297-45bd-437e-ac90-9179eea41737  |
 |---------------------------|---------------------------------------|
 |**Roles**                  |                                       |
