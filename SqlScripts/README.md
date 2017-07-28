@@ -8,24 +8,28 @@ To Deploy the Database run:
 
 **Standard Dev UUIDs**
 
-|**Users**                  |**UUID**                               |
-|---------------------------|---------------------------------------|
-| Admin                     | adb4c297-45bd-437e-ac90-9179eea41730  |
-| MaxMuster                 | adb4c297-45bd-437e-ac90-9179eea41731  |
-| AnaMuster                 | adb4c297-45bd-437e-ac90-9179eea41732  |
-| PublicUser                | adb4c297-45bd-437e-ac90-9179eea41733  |
-| JuiceWebSiteUser          | adb4c297-45bd-437e-ac90-9179eea41734  |
-| MarketplaceCoreUser       | adb4c297-45bd-437e-ac90-9179eea41735  |
-| MixerControlUser          | adb4c297-45bd-437e-ac90-9179eea41736  |
-| JuiceMachineServiceUser   | adb4c297-45bd-437e-ac90-9179eea41737  |
+|**Users**                  |**UUID**                               | **Roles**            |
+|---------------------------|---------------------------------------|----------------------|
+| Admin                     | adb4c297-45bd-437e-ac90-9179eea41730  | Admin                |
+| MaxMuster                 | adb4c297-45bd-437e-ac90-9179eea41731  | TechnologyDataOwner  |
+| AnaMuster                 | adb4c297-45bd-437e-ac90-9179eea41732  | TechnologyDataOwner  |
+| PublicUser                | adb4c297-45bd-437e-ac90-9179eea41733  | Public               |
+| JuiceWebSiteUser          | adb4c297-45bd-437e-ac90-9179eea41734  | MarketplaceComponent |
+| MarketplaceCoreUser       | adb4c297-45bd-437e-ac90-9179eea41735  | MarketplaceComponent |
+| MixerControlUser          | adb4c297-45bd-437e-ac90-9179eea41736  | MarketplaceComponent |
+| JuiceMachineServiceUser   | adb4c297-45bd-437e-ac90-9179eea41737  | MarketplaceComponent |
+
 |**Roles**                  |                                       |
+|---------------------------|---------------------------------------|
 | Public                    | adb4c297-45bd-437e-ac90-9179eea41738  |
 | MachineOperator           | adb4c297-45bd-437e-ac90-9179eea41739  |
 | TechnologyDataOwner       | adb4c297-45bd-437e-ac90-9179eea41740  |
 | MarketplaceComponent      | adb4c297-45bd-437e-ac90-9179eea41741  |
 | TechnologyAdmin           | adb4c297-45bd-437e-ac90-9179eea41742  |
 | Admin                     | adb4c297-45bd-437e-ac90-9179eea41743  |
+
 |**Clients**                |                                       |
+|---------------------------|---------------------------------------|
 | JuiceWebSite              | adb4c297-45bd-437e-ac90-9179eea41744  |
 | MarketplaceCore           | adb4c297-45bd-437e-ac90-9179eea41745  |
 | MixerControl              | adb4c297-45bd-437e-ac90-9179eea41746  |
