@@ -959,6 +959,74 @@ $BODY$
   COST 100
   ROWS 1000;
 -- ##########################################################################
+-- SetUser
+CREATE FUNCTION SetUser(
+    IN vexternalid character varying,
+    IN vusername character varying,
+    IN vfirstname character varying,
+    IN vlastname character varying,
+    IN vuseremail character varying,
+    IN voauth2provider character varying,
+    IN vimgpath character varying,
+    IN vthumbnail bytea,
+    IN vUserRoles text[],
+    IN vuserpwd character varying)
+RETURNS TABLE(id uuid, userfirstname character varying, userlastname character varying, useremail character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+$BODY$
+		#variable_conflict use_column
+		DECLARE vUserID integer := (select nextval('UserID'));
+			vUserUUID uuid := (select uuid_generate_v4());
+			vUserPwd varchar := (select crypt(vUserPwd, gen_salt('bf')));
+			vRoleName text;
+			vRoleUUID uuid;
+      BEGIN
+		INSERT INTO users (userid,externalid,useruuid,username,firstname,lastname,useremail,oauth2provider,createdat,imgpath,thumbnail, userPwd)
+		VALUES(vUserID,vexternalid,vUserUUID,vusername,vfirstname,vlastname,vuseremail,voauth2provider,now(),vimgpath,vthumbnail, vUserPWD);
+
+		FOREACH vRoleName in array vUserRoles
+		LOOP
+			 if not exists (select rolename from roles where rolename = vRoleName) then
+			 raise exception using
+			 errcode = 'invalid_parameter_value',
+			 message = 'There is no rolename with RoleName: ' || vRoleName;
+			 else
+				vRoleUUID := (select roleuuid from roles where rolename = vRoleName);
+				perform createusersroles(vUserUUID, vRoleUUID);
+			 end if;
+		END LOOP;
+
+		-- Begin Log if success
+        perform public.createlog(0,'Created User sucessfully', 'SetUser',
+                                'UserID: ' || cast(vUserID as varchar) || ', UserFirstName: '
+                                || vfirstname || ', UserLastName: ' || vlastname
+                                || ', '
+                                || vuseremail);
+
+		-- RETURN
+		RETURN QUERY (select 	users.useruuid,
+				users.firstname,
+				users.lastname,
+				users.useremail,
+				users.createdat at time zone 'utc',
+				users.updatedat at time zone 'utc'
+			from users where users.useruuid = vUserUUID);
+
+
+        exception when others then
+        -- Begin Log if error
+        perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE, 'SetUser',
+                                'UserID: ' || cast(vUserID as varchar) || ', UserFirstName: '
+                                || vfirstname || ', UserLastName: ' || vlastname
+                                || ', '
+                                || vuseremail);
+		RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at CreateUser';
+        -- End Log if error
+      END;
+  $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+-- ##########################################################################
 -- Author: Marcel Ely Gomes
 -- Company: Trumpf Werkzeugmaschine GmbH & Co KG
 -- CreatedAt: 2017-07-25

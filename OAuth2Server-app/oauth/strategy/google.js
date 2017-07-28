@@ -63,17 +63,15 @@ function getUser(id, token) {
     }
 
     var user;
+    var dbDone;
     dbUser.getUserByExternalID(id, function (err, _user) {
         user = _user;
+        dbDone = true;
     });
 
     require('deasync').loopWhile(function () {
-        return !user;
+        return !dbDone;
     });
-
-    if (user && helper.isArray(user)) {
-        user = false;
-    }
 
     if (!user) {
         downloadService.downloadImageFromUrl(dict.userInfo.picture, function(err, filePath) {
@@ -83,8 +81,8 @@ function getUser(id, token) {
                 imagePath = filePath;
             }
 
-            dbUser.createUser(dict.userInfo.sub, dict.userInfo.name, dict.userInfo.given_name, dict.userInfo.family_name,
-                dict.userInfo.email, oauth2Provider, imagePath, null, function (err, _user) {
+            dbUser.SetUser(dict.userInfo.sub, dict.userInfo.name, dict.userInfo.given_name, dict.userInfo.family_name,
+                dict.userInfo.email, oauth2Provider, imagePath, null, config.USER_ROLE, null, function (err, _user) {
                     user = _user;
                 });
         });
