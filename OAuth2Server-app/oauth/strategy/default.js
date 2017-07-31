@@ -10,64 +10,85 @@ var dbAuthorization = require('../../database/function/authorization');
 
 function getAccessToken(bearerToken) {
     logger.info('GetAccessToken', bearerToken);
-    var _err;
-    var _data;
+
+    var dbDone;
+    var token;
     var _user;
 
     dbToken.getAccessToken(bearerToken, function (err, data) {
-        _err = err;
-        _data = data;
+        token = data;
+        if (err) {
+            logger.warn(err);
+
+            dbDone = true;
+        }
+        else {
+            dbUser.getUserByID(data.user, function (err, user) {
+                if (err) {
+                    logger.warn(err);
+                }
+                _user = user;
+
+                dbDone = true;
+            });
+        }
+
     });
 
     require('deasync').loopWhile(function () {
-        return !_err && !_data;
+        return !dbDone;
     });
 
+    if (token) {
+        // Replace uuid references with objects (populate object)
+        token.user = _user;
+        token.client = {
+            id: token.client
+        };
 
-    dbUser.getUserByID(_data.user, function (err, user) {
-        _err = err;
-        _user = user;
-    });
+        return token;
+    }
 
-    require('deasync').loopWhile(function () {
-        return !_err && !_user;
-    });
-
-    _data.user = _user;
-    _data.client = {
-        id: _data.client
-    };
-
-    return _data;
+    return null;
 }
 
 function getClient(clientID, clientSecret) {
     logger.info('GetClient ', clientID, clientSecret);
 
-    var _err;
+    var dbDone;
     var _data;
+
     dbClient.getClient(clientID, clientSecret, function (err, data) {
-        _err = err;
+        if (err) {
+            logger.warn(err);
+        }
         _data = data;
+
+        dbDone = true;
     });
 
     require('deasync').loopWhile(function () {
-        return !_err && !_data;
+        return !dbDone;
     });
+
     return _data;
 }
 
 function getUser(username, password) {
     logger.info('GetUser ', username, password);
-    var _err;
+    var dbDone;
     var _data;
     dbUser.getUser(username, password, function (err, data) {
-        _err = err;
+        if (err) {
+            logger.warn(err);
+        }
         _data = data;
+
+        dbDone = true;
     });
 
     require('deasync').loopWhile(function () {
-        return !_err && !_data;
+        return !dbDone
     });
 
     return _data;
@@ -89,17 +110,22 @@ function revokeToken(token) {
 function saveToken(accessToken, client, user) {
     logger.info('SaveToken ', accessToken, client, user);
 
-    var _err;
+    var dbDone;
     var _data;
+
     dbToken.saveToken(accessToken.accessToken, accessToken.accessTokenExpiresAt, accessToken.refreshToken,
         accessToken.refreshTokenExpiresAt, accessToken.scope,
         client.id, user.id, function (err, data) {
-            _err = err;
+            if (err) {
+                logger.warn(err);
+            }
             _data = data;
+
+            dbDone = true;
         });
 
     require('deasync').loopWhile(function () {
-        return !_err && !_data;
+        return !dbDone;
     });
 
     return _data;
@@ -107,15 +133,20 @@ function saveToken(accessToken, client, user) {
 
 function getAuthorizationCode(code) {
     logger.info('GetAuthorizationCode ', code);
-    var _err;
+
+    var dbDone;
     var _data;
     dbAuthorization.getAuthorizationCode(code, function (err, data) {
-        _err = err;
+        if (err) {
+            logger.warn(err);
+        }
         _data = data;
+
+        dbDone = true;
     });
 
     require('deasync').loopWhile(function () {
-        return !_err && !_data;
+        return !dbDone;
     });
 
     return _data;
@@ -124,15 +155,19 @@ function getAuthorizationCode(code) {
 function saveAuthorizationCode(code, expires, redirecturi, client, user) {
     logger.info('SaveAuthorizationCode ', code, expires, redirecturi, client, user);
 
-    var _err;
+    var dbDone;
     var _data;
     dbAuthorization.saveAuthorizationCode(code, expires, redirecturi, client, user, function (err, data) {
-        _err = err;
+        if (err) {
+            logger.warn(err);
+        }
         _data = data;
+
+        dbDone = true;
     });
 
     require('deasync').loopWhile(function () {
-        return !_err && !_data;
+        return !dbDone;
     });
 
     return _data;
@@ -141,48 +176,53 @@ function saveAuthorizationCode(code, expires, redirecturi, client, user) {
 function getUserFromClient(client) {
     logger.info('GetUserFromClient ', client);
 
-    var _err;
+    var dbDone;
     var _data;
     dbUser.getUserFromClient(client.id, function (err, data) {
-        _err = err;
+        if (err) {
+            logger.warn(err);
+        }
         _data = data;
+
+        dbDone = true;
     });
 
     require('deasync').loopWhile(function () {
-        return !_err && !_data;
+        return !dbDone;
     });
 
-    _data.id = _data.useruuid;
+    if (_data) {
+        _data.id = _data.useruuid;
+        return _data;
+    }
 
-    return _data;
+    return null;
 }
 
 function getRefreshToken(refreshToken) {
     logger.info('GetRefreshToken ', refreshToken);
-    var _err;
-    var _data;
+    var dbDone;
+    var token;
     dbToken.getRefreshToken(refreshToken, function (err, data) {
-        _err = err;
-        _data = data;
+        if (err) {
+            logger.warn(err);
+        }
+        token = data;
+        token.client = {id: token.client};
+
+        dbUser.getUserByID(data.user, function (err, user) {
+
+            token.user = user;
+
+            dbDone = true;
+        });
     });
 
     require('deasync').loopWhile(function () {
-        return !_err && !_data;
+        return !dbDone;
     });
 
-    _data.client = {id: _data.client};
-
-    var user;
-    dbUser.getUserByID(_data.user, function (err, _user) {
-        user = _user;
-    });
-    require('deasync').loopWhile(function () {
-        return !user;
-    });
-
-    _data.user = user;
-
-    return _data;
+    return token;
 }
 
 function validateScope(user, client, scope) {

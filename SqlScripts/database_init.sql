@@ -1068,7 +1068,8 @@ $$
 		perform createrole('TechnologyDataOwner','Is the creator and administrator of Technology Data');
 		perform createrole('MarketplaceComponent','Is the creator and administrator of Technology Data');
 		perform createrole('TechnologyAdmin','Administrate technologies.');
-		perform createrole('Admin','Is the main marketplace admin.'); 
+		perform createrole('Admin','Is the main marketplace admin.');
+		perform createrole('MarketplaceCore','Is the only role with access to core functions');
 
 		update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41738'::uuid where rolename = 'Public';
 		update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41739'::uuid where rolename = 'MachineOperator';
@@ -1076,6 +1077,7 @@ $$
 		update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41741'::uuid where rolename = 'MarketplaceComponent';
 		update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41742'::uuid where rolename = 'TechnologyAdmin';
 		update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41743'::uuid where rolename = 'Admin';
+		update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41001'::uuid where rolename = 'MarketplaceCore';
 
 		--Create UsersRoles and Clients
 		--PublicUser
@@ -1093,12 +1095,26 @@ $$
 		vUserUUID := (select useruuid from users where username = 'Admin');
 		vRoleUUID := (select roleuuid from roles where rolename = 'Admin');
 		perform createusersroles(vUserUUID, vRoleUUID);
-
-		--Create Clients
-		perform createclient('JuiceWebSite','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
-		perform createclient('MarketplaceCore','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
-		perform createclient('MixerControl','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
-		perform createclient('JuiceMachineService','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+		--JuiceWebSiteUser
+        vUserUUID := (select useruuid from users where username = 'JuiceWebSiteUser');
+        vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
+        perform createusersroles(vUserUUID, vRoleUUID);
+        perform createclient('JuiceWebSite','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+        --MarketplaceCoreUser
+        vUserUUID := (select useruuid from users where username = 'MarketplaceCoreUser');
+        vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceCore');
+        perform createusersroles(vUserUUID, vRoleUUID);
+        perform createclient('MarketplaceCore','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+        --MixerControlUser
+        vUserUUID := (select useruuid from users where username = 'MixerControlUser');
+        vRoleUUID := (select roleuuid from roles where rolename = 'MachineOperator');
+        perform createusersroles(vUserUUID, vRoleUUID);
+        perform createclient('MixerControl','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+        --JuiceMachineServiceUser
+        vUserUUID := (select useruuid from users where username = 'JuiceMachineServiceUser');
+        vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
+        perform createusersroles(vUserUUID, vRoleUUID);
+        perform createclient('JuiceMachineService','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
 
 		-- Set fixes UUIDs for the clients
 		update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41744' where clientname = 'JuiceWebSite';
