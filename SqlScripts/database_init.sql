@@ -1025,12 +1025,26 @@ $$
 		vUserUUID := (select useruuid from users where username = 'Admin');
 		vRoleUUID := (select roleuuid from roles where rolename = 'Admin');
 		perform createusersroles(vUserUUID, vRoleUUID);
-
-		--Create Clients
-		perform createclient('JuiceWebSite','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
-		perform createclient('MarketplaceCore','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
-		perform createclient('MixerControl','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
-		perform createclient('JuiceMachineService','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+		--JuiceWebSiteUser
+        vUserUUID := (select useruuid from users where username = 'JuiceWebSiteUser');
+        vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
+        perform createusersroles(vUserUUID, vRoleUUID);
+        perform createclient('JuiceWebSite','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+        --MarketplaceCoreUser
+        vUserUUID := (select useruuid from users where username = 'MarketplaceCoreUser');
+        vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
+        perform createusersroles(vUserUUID, vRoleUUID);
+        perform createclient('MarketplaceCore','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+        --MixerControlUser
+        vUserUUID := (select useruuid from users where username = 'MixerControlUser');
+        vRoleUUID := (select roleuuid from roles where rolename = 'MachineOperator');
+        perform createusersroles(vUserUUID, vRoleUUID);
+        perform createclient('MixerControl','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+        --JuiceMachineServiceUser
+        vUserUUID := (select useruuid from users where username = 'JuiceMachineServiceUser');
+        vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
+        perform createusersroles(vUserUUID, vRoleUUID);
+        perform createclient('JuiceMachineService','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
 
 		-- Set fixes UUIDs for the clients
 		update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41744' where clientname = 'JuiceWebSite';
