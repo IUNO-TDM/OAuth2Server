@@ -13,6 +13,11 @@ var validate = require('express-jsonschema').validate;
 router.all('/token', function (req, res, next) {
         var oauthStrategy = req.body.oauth_provider;
 
+        if (!oauthStrategy) {
+            oauthStrategy = 'default';
+        }
+
+
         var oAuth = require('../oauth/oauth')(oauthStrategy);
 
         var request = new Request(req);
