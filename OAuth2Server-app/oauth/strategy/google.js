@@ -62,36 +62,46 @@ function getUser(id, token) {
         return false
     }
 
-    var user;
+    var user = false;
+    var dbDone = false;
     dbUser.getUserByExternalID(id, function (err, _user) {
         user = _user;
+
+        if (err) {
+            logger.warn(err);
+        }
+
+        if (user && helper.isArray(user)) {
+            user = false;
+        }
+
+        if (!user) {
+            downloadService.downloadImageFromUrl(dict.userInfo.picture, function (err, filePath) {
+                var imagePath = '';
+
+                if (err) {
+                    logger.warn(err);
+                }
+
+                if (!err) {
+                    imagePath = filePath;
+                }
+
+                dbUser.createUser(dict.userInfo.sub, dict.userInfo.name, dict.userInfo.given_name, dict.userInfo.family_name,
+                    dict.userInfo.email, oauth2Provider, imagePath, null, function (err, _user) {
+                        user = _user;
+
+                        dbDone = true;
+                    });
+            });
+        }
+        else {
+            dbDone = true;
+        }
     });
 
     require('deasync').loopWhile(function () {
-        return !user;
-    });
-
-    if (user && helper.isArray(user)) {
-        user = false;
-    }
-
-    if (!user) {
-        downloadService.downloadImageFromUrl(dict.userInfo.picture, function(err, filePath) {
-            var imagePath = '';
-
-            if (!err) {
-                imagePath = filePath;
-            }
-
-            dbUser.createUser(dict.userInfo.sub, dict.userInfo.name, dict.userInfo.given_name, dict.userInfo.family_name,
-                dict.userInfo.email, oauth2Provider, imagePath, null, function (err, _user) {
-                    user = _user;
-                });
-        });
-    }
-
-    require('deasync').loopWhile(function () {
-        return !user;
+        return !dbDone;
     });
 
     return user;
