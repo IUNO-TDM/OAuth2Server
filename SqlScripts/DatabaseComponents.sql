@@ -447,28 +447,41 @@ CREATE FUNCTION createscopesroles(vscopeuuid uuid, vroleuuid uuid)
 -- ##########################################################################
 --GetUserByExternalID
 CREATE FUNCTION public.getuserbyexternalid(IN vexternalid character varying)
-  RETURNS TABLE(id uuid, externalid character varying, username character varying, firstname character varying, lastname character varying, useremail character varying, rolename varchar,oauth2provider character varying, createdat timestamp with time zone, updatedat timestamp with time zone, imgpath character varying, thumbnail bytea) AS
+  RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$
-		select 	us.useruuid,
-			us.externalid,
-			us.username,
-			us.firstname,
-			us.lastname,
-			us.useremail,
-			rl.rolename,
-			us.oauth2provider,
-			us.createdat at time zone 'utc',
-			us.updatedat at time zone 'utc',
-			us.imgpath,
-			us.thumbnail
+	SELECT  useruuid,
+		externalid,
+		firstname,
+		lastname,
+		useremail,
+		array_agg(rl.rolename)::text[],
+		oauth2provider,
+		thumbnail,
+		imgpath,
+		createdat at time zone 'utc',
+		updatedat at time zone 'utc'
 		from users us
 		join usersroles ur on us.userid = ur.userid
 		join roles rl on rl.roleid = ur.roleid
-		where us.externalid = vExternalID;
+		where us.externalid = vExternalID
+	group by 
+		useruuid,
+		externalid,
+		firstname,
+		lastname,
+		useremail,				
+		oauth2provider,
+		thumbnail,
+		imgpath,
+		createdat,
+		updatedat;
+		
 	$BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000;
+ALTER FUNCTION public.getuserbyexternalid(character varying)
+  OWNER TO postgres;
 -- ##########################################################################
 --GetClient
  CREATE FUNCTION public.getclient(
@@ -492,24 +505,35 @@ $BODY$
 -- ##########################################################################
 --GetUserByID
 CREATE FUNCTION public.getuserbyid(IN vuseruuid uuid)
-  RETURNS TABLE(id uuid, username character varying, externalid character varying, firstname character varying, lastname character varying, useremail character varying, rolename character varying, oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+  RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$
 	SELECT  useruuid,
-		username,
 		externalid,
 		firstname,
 		lastname,
 		useremail,
-		rl.rolename,
+		array_agg(rl.rolename)::text[],
 		oauth2provider,
 		thumbnail,
 		imgpath,
 		createdat at time zone 'utc',
 		updatedat at time zone 'utc'
-    FROM Users us
-    join usersroles ur on us.userid = ur.userid
-    join roles rl on rl.roleid = ur.roleid
-    WHERE UserUUID = vUserUUID;
+		 FROM Users us
+		join usersroles ur on us.userid = ur.userid
+		join roles rl on rl.roleid = ur.roleid
+		WHERE UserUUID = vUserUUID
+	group by 
+		useruuid,
+		externalid,
+		firstname,
+		lastname,
+		useremail,				
+		oauth2provider,
+		thumbnail,
+		imgpath,
+		createdat,
+		updatedat;
+   
     $BODY$
   LANGUAGE sql VOLATILE
   COST 100
@@ -536,18 +560,17 @@ $BODY$
   ROWS 1000;
 -- ##########################################################################
 --GetUser with pwd
-CREATE OR REPLACE FUNCTION public.getuser(
+CREATE FUNCTION public.getuser(
     IN vuseruuid character varying,
-    IN vUserPwd character varying)
-
-   RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, rolename character varying,  oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+    IN vuserpwd character varying)
+  RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$
 	SELECT  useruuid,
 		externalid,
 		firstname,
 		lastname,
 		useremail,
-		rl.rolename,
+		array_agg(rl.rolename)::text[],
 		oauth2provider,
 		thumbnail,
 		imgpath,
@@ -558,6 +581,17 @@ $BODY$
 		join roles rl on rl.roleid = ur.roleid
 		where us.useruuid = (vuseruuid)::uuid
 		and us.userpwd = (crypt(vUserPwd,us.userpwd))
+	group by 
+		useruuid,
+		externalid,
+		firstname,
+		lastname,
+		useremail,				
+		oauth2provider,
+		thumbnail,
+		imgpath,
+		createdat,
+		updatedat
 	$BODY$
   LANGUAGE sql VOLATILE
   COST 100
@@ -617,15 +651,37 @@ $BODY$
   ROWS 1000;
 -- ##########################################################################
 --GetUserFromClient
-CREATE FUNCTION public.getuserfromclient(IN vclientuuid character varying)
-  RETURNS TABLE(useruuid uuid, username character varying, rolename varchar) AS
+CREATE OR REPLACE FUNCTION public.getuserfromclient(IN vclientuuid character varying)
+  RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$
-		select us.useruuid, us.username, rl.rolename
+	SELECT  useruuid,
+		externalid,
+		firstname,
+		lastname,
+		useremail,
+		array_agg(rl.rolename)::text[],
+		oauth2provider,
+		thumbnail,
+		imgpath,
+		us.createdat at time zone 'utc',
+		us.updatedat at time zone 'utc'
 		from users us
 		join clients cl on cl.userid = us.userid
 		join usersroles ur on us.userid = ur.userid
 		join roles rl on rl.roleid = ur.roleid
-		where cl.clientuuid = vClientUUID::uuid;
+		where cl.clientuuid = vClientUUID::uuid 
+	group by 
+		useruuid,
+		externalid,
+		firstname,
+		lastname,
+		useremail,				
+		oauth2provider,
+		thumbnail,
+		imgpath,
+		us.createdat,
+		us.updatedat;
+		
 	$BODY$
   LANGUAGE sql VOLATILE
   COST 100

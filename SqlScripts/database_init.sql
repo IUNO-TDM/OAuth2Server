@@ -721,28 +721,41 @@ CREATE FUNCTION createscopesroles(vscopeuuid uuid, vroleuuid uuid)
 -- ##########################################################################
 --GetUserByExternalID
 CREATE FUNCTION public.getuserbyexternalid(IN vexternalid character varying)
-  RETURNS TABLE(id uuid, externalid character varying, username character varying, firstname character varying, lastname character varying, useremail character varying, rolename varchar,oauth2provider character varying, createdat timestamp with time zone, updatedat timestamp with time zone, imgpath character varying, thumbnail bytea) AS
+  RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$
-		select 	us.useruuid,
-			us.externalid,
-			us.username,
-			us.firstname,
-			us.lastname,
-			us.useremail,
-			rl.rolename,
-			us.oauth2provider,
-			us.createdat at time zone 'utc',
-			us.updatedat at time zone 'utc',
-			us.imgpath,
-			us.thumbnail
+	SELECT  useruuid,
+		externalid,
+		firstname,
+		lastname,
+		useremail,
+		array_agg(rl.rolename)::text[],
+		oauth2provider,
+		thumbnail,
+		imgpath,
+		createdat at time zone 'utc',
+		updatedat at time zone 'utc'
 		from users us
 		join usersroles ur on us.userid = ur.userid
 		join roles rl on rl.roleid = ur.roleid
-		where us.externalid = vExternalID;
+		where us.externalid = vExternalID
+	group by
+		useruuid,
+		externalid,
+		firstname,
+		lastname,
+		useremail,
+		oauth2provider,
+		thumbnail,
+		imgpath,
+		createdat,
+		updatedat;
+
 	$BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000;
+ALTER FUNCTION public.getuserbyexternalid(character varying)
+  OWNER TO postgres;
 -- ##########################################################################
 --GetClient
  CREATE FUNCTION public.getclient(
@@ -766,24 +779,35 @@ $BODY$
 -- ##########################################################################
 --GetUserByID
 CREATE FUNCTION public.getuserbyid(IN vuseruuid uuid)
-  RETURNS TABLE(id uuid, username character varying, externalid character varying, firstname character varying, lastname character varying, useremail character varying, rolename character varying, oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+  RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$
 	SELECT  useruuid,
-		username,
 		externalid,
 		firstname,
 		lastname,
 		useremail,
-		rl.rolename,
+		array_agg(rl.rolename)::text[],
 		oauth2provider,
 		thumbnail,
 		imgpath,
 		createdat at time zone 'utc',
 		updatedat at time zone 'utc'
-    FROM Users us
-    join usersroles ur on us.userid = ur.userid
-    join roles rl on rl.roleid = ur.roleid
-    WHERE UserUUID = vUserUUID;
+		 FROM Users us
+		join usersroles ur on us.userid = ur.userid
+		join roles rl on rl.roleid = ur.roleid
+		WHERE UserUUID = vUserUUID
+	group by
+		useruuid,
+		externalid,
+		firstname,
+		lastname,
+		useremail,
+		oauth2provider,
+		thumbnail,
+		imgpath,
+		createdat,
+		updatedat;
+
     $BODY$
   LANGUAGE sql VOLATILE
   COST 100
@@ -810,18 +834,17 @@ $BODY$
   ROWS 1000;
 -- ##########################################################################
 --GetUser with pwd
-CREATE OR REPLACE FUNCTION public.getuser(
+CREATE FUNCTION public.getuser(
     IN vuseruuid character varying,
-    IN vUserPwd character varying)
-
-   RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, rolename character varying,  oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+    IN vuserpwd character varying)
+  RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$
 	SELECT  useruuid,
 		externalid,
 		firstname,
 		lastname,
 		useremail,
-		rl.rolename,
+		array_agg(rl.rolename)::text[],
 		oauth2provider,
 		thumbnail,
 		imgpath,
@@ -832,6 +855,17 @@ $BODY$
 		join roles rl on rl.roleid = ur.roleid
 		where us.useruuid = (vuseruuid)::uuid
 		and us.userpwd = (crypt(vUserPwd,us.userpwd))
+	group by
+		useruuid,
+		externalid,
+		firstname,
+		lastname,
+		useremail,
+		oauth2provider,
+		thumbnail,
+		imgpath,
+		createdat,
+		updatedat
 	$BODY$
   LANGUAGE sql VOLATILE
   COST 100
@@ -891,15 +925,37 @@ $BODY$
   ROWS 1000;
 -- ##########################################################################
 --GetUserFromClient
-CREATE FUNCTION public.getuserfromclient(IN vclientuuid character varying)
-  RETURNS TABLE(useruuid uuid, username character varying, rolename varchar) AS
+CREATE OR REPLACE FUNCTION public.getuserfromclient(IN vclientuuid character varying)
+  RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$
-		select us.useruuid, us.username, rl.rolename
+	SELECT  useruuid,
+		externalid,
+		firstname,
+		lastname,
+		useremail,
+		array_agg(rl.rolename)::text[],
+		oauth2provider,
+		thumbnail,
+		imgpath,
+		us.createdat at time zone 'utc',
+		us.updatedat at time zone 'utc'
 		from users us
 		join clients cl on cl.userid = us.userid
 		join usersroles ur on us.userid = ur.userid
 		join roles rl on rl.roleid = ur.roleid
-		where cl.clientuuid = vClientUUID::uuid;
+		where cl.clientuuid = vClientUUID::uuid
+	group by
+		useruuid,
+		externalid,
+		firstname,
+		lastname,
+		useremail,
+		oauth2provider,
+		thumbnail,
+		imgpath,
+		us.createdat,
+		us.updatedat;
+
 	$BODY$
   LANGUAGE sql VOLATILE
   COST 100
@@ -1043,25 +1099,6 @@ $$
 		
 
 	Begin
-		--Create User
-		perform createuser (null, 'Admin', null, null, 'admin@iuno.com', null, null, null,'Admin');
-		perform createuser (null, 'MaxMuster', 'Max', 'Mustermann', 'max.mustermann@iuno.com', null, null, null,'TechnologyDataOwner');
-		perform createuser (null, 'AnaMuster', 'Ana', 'Musterfrau', 'ana.musterfrau@iuno.com', null, null, null,'TechnologyDataOwner');
-		perform createuser (null, 'PublicUser', null, null, 'public@iuno.com', null, null, null,'Public'); 
-		perform createuser (null, 'JuiceWebSiteUser', null, null, 'juicewebsite@iuno.com', null, null, null,'MarketplaceComponent'); 
-		perform createuser (null, 'MarketplaceCoreUser', null, null, 'marketplacecoreuser@iuno.com', null, null, null,'MarketplaceComponent'); 
-		perform createuser (null, 'MixerControlUser', null, null, 'mixercontrol@iuno.com', null, null, null,'MarketplaceComponent'); 
-		perform createuser (null, 'JuiceMachineServiceUser', null, null, 'juicemachineservice@iuno.com', null, null, null,'MarketplaceComponent'); 
-		
-		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41730'::uuid where username = 'Admin';
-		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41731'::uuid where username = 'MaxMuster';
-		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41732'::uuid where username = 'AnaMuster';
-		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41733'::uuid where username = 'PublicUser';
-		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41734'::uuid where username = 'JuiceWebSiteUser';
-		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41735'::uuid where username = 'MarketplaceCoreUser';
-		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41736'::uuid where username = 'MixerControlUser';
-		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41737'::uuid where username = 'JuiceMachineServiceUser';
-
 		--Create Role
 		perform createrole('Public','Everyone that visit the marketplace without login. The public role Is only allowed to read a pre defined area (e.g. Landing Page).');
 		perform createrole('MachineOperator','It can be the machine owner as well as the machine operator.');
@@ -1070,6 +1107,25 @@ $$
 		perform createrole('TechnologyAdmin','Administrate technologies.');
 		perform createrole('Admin','Is the main marketplace admin.');
 		perform createrole('MarketplaceCore','Is the only role with access to core functions');
+
+		--Create User
+		perform setuser(null, 'Admin', null, null, 'admin@iuno.com', null, null, null,'{Admin}', 'IsSecret');
+		perform setuser(null, 'MaxMuster', 'Max', 'Mustermann', 'max.mustermann@iuno.com', null, null, null,'{TechnologyDataOwner}', 'IsSecret');
+		perform setuser(null, 'AnaMuster', 'Ana', 'Musterfrau', 'ana.musterfrau@iuno.com', null, null, null,'{TechnologyDataOwner}', 'IsSecret');
+		perform setuser(null, 'PublicUser', null, null, 'public@iuno.com', null, null, null,'{Public}', 'IsSecret');
+		perform setuser(null, 'JuiceWebSiteUser', null, null, 'juicewebsite@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
+		perform setuser(null, 'MarketplaceCoreUser', null, null, 'marketplacecoreuser@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
+		perform setuser(null, 'MixerControlUser', null, null, 'mixercontrol@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
+		perform setuser(null, 'JuiceMachineServiceUser', null, null, 'juicemachineservice@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
+
+		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41730'::uuid where username = 'Admin';
+		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41731'::uuid where username = 'MaxMuster';
+		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41732'::uuid where username = 'AnaMuster';
+		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41733'::uuid where username = 'PublicUser';
+		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41734'::uuid where username = 'JuiceWebSiteUser';
+		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41735'::uuid where username = 'MarketplaceCoreUser';
+		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41736'::uuid where username = 'MixerControlUser';
+		update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41737'::uuid where username = 'JuiceMachineServiceUser';
 
 		update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41738'::uuid where rolename = 'Public';
 		update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41739'::uuid where rolename = 'MachineOperator';
@@ -1080,41 +1136,22 @@ $$
 		update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41001'::uuid where rolename = 'MarketplaceCore';
 
 		--Create UsersRoles and Clients
-		--PublicUser
-		vUserUUID := (select useruuid from users where username = 'PublicUser');
-		vRoleUUID := (select roleuuid from roles where rolename = 'Public');
-		perform createusersroles(vUserUUID, vRoleUUID);
-		--MaxMuster
-		vUserUUID := (select useruuid from users where username = 'MaxMuster');
-		vRoleUUID := (select roleuuid from roles where rolename = 'TechnologyDataOwner');
-		perform createusersroles(vUserUUID, vRoleUUID);
-		--AnaMuster
-		vUserUUID := (select useruuid from users where username = 'AnaMuster');
-		perform createusersroles(vUserUUID, vRoleUUID);
-		--Admin
-		vUserUUID := (select useruuid from users where username = 'Admin');
-		vRoleUUID := (select roleuuid from roles where rolename = 'Admin');
-		perform createusersroles(vUserUUID, vRoleUUID);
 		--JuiceWebSiteUser
-        vUserUUID := (select useruuid from users where username = 'JuiceWebSiteUser');
-        vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
-        perform createusersroles(vUserUUID, vRoleUUID);
-        perform createclient('JuiceWebSite','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
-        --MarketplaceCoreUser
-        vUserUUID := (select useruuid from users where username = 'MarketplaceCoreUser');
-        vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceCore');
-        perform createusersroles(vUserUUID, vRoleUUID);
-        perform createclient('MarketplaceCore','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
-        --MixerControlUser
-        vUserUUID := (select useruuid from users where username = 'MixerControlUser');
-        vRoleUUID := (select roleuuid from roles where rolename = 'MachineOperator');
-        perform createusersroles(vUserUUID, vRoleUUID);
-        perform createclient('MixerControl','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
-        --JuiceMachineServiceUser
-        vUserUUID := (select useruuid from users where username = 'JuiceMachineServiceUser');
-        vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
-        perform createusersroles(vUserUUID, vRoleUUID);
-        perform createclient('JuiceMachineService','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+		vUserUUID := (select useruuid from users where username = 'JuiceWebSiteUser');
+		vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
+		perform createclient('JuiceWebSite','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+		--MarketplaceCoreUser
+		vUserUUID := (select useruuid from users where username = 'MarketplaceCoreUser');
+		vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceCore');
+		perform createclient('MarketplaceCore','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+		--MixerControlUser
+		vUserUUID := (select useruuid from users where username = 'MixerControlUser');
+		vRoleUUID := (select roleuuid from roles where rolename = 'MachineOperator');
+		perform createclient('MixerControl','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+		--JuiceMachineServiceUser
+		vUserUUID := (select useruuid from users where username = 'JuiceMachineServiceUser');
+		vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
+		perform createclient('JuiceMachineService','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
 
 		-- Set fixes UUIDs for the clients
 		update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41744' where clientname = 'JuiceWebSite';
