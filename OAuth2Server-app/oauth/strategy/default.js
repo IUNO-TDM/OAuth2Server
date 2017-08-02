@@ -242,7 +242,9 @@ function verifyScope(token, scope) {
 
 function validateToken(token) {
     logger.info('ValidateToken ', token);
-
+    if (!token) {
+        return false;
+    }
 
     var isValid = true;
 

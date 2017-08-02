@@ -7,8 +7,7 @@ var router = express.Router();
 var logger = require('../global/logger');
 var validate = require('express-jsonschema').validate;
 var oAuth = require('../oauth/strategy/default');
-var dbUser = require('../database/function/user');
-var helper = require('../services/helper_service');
+var User = require('../database/model/user');
 
 router.get('/', validate({query: require('../schema/userinfo_schema')}), function (req, res, next) {
 
@@ -20,7 +19,7 @@ router.get('/', validate({query: require('../schema/userinfo_schema')}), functio
             return res.sendStatus(401);
         }
 
-        dbUser.getUserByID(tokenInfo.user.id, function (err, user) {
+        User.FindSingle(tokenInfo.user.id, function (err, user) {
             if (err) {
                 return next(err);
             }
@@ -29,7 +28,7 @@ router.get('/', validate({query: require('../schema/userinfo_schema')}), functio
                 return res.sendStatus(404);
             }
 
-            res.json(user);
+            res.json(user.getPrivateData());
         });
     }
 );
