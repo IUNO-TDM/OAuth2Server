@@ -182,7 +182,7 @@ function getUserFromClient(client) {
     logger.info('GetUserFromClient ', client);
 
     var dbDone;
-    var _data;
+    var _data = null;
     dbUser.getUserFromClient(client.id, function (err, data) {
         if (err) {
             logger.warn(err);
@@ -196,12 +196,7 @@ function getUserFromClient(client) {
         return !dbDone;
     });
 
-    if (_data) {
-        _data.id = _data.useruuid;
-        return _data;
-    }
-
-    return null;
+    return _data;
 }
 
 function getRefreshToken(refreshToken) {
