@@ -71,10 +71,6 @@ function getUser(id, token) {
             logger.warn(err);
         }
 
-        if (user && helper.isArray(user)) {
-            user = false;
-        }
-
         if (!user) {
             downloadService.downloadImageFromUrl(dict.userInfo.picture, function (err, filePath) {
                 var imagePath = '';
@@ -89,6 +85,9 @@ function getUser(id, token) {
 
                 dbUser.createUser(dict.userInfo.sub, dict.userInfo.name, dict.userInfo.given_name, dict.userInfo.family_name,
                     dict.userInfo.email, oauth2Provider, imagePath, null, function (err, _user) {
+                        if (err) {
+                            logger.warn(err);
+                        }
                         user = _user;
 
                         dbDone = true;

@@ -20,18 +20,23 @@ function getAccessToken(bearerToken) {
         if (err) {
             logger.warn(err);
 
-            dbDone = true;
+            return dbDone = true;
         }
-        else {
-            dbUser.getUserByID(data.user, function (err, user) {
-                if (err) {
-                    logger.warn(err);
-                }
-                _user = user;
 
-                dbDone = true;
-            });
+        if (!data) {
+            logger.warn('[oauth-default] Database did not return an access token');
+
+            return dbDone = true;
         }
+
+        dbUser.getUserByID(data.user, function (err, user) {
+            if (err) {
+                logger.warn(err);
+            }
+            _user = user;
+
+            return dbDone = true;
+        });
 
     });
 
