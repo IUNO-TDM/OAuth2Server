@@ -83,8 +83,8 @@ self.getUserByID = function(userid, callback) {
         });
 };
 
-self.createUser = function(externalid, username, firstname, lastname, useremail, oauth2provider, imgpath, thumbnail, callback) {
-    db.func('createUser', [externalid, username, firstname, lastname, useremail, oauth2provider, imgpath, thumbnail])
+self.SetUser = function(externalid, username, firstname, lastname, useremail, oauth2provider, imgpath, thumbnail, roles, pwd, callback) {
+    db.func('SetUser', [externalid, username, firstname, lastname, useremail, oauth2provider, imgpath, thumbnail, roles, pwd])
         .then(function (data) {
             if (data && data.length) {
                 data = data[0];
@@ -93,7 +93,7 @@ self.createUser = function(externalid, username, firstname, lastname, useremail,
                 data = null;
             }
 
-            logger.debug('createUser result: ' + JSON.stringify(data));
+            logger.debug('SetUser result: ' + JSON.stringify(data));
             callback(null,data);
         })
         .catch(function (error){
