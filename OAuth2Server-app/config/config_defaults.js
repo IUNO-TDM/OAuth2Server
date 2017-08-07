@@ -12,7 +12,8 @@ var self = {
 
 self.LOG_LEVEL = 'debug';
 self.ALLOWED_CLIENT_IDS = [
-    '740467127740-f56vv3l5teo5i9fcoljj0l10klhg7sih.apps.googleusercontent.com'
+    '740467127740-f56vv3l5teo5i9fcoljj0l10klhg7sih.apps.googleusercontent.com',
+    '471839516296-3madk5ilta293oafg3n4ugjc054fkhmh.apps.googleusercontent.com'
 ];
 
 self.OAUTH_ORIGINS = {
