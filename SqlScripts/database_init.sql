@@ -853,7 +853,7 @@ $BODY$
 		from users us
 		join usersroles ur on us.userid = ur.userid
 		join roles rl on rl.roleid = ur.roleid
-		where us.useruuid = vuseremail
+		where us.useremail = vuseremail
 		and us.userpwd = (crypt(vUserPwd,us.userpwd))
 	group by
 		useruuid,
