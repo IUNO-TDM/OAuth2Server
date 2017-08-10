@@ -68,7 +68,9 @@ User.prototype.FindAll = User.FindAll = function () {
  */
 User.prototype.FindSingle = User.FindSingle = function (id, callback) {
     dbUser.getUserByID(id, function (err, userData) {
-        callback(err, new User().SetProperties(userData));
+        const user = new User();
+        user.SetProperties(userData);
+        callback(err, user);
     })
 };
 
