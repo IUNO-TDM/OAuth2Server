@@ -833,9 +833,9 @@ $BODY$
   COST 100
   ROWS 1000;
 -- ##########################################################################
---GetUser with pwd
+--GetUser with email and pwd
 CREATE FUNCTION public.getuser(
-    IN vuseruuid character varying,
+    IN vuseremail character varying,
     IN vuserpwd character varying)
   RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$
@@ -853,7 +853,7 @@ $BODY$
 		from users us
 		join usersroles ur on us.userid = ur.userid
 		join roles rl on rl.roleid = ur.roleid
-		where us.useruuid = (vuseruuid)::uuid
+		where us.useruuid = vuseremail
 		and us.userpwd = (crypt(vUserPwd,us.userpwd))
 	group by
 		useruuid,
@@ -1027,7 +1027,7 @@ CREATE FUNCTION SetUser(
     IN vthumbnail bytea,
     IN vUserRoles text[],
     IN vuserpwd character varying)
-RETURNS TABLE(id uuid, userfirstname character varying, userlastname character varying, useremail character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+RETURNS TABLE(id uuid, firstname character varying, lastname character varying, useremail character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$
 		#variable_conflict use_column
 		DECLARE vUserID integer := (select nextval('UserID'));

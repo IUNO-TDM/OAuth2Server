@@ -83,8 +83,8 @@ function getUser(id, token) {
                     imagePath = filePath;
                 }
 
-                dbUser.SetUser(dict.userInfo.sub, dict.userInfo.name, dict.userInfo.given_name, dict.userInfo.family_name,
-                    dict.userInfo.email, oauth2Provider, imagePath, null, config.USER_ROLE, null, function (err, _user) {
+                dbUser.SetUser(dict.userInfo.sub, dict.userInfo.name, dict.userInfo.given_name, dict.userInfox.family_name,
+                    dict.userInfo.email, oauth2Provider, imagePath, null, [config.USER_ROLES.TD_OWNER], null, function (err, _user) {
                         if (err) {
                             logger.warn(err);
                         }
@@ -122,7 +122,5 @@ module.exports = {
     revokeAuthorizationCode: defaultStrategy.revokeAuthorizationCode,
     revokeToken: defaultStrategy.revokeToken,
     saveToken: defaultStrategy.saveToken,
-    saveAuthorizationCode: defaultStrategy.saveAuthorizationCode,
-    validateScope: defaultStrategy.validateScope,
-    verifyScope: defaultStrategy.verifyScope
+    saveAuthorizationCode: defaultStrategy.saveAuthorizationCode
 };

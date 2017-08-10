@@ -7,8 +7,8 @@ var db = require('../db_connection');
 var self = {};
 
 
-self.getUser = function(userid, password, callback) {
-    db.func('getUser', [userid, password])
+self.getUser = function(userEmail, password, callback) {
+    db.func('getUser', [userEmail, password])
         .then(function (data) {
             if (data && data.length) {
                 data = data[0];
@@ -81,6 +81,10 @@ self.getUserByID = function(userid, callback) {
             logger.crit(error);
             callback(error);
         });
+};
+
+self.getUserByEmailAndPwd = function(email, password) {
+
 };
 
 self.SetUser = function(externalid, username, firstname, lastname, useremail, oauth2provider, imgpath, thumbnail, roles, pwd, callback) {

@@ -22,6 +22,8 @@ self.OAUTH_ORIGINS = {
 
 self.DB_CONNECTION_STRING = "postgres://{username}:{password}@{host}:{port}/{database}";
 
-self.USER_ROLE = ['TechnologyDataOwner'];
+self.USER_ROLES = {
+    TD_OWNER: 'TechnologyDataOwner'
+};
 
 module.exports = self;
