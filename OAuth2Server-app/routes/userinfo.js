@@ -9,7 +9,7 @@ var validate = require('express-jsonschema').validate;
 var oAuth = require('../oauth/strategy/default');
 var User = require('../database/model/user');
 
-router.get('/', validate({query: require('../schema/userinfo_schema')}), function (req, res, next) {
+router.get('/', validate({query: require('../schema/userinfo_schema')}.query), function (req, res, next) {
 
         var tokenInfo = oAuth.getAccessToken(req.query['access_token']);
 
