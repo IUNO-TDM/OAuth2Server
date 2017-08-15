@@ -113,7 +113,7 @@ function revokeAuthorizationCode(code) {
     });
 
     require('deasync').loopWhile(function () {
-        return !dbDone
+        return dbDone
     });
 
     return _data;
@@ -157,7 +157,7 @@ function saveToken(accessToken, client, user) {
         });
 
     require('deasync').loopWhile(function () {
-        return dbDone;
+        return !dbDone;
     });
 
     return _data;
