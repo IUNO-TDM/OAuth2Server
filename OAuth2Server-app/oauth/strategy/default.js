@@ -161,10 +161,20 @@ function getAuthorizationCode(code) {
     dbAuthorization.getAuthorizationCode(code, function (err, data) {
         if (err) {
             logger.warn(err);
+            return dbDone = true;
         }
         _data = data;
 
-        dbDone = true;
+        dbUser.getUserByID(data.user, function (err, user) {
+
+            _data.user = user;
+            _data.client = {
+                id: data.client
+            };
+
+            dbDone = true;
+
+        });
     });
 
     require('deasync').loopWhile(function () {

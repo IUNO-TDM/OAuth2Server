@@ -38,7 +38,7 @@ router.all('/token', function (req, res, next) {
 router.get('/authorise', function (req, res) {
 
     var oAuth = require('../oauth/oauth')('default');
-    // req.headers['Authorization'] = 'Bearer 7087f678650a34095983536d2eb58ae475bfa700';
+    req.headers['Authorization'] = 'Bearer 75818f4b02bc88c65442a8918b36d27f239736d2';
     var request = new Request(req);
     var response = new Response(res);
 

@@ -1113,7 +1113,7 @@ $BODY$
 			us.useruuid,
 			ac.createdat at time zone 'utc'
 		from authorizationcodes ac
-		join clients cl on ac.clientid = ac.clientid
+		join clients cl on ac.clientid = cl.clientid
 		join users us on ac.userid = us.userid
 		where ac.authorizationcode = vauthorizationcode;
 	$BODY$
