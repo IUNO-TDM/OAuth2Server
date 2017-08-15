@@ -63,4 +63,42 @@ self.saveToken = function(accessToken, expiresAccToken, refreshToken, expiresRef
         callback(error);
     });
 }
+
+self.revokeToken = function(token, callback) {
+    db.func('deleteRefreshToken', [token])
+        .then(function (data) {
+            if (data && data.length) {
+                data = data[0];
+            }
+            else {
+                data = null;
+            }
+
+            logger.debug('RevokeToken result: ' + JSON.stringify(data));
+            callback(null, data.deleterefreshtoken);
+        })
+        .catch(function (error) {
+            logger.crit(error);
+            callback(error);
+        });
+};
+
+self.revokeAuthorizationCode = function(token, callback) {
+    db.func('DeleteAuthorizationCode', [token])
+        .then(function (data) {
+            if (data && data.length) {
+                data = data[0];
+            }
+            else {
+                data = null;
+            }
+
+            logger.debug('RevokeAuthorizationCode result: ' + JSON.stringify(data));
+            callback(null, data.deleteauthorizationcode);
+        })
+        .catch(function (error) {
+            logger.crit(error);
+            callback(error);
+        });
+};
 module.exports = self;

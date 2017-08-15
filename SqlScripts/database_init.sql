@@ -1084,12 +1084,17 @@ $BODY$
   ROWS 1000;
 -- ##########################################################################
 -- Delete RefreshTokens
-CREATE FUNCTION DeleteRefreshToken(vRefreshToken varchar)
-		RETURNS bool AS
-		$$
+CREATE FUNCTION public.deleterefreshtoken(vrefreshtoken character varying)
+  RETURNS boolean AS
+$BODY$
+			DECLARE
+				vToken varchar := (select 1 from refreshtokens where refreshtoken = vRefreshToken);
 			BEGIN
-				delete from refreshtokens
-				where refreshtoken = vRefreshToken;
+				IF(vToken is not null) THEN
+					delete from refreshtokens
+					where refreshtoken = vRefreshToken;
+				ELSE RETURN false;
+				END IF;
 
 				-- Begin Log if success
 				perform public.createlog(0,'Deleted RefreshToken sucessfully', 'DeleteRefreshToken',
@@ -1099,22 +1104,30 @@ CREATE FUNCTION DeleteRefreshToken(vRefreshToken varchar)
 
 				exception when others then
 				-- Begin Log if error
-				perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE, 'DeleteRefreshToken',
-					'RefreshToken: ' || vRefreshToken);
+				perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE,'SetPaymentInvoiceOffer',
+							'OfferRequestID: ' || cast(vOfferRequestUUID as varchar)
+							|| ', invoice: ' || vInvoice
+							|| ', CreatedBy: ' || cast(vCreatedBy as varchar));
 				-- End Log if error
-				RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at DeleteRefreshToken';
+				RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at SetPaymentInvoiceOffer';
 				RETURN FALSE;
 			END;
-		$$
-		LANGUAGE plpgsql;
+		$BODY$
+  LANGUAGE plpgsql VOLATILE
 -- ##########################################################################
 -- Delete AuthorizationCodes
-CREATE FUNCTION DeleteAuthorizationCode(vAuthorizationCode varchar)
-		RETURNS bool AS
-		$$
+CREATE FUNCTION public.deleteauthorizationcode(vauthorizationcode character varying)
+  RETURNS boolean AS
+$BODY$
+			DECLARE
+				vCode varchar := (select 1 from authorizationcodes where authorizationcode = vAuthorizationCode);
 			BEGIN
-				delete from authorizationcodes
-				where AuthorizationCode = vAuthorizationCode;
+				IF(vCode is not null) THEN
+					delete from authorizationcodes
+					where AuthorizationCode = vAuthorizationCode;
+				ELSE RETURN FALSE;
+
+				END IF;
 
 				-- Begin Log if success
 				perform public.createlog(0,'Deleted AuthorizationCode sucessfully', 'DeleteAuthorizationCode',
@@ -1130,8 +1143,8 @@ CREATE FUNCTION DeleteAuthorizationCode(vAuthorizationCode varchar)
 				RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at DeleteAuthorizationCode';
 				RETURN FALSE;
 			END;
-		$$
-		LANGUAGE plpgsql;
+		$BODY$
+  LANGUAGE plpgsql;
 -- ##########################################################################
 -- Author: Marcel Ely Gomes
 -- Company: Trumpf Werkzeugmaschine GmbH & Co KG
