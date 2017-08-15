@@ -118,15 +118,42 @@ function getUser(username, password) {
 
 function revokeAuthorizationCode(code) {
     logger.info("revokeAuthorizationCode ", code);
-    logger.warn('-- NOT IMPLEMENTED YET --');
-    return false;
+    var dbDone;
+    var _data;
+    dbToken.revokeAuthorizationCode(code, function (err, data) {
+        if (err) {
+            logger.warn(err);
+        }
+        _data = data;
+
+        dbDone = _data;
+    });
+
+    require('deasync').loopWhile(function () {
+        return dbDone
+    });
+
+    return _data;
 }
 
 function revokeToken(token) {
     logger.info("revokeToken", token);
-    logger.warn('-- NOT IMPLEMENTED YET --');
-    //TODO: Delete Refresh Token
-    return true;
+    var dbDone;
+    var _data;
+    dbToken.revokeToken(token, function (err, data) {
+        if (err) {
+            logger.warn(err);
+        }
+        _data = data;
+
+        dbDone = _data;
+    });
+
+    require('deasync').loopWhile(function () {
+        return dbDone
+    });
+
+    return _data;
 }
 
 function saveToken(accessToken, client, user) {

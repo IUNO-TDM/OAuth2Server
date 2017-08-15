@@ -778,7 +778,7 @@ $BODY$
   ROWS 1000;
 -- ##########################################################################
 -- ##########################################################################
---GetClient
+--GetClientById
  CREATE FUNCTION public.getclientbyid(
     IN vclientuuid uuid)
   RETURNS TABLE(id uuid, clientname character varying, "redirectUris" text[], grants text[], scope character varying) AS
@@ -1101,6 +1101,69 @@ $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100
   ROWS 1000;
+-- ##########################################################################
+-- Delete RefreshTokens
+CREATE FUNCTION public.deleterefreshtoken(vrefreshtoken character varying)
+  RETURNS boolean AS
+$BODY$
+			DECLARE
+				vToken varchar := (select 1 from refreshtokens where refreshtoken = vRefreshToken);
+			BEGIN
+				IF(vToken is not null) THEN
+					delete from refreshtokens
+					where refreshtoken = vRefreshToken;
+				ELSE RETURN false;
+				END IF;
+
+				-- Begin Log if success
+				perform public.createlog(0,'Deleted RefreshToken sucessfully', 'DeleteRefreshToken',
+					'RefreshToken: ' || vRefreshToken);
+
+				RETURN TRUE;
+
+				exception when others then
+				-- Begin Log if error
+				perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE,'SetPaymentInvoiceOffer',
+							'OfferRequestID: ' || cast(vOfferRequestUUID as varchar)
+							|| ', invoice: ' || vInvoice
+							|| ', CreatedBy: ' || cast(vCreatedBy as varchar));
+				-- End Log if error
+				RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at SetPaymentInvoiceOffer';
+				RETURN FALSE;
+			END;
+		$BODY$
+  LANGUAGE plpgsql VOLATILE
+-- ##########################################################################
+-- Delete AuthorizationCodes
+CREATE FUNCTION public.deleteauthorizationcode(vauthorizationcode character varying)
+  RETURNS boolean AS
+$BODY$
+			DECLARE
+				vCode varchar := (select 1 from authorizationcodes where authorizationcode = vAuthorizationCode);
+			BEGIN
+				IF(vCode is not null) THEN
+					delete from authorizationcodes
+					where AuthorizationCode = vAuthorizationCode;
+				ELSE RETURN FALSE;
+
+				END IF;
+
+				-- Begin Log if success
+				perform public.createlog(0,'Deleted AuthorizationCode sucessfully', 'DeleteAuthorizationCode',
+					'AuthorizationCode: ' || vAuthorizationCode);
+
+				RETURN TRUE;
+
+				exception when others then
+				-- Begin Log if error
+				perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE, 'DeleteAuthorizationCode',
+					'AuthorizationCode: ' || vAuthorizationCode);
+				-- End Log if error
+				RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at DeleteAuthorizationCode';
+				RETURN FALSE;
+			END;
+		$BODY$
+  LANGUAGE plpgsql;
 -- ##########################################################################
 CREATE FUNCTION public.getauthorizationcode(IN vauthorizationcode character varying)
   RETURNS TABLE("authorizationCode" character varying, "expiresAt" timestamp with time zone, scope uuid, redirecturi varchar, client uuid, "user" uuid, createdat timestamp with time zone) AS

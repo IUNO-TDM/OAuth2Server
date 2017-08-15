@@ -26,10 +26,10 @@ router.all('/token', function (req, res, next) {
         oAuth
             .token(request, response)
             .then(function (token) {
-                // Todo: remove unnecessary values in response
                 return res.json(token)
             }).catch(function (err) {
-            return res.status(500).json(err)
+                logger.crit(err);
+            return res.status(500);
         })
     }
 );
