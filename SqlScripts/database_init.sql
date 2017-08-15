@@ -1083,6 +1083,56 @@ $BODY$
   COST 100
   ROWS 1000;
 -- ##########################################################################
+-- Delete RefreshTokens
+CREATE FUNCTION DeleteRefreshToken(vRefreshToken varchar)
+		RETURNS bool AS
+		$$
+			BEGIN
+				delete from refreshtokens
+				where refreshtoken = vRefreshToken;
+
+				-- Begin Log if success
+				perform public.createlog(0,'Deleted RefreshToken sucessfully', 'DeleteRefreshToken',
+					'RefreshToken: ' || vRefreshToken);
+
+				RETURN TRUE;
+
+				exception when others then
+				-- Begin Log if error
+				perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE, 'DeleteRefreshToken',
+					'RefreshToken: ' || vRefreshToken);
+				-- End Log if error
+				RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at DeleteRefreshToken';
+				RETURN FALSE;
+			END;
+		$$
+		LANGUAGE plpgsql;
+-- ##########################################################################
+-- Delete AuthorizationCodes
+CREATE FUNCTION DeleteAuthorizationCode(vAuthorizationCode varchar)
+		RETURNS bool AS
+		$$
+			BEGIN
+				delete from authorizationcodes
+				where AuthorizationCode = vAuthorizationCode;
+
+				-- Begin Log if success
+				perform public.createlog(0,'Deleted AuthorizationCode sucessfully', 'DeleteAuthorizationCode',
+					'AuthorizationCode: ' || vAuthorizationCode);
+
+				RETURN TRUE;
+
+				exception when others then
+				-- Begin Log if error
+				perform public.createlog(1,'ERROR: ' || SQLERRM || ' ' || SQLSTATE, 'DeleteAuthorizationCode',
+					'AuthorizationCode: ' || vAuthorizationCode);
+				-- End Log if error
+				RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at DeleteAuthorizationCode';
+				RETURN FALSE;
+			END;
+		$$
+		LANGUAGE plpgsql;
+-- ##########################################################################
 -- Author: Marcel Ely Gomes
 -- Company: Trumpf Werkzeugmaschine GmbH & Co KG
 -- CreatedAt: 2017-07-25
