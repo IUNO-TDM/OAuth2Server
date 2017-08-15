@@ -13,6 +13,9 @@ var fs = require('fs'),
 var self = {};
 
 self.downloadImageFromUrl = function (url, callback) {
+    if (!url) {
+        return callback(new Error('Empty url string'));
+    }
     request.head(url, function (err, res, body) {
         if (err) {
             return callback(err);

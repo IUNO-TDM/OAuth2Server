@@ -35,14 +35,20 @@ router.all('/token', function (req, res, next) {
 );
 
 
-router.post('/authorise', function (req, res, next) {
+router.get('/authorise', function (req, res) {
+
+    var oAuth = require('../oauth/oauth')('default');
+    req.headers['Authorization'] = 'Bearer 7087f678650a34095983536d2eb58ae475bfa700';
     var request = new Request(req);
     var response = new Response(res);
 
-    return oauth.authorize(request, response).then(function (success) {
+
+    return oAuth.authorize(request, response, {
+        allowEmptyState: true
+    }).then(function (data) {
         //  if (req.body.allow !== 'true') return callback(null, false);
         //  return callback(null, true, req.user);
-        res.json(success)
+        res.redirect(data.redirectUri + '?code=' + data.authorizationCode)
     }).catch(function (err) {
         res.status(err.code || 500).json(err)
     })

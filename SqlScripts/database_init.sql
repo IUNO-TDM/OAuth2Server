@@ -761,7 +761,7 @@ ALTER FUNCTION public.getuserbyexternalid(character varying)
  CREATE FUNCTION public.getclient(
     IN vclientuuid uuid,
     IN vclientsecret character varying)
-  RETURNS TABLE(id uuid, clientname character varying, redirecturis text[], grants text[], scope character varying) AS
+  RETURNS TABLE(id uuid, clientname character varying, "redirectUris" text[], grants text[], scope character varying) AS
 $BODY$
 		select 	clientUUID,
 			clientName,
@@ -1095,7 +1095,7 @@ $$
 		vUserUUID uuid;
 		vRoleUUID uuid; 
 		vGrants text[] := '{authorization_code, password, refresh_token, client_credentials}';
-		vRedirectUris text[] := '{https://iuno-tdm.axoom.cloud}';
+		vRedirectUris text[] := '{http://localhost:3004/auth/iuno}';
 		
 
 	Begin

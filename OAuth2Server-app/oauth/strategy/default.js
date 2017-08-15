@@ -61,7 +61,11 @@ function getClient(clientID, clientSecret) {
     logger.info('GetClient ', clientID, clientSecret);
 
     var dbDone;
-    var _data;
+    var _data = null;
+
+    if (!clientSecret) {
+        clientSecret = "IsSecret";
+    }
 
     dbClient.getClient(clientID, clientSecret, function (err, data) {
         if (err) {
@@ -76,6 +80,9 @@ function getClient(clientID, clientSecret) {
         return !dbDone;
     });
 
+    if (!_data) {
+        return new Error('Client not found');
+    }
     return _data;
 }
 
@@ -157,12 +164,12 @@ function getAuthorizationCode(code) {
     return _data;
 }
 
-function saveAuthorizationCode(code, expires, redirecturi, client, user) {
-    logger.info('SaveAuthorizationCode ', code, expires, redirecturi, client, user);
+function saveAuthorizationCode(code, client, user) {
+    logger.info('SaveAuthorizationCode ', code, client, user);
 
     var dbDone;
     var _data;
-    dbAuthorization.saveAuthorizationCode(code, expires, redirecturi, client, user, function (err, data) {
+    dbAuthorization.saveAuthorizationCode(code.authorizationCode, code.expiresAt, code.redirectUri, client.id, user.id, function (err, data) {
         if (err) {
             logger.warn(err);
         }
@@ -175,7 +182,9 @@ function saveAuthorizationCode(code, expires, redirecturi, client, user) {
         return !dbDone;
     });
 
-    return _data;
+    code.client = client;
+    code.user = user;
+    return code;
 }
 
 function getUserFromClient(client) {

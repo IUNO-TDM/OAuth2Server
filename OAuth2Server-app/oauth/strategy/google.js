@@ -8,7 +8,6 @@ var defaultStrategy = require('./default');
 var config = require('../../config/config_loader');
 var dbUser = require('../../database/function/user');
 var oauth2Provider = 'google';
-var helper = require('../../services/helper_service');
 var downloadService = require('../../services/download_service');
 
 function getUserAndTokenInfo(token) {

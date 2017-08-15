@@ -83,9 +83,6 @@ self.getUserByID = function(userid, callback) {
         });
 };
 
-self.getUserByEmailAndPwd = function(email, password) {
-
-};
 
 self.SetUser = function(externalid, username, firstname, lastname, useremail, oauth2provider, imgpath, thumbnail, roles, pwd, callback) {
     db.func('SetUser', [externalid, username, firstname, lastname, useremail, oauth2provider, imgpath, thumbnail, roles, pwd])
