@@ -777,6 +777,25 @@ $BODY$
   COST 100
   ROWS 1000;
 -- ##########################################################################
+-- ##########################################################################
+--GetClient
+ CREATE FUNCTION public.getclientbyid(
+    IN vclientuuid uuid)
+  RETURNS TABLE(id uuid, clientname character varying, "redirectUris" text[], grants text[], scope character varying) AS
+$BODY$
+		select 	clientUUID,
+			clientName,
+			redirectUris,
+			grants,
+			scopeuuid::varchar
+		from clients cl
+		left outer join scopes sc on cl.scopeid = sc.scopeid
+		where clientuuid = vClientUUID::uuid
+	$BODY$
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+-- ##########################################################################
 --GetUserByID
 CREATE FUNCTION public.getuserbyid(IN vuseruuid uuid)
   RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS

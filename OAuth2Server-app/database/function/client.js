@@ -26,4 +26,23 @@ self.getClient = function(clientid, clientsecret, callback) {
         });
 };
 
+self.getClientById = function(clientid, callback) {
+    db.func('getClientById', [clientid])
+        .then(function (data) {
+            if (data && data.length) {
+                data = data[0];
+            }
+            else {
+                data = null;
+            }
+
+            logger.debug('GetClient result: ' + JSON.stringify(data));
+            callback(null, data);
+        })
+        .catch(function (error) {
+            logger.crit(error);
+            callback(error);
+        });
+};
+
 module.exports = self;

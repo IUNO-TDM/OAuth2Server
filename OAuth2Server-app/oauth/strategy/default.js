@@ -63,18 +63,28 @@ function getClient(clientID, clientSecret) {
     var dbDone;
     var _data = null;
 
-    if (!clientSecret) {
-        clientSecret = "IsSecret";
+    if (clientSecret) {
+        dbClient.getClient(clientID, clientSecret, function (err, data) {
+            if (err) {
+                logger.warn(err);
+            }
+            _data = data;
+
+            dbDone = true;
+        });
+    }
+    else {
+        dbClient.getClientById(clientID, function (err, data) {
+            if (err) {
+                logger.warn(err);
+            }
+            _data = data;
+
+            dbDone = true;
+        });
     }
 
-    dbClient.getClient(clientID, clientSecret, function (err, data) {
-        if (err) {
-            logger.warn(err);
-        }
-        _data = data;
 
-        dbDone = true;
-    });
 
     require('deasync').loopWhile(function () {
         return !dbDone;
