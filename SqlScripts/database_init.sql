@@ -761,7 +761,7 @@ ALTER FUNCTION public.getuserbyexternalid(character varying)
  CREATE FUNCTION public.getclient(
     IN vclientuuid uuid,
     IN vclientsecret character varying)
-  RETURNS TABLE(id uuid, clientname character varying, redirecturis text[], grants text[], scope character varying) AS
+  RETURNS TABLE(id uuid, clientname character varying, redirectUris text[], grants text[], scope character varying) AS
 $BODY$
 		select 	clientUUID,
 			clientName,
