@@ -1083,6 +1083,23 @@ $BODY$
   COST 100
   ROWS 1000;
 -- ##########################################################################
+CREATE FUNCTION public.getauthorizationcode(IN vauthorizationcode character varying)
+  RETURNS TABLE("authorizationCode" character varying, "expiresAt" timestamp with time zone, scope uuid, redirecturi varchar, client uuid, "user" uuid, createdat timestamp with time zone) AS
+$BODY$
+		select 	ac.authorizationcode,
+			ac.expires at time zone 'utc',
+			null::uuid as scopeuuid,
+			ac.redirecturi,
+			cl.clientuuid,
+			us.useruuid,
+			ac.createdat at time zone 'utc'
+		from authorizationcodes ac
+		join clients cl on ac.clientid = ac.clientid
+		join users us on ac.userid = us.userid
+		where ac.authorizationcode = vauthorizationcode;
+	$BODY$
+  LANGUAGE sql VOLATILE;
+-- ##########################################################################
 -- Author: Marcel Ely Gomes
 -- Company: Trumpf Werkzeugmaschine GmbH & Co KG
 -- CreatedAt: 2017-07-25
