@@ -25,15 +25,15 @@ CREATE
     AuthorizationCodeID INTEGER NOT NULL ,
     AuthorizationCode   VARCHAR (256) NOT NULL ,
     Expires             timestamp without time zone NOT NULL ,
+    ScopeID             INTEGER ,
     RedirectURI         VARCHAR (4000) ,
     ClientID            INTEGER ,
     UserID              INTEGER NOT NULL ,
     CreatedAt           timestamp without time zone NOT NULL
   ) ;
-ALTER TABLE AuthorizationCodes ADD CONSTRAINT AuthorizationCodes_PK PRIMARY KEY
-( AuthorizationCodeID ) ;
-ALTER TABLE AuthorizationCodes ADD CONSTRAINT AuthorizationCodes__UN UNIQUE (
-AuthorizationCode ) ;
+ALTER TABLE AuthorizationCodes ADD CONSTRAINT AuthorizationCodes_PK PRIMARY KEY ( AuthorizationCodeID ) ;
+ALTER TABLE AuthorizationCodes ADD CONSTRAINT AuthorizationCodes__UN UNIQUE ( AuthorizationCode ) ;
+
 
 CREATE
   TABLE Clients
@@ -173,6 +173,16 @@ DELETE
 
 ALTER TABLE AuthorizationCodes ADD CONSTRAINT AuthorizationCodes_Users_FK
 FOREIGN KEY ( UserID ) REFERENCES Users ( UserID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE AuthorizationCodes ADD CONSTRAINT AuthorizationCodes_Clients_FK
+FOREIGN KEY ( ClientID ) REFERENCES Clients ( ClientID ) ON
+DELETE
+  NO ACTION ;
+
+ALTER TABLE AuthorizationCodes ADD CONSTRAINT AuthorizationCodes_Scopes_FK
+FOREIGN KEY ( ScopeID ) REFERENCES Scopes ( ScopeID ) ON
 DELETE
   NO ACTION ;
 
@@ -872,7 +882,7 @@ $BODY$
 		from users us
 		join usersroles ur on us.userid = ur.userid
 		join roles rl on rl.roleid = ur.roleid
-		where us.useruuid = vuseremail
+		where us.useremail = vuseremail
 		and us.userpwd = (crypt(vUserPwd,us.userpwd))
 	group by
 		useruuid,
@@ -1166,11 +1176,11 @@ $BODY$
   LANGUAGE plpgsql;
 -- ##########################################################################
 CREATE FUNCTION public.getauthorizationcode(IN vauthorizationcode character varying)
-  RETURNS TABLE("authorizationCode" character varying, "expiresAt" timestamp with time zone, scope uuid, redirecturi varchar, client uuid, "user" uuid, createdat timestamp with time zone) AS
+  RETURNS TABLE("authorizationCode" character varying, "expiresAt" timestamp with time zone, scope uuid, redirecturi character varying, client uuid, "user" uuid, createdat timestamp with time zone) AS
 $BODY$
 		select 	ac.authorizationcode,
 			ac.expires at time zone 'utc',
-			null::uuid as scopeuuid,
+			sc.scopeuuid,
 			ac.redirecturi,
 			cl.clientuuid,
 			us.useruuid,
@@ -1178,9 +1188,15 @@ $BODY$
 		from authorizationcodes ac
 		join clients cl on ac.clientid = cl.clientid
 		join users us on ac.userid = us.userid
+		left outer join scopes sc
+		on ac.scopeid = sc.scopeid
 		where ac.authorizationcode = vauthorizationcode;
 	$BODY$
-  LANGUAGE sql VOLATILE;
+  LANGUAGE sql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION public.getauthorizationcode(character varying)
+  OWNER TO postgres;
 -- ##########################################################################
 -- Author: Marcel Ely Gomes
 -- Company: Trumpf Werkzeugmaschine GmbH & Co KG
