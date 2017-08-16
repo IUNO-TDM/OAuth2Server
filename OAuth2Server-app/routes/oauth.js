@@ -7,7 +7,14 @@ var logger = require('../global/logger');
 var oauthServer = require('oauth2-server');
 var Request = oauthServer.Request;
 var Response = oauthServer.Response;
-var validate = require('express-jsonschema').validate;
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated())
+        return next();
+
+    req.session.redirectTo = req.originalUrl;
+    res.redirect('/login.html');
+}
 
 
 router.all('/token', function (req, res, next) {
@@ -26,7 +33,9 @@ router.all('/token', function (req, res, next) {
         oAuth
             .token(request, response)
             .then(function (token) {
-                return res.json(token)
+                return res.json({
+                    access_token: token
+                });
             }).catch(function (err) {
                 logger.crit(err);
             return res.status(500);
@@ -35,13 +44,14 @@ router.all('/token', function (req, res, next) {
 );
 
 
-router.get('/authorise', function (req, res) {
+router.get('/authorise', isLoggedIn, function (req, res) {
 
     var oAuth = require('../oauth/oauth')('default');
-    req.headers['Authorization'] = 'Bearer 75818f4b02bc88c65442a8918b36d27f239736d2';
+
+    req.headers['authorization'] = 'Bearer ' + req.user.token.accessToken;
+
     var request = new Request(req);
     var response = new Response(res);
-
 
     return oAuth.authorize(request, response, {
         allowEmptyState: true

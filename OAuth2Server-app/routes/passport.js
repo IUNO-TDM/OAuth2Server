@@ -31,7 +31,7 @@ module.exports = function (passport) {
         logger.info('google callback');
 
         passport.authenticate('google', {
-            successRedirect: '/console/console.html',
+            successRedirect: req.session.redirectTo,
             failureRedirect: '/login.html',
             failureFlash: true
         })(req, res, next);
@@ -45,14 +45,9 @@ module.exports = function (passport) {
     router.post('/login', function (req, res, next) {
         logger.info('iuno login');
 
-        const redirect_uri = req.body.redirect_uri;
-        const response_type = req.body.response_type;
-        const client_id = req.body.client_id;
-
         passport.authenticate('local-login', {
-            successRedirect: redirect_uri,
-            failureRedirect: redirect_uri,
-            failureFlash: true
+            successRedirect: req.session.redirectTo,
+            failureRedirect: '/login.html'
         })(req, res, next);
     });
 
@@ -60,9 +55,8 @@ module.exports = function (passport) {
         logger.info('iuno signup');
 
         passport.authenticate('local-signup', {
-            successRedirect: '/console/console.html',
-            failureRedirect: '/login.html',
-            failureFlash: true
+            successRedirect: req.session.redirectTo,
+            failureRedirect: '/login.html'
         })(req, res, next);
     });
 

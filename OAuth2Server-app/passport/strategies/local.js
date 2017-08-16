@@ -88,7 +88,7 @@ module.exports = function (passport) {
 
             req.body.username = email;
 
-            authorise(req);
+            getToken(email, password, CONFIG.OAUTH_CREDENTIALS.CLIENT_ID, CONFIG.OAUTH_CREDENTIALS.CLIENT_SECRET, done);
         }));
 
 
@@ -129,7 +129,7 @@ module.exports = function (passport) {
                         return done(null, false, {message: 'Registration failed. Username maybe already used.'});
                     }
 
-                    getToken(email, password, 'adb4c297-45bd-437e-ac90-9179eea41744', 'IsSecret', done);
+                    getToken(email, password, CONFIG.OAUTH_CREDENTIALS.CLIENT_ID, CONFIG.OAUTH_CREDENTIALS.CLIENT_SECRET, done);
                 });
             });
 

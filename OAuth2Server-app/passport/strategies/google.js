@@ -4,7 +4,7 @@
 
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const logger = require('../../global/logger');
-const config = require('../../config/config_loader');
+const CONFIG = require('../../config/config_loader');
 
 const oAuthProvider = 'google';
 
@@ -64,14 +64,14 @@ module.exports = function (passport) {
     // =========================================================================
     passport.use(new GoogleStrategy({
 
-            clientID: config.OAUTH_PROVIDER.googleAuth.clientID,
-            clientSecret: config.OAUTH_PROVIDER.googleAuth.clientSecret,
-            callbackURL: config.OAUTH_PROVIDER.googleAuth.callbackURL,
+            clientID: CONFIG.OAUTH_PROVIDER.googleAuth.clientID,
+            clientSecret: CONFIG.OAUTH_PROVIDER.googleAuth.clientSecret,
+            callbackURL: CONFIG.OAUTH_PROVIDER.googleAuth.callbackURL,
             passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
 
         },
         function (req, token, refreshToken, profile, done) {
 
-            getToken(profile.id, token, 'adb4c297-45bd-437e-ac90-9179eea41744', 'IsSecret', done);
+            getToken(profile.id, token, CONFIG.OAUTH_CREDENTIALS.CLIENT_ID, CONFIG.OAUTH_CREDENTIALS.CLIENT_SECRET, done);
         }));
 };

@@ -120,17 +120,17 @@ function revokeAuthorizationCode(code) {
     logger.info("revokeAuthorizationCode ", code);
     var dbDone;
     var _data;
-    dbToken.revokeAuthorizationCode(code, function (err, data) {
+    dbToken.revokeAuthorizationCode(code.authorizationCode, function (err, data) {
         if (err) {
             logger.warn(err);
         }
         _data = data;
 
-        dbDone = _data;
+        dbDone = true;
     });
 
     require('deasync').loopWhile(function () {
-        return dbDone
+        return !dbDone
     });
 
     return _data;
@@ -140,17 +140,17 @@ function revokeToken(token) {
     logger.info("revokeToken", token);
     var dbDone;
     var _data;
-    dbToken.revokeToken(token, function (err, data) {
+    dbToken.revokeToken(token.refreshToken, function (err, data) {
         if (err) {
             logger.warn(err);
         }
         _data = data;
 
-        dbDone = _data;
+        dbDone = true;
     });
 
     require('deasync').loopWhile(function () {
-        return dbDone
+        return !dbDone
     });
 
     return _data;
@@ -308,9 +308,10 @@ function validateToken(token) {
     return isValid;
 }
 
+
 module.exports = {
     //generateOAuthAccessToken, optional - used for jwt
-    //generateAuthorizationCode, optional
+    //generateAuthorizationCode: generateAuthorizationCode,
     //generateOAuthRefreshToken, - optional
     getAccessToken: getAccessToken,
     getAuthorizationCode: getAuthorizationCode,

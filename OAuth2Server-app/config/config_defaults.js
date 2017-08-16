@@ -50,4 +50,11 @@ self.OAUTH_PROVIDER = {
     }
 };
 
+
+// CLIENT CREDENTIALS USED ON USER LOGIN
+self.OAUTH_CREDENTIALS = {
+    CLIENT_ID: '',
+    CLIENT_SECRET: ''
+};
+
 module.exports = self;
