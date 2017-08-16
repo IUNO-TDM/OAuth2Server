@@ -127,17 +127,6 @@
             border-color: #3b5a7c;
         }
     </style>
-    <script>
-        function getParameterByName(name, url) {
-            if (!url) url = window.location.href;
-            name = name.replace(/[\[\]]/g, "\\$&");
-            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, " "));
-        }
-    </script>
 </head>
 <body  background="img/bg_green.jpg">
 <div class="">
@@ -148,21 +137,10 @@
 
     <div class="container text-center">
         <form action="/passport/login" method="post" class="form-signin" data-ember-action="2">
-            <input id="response_type" type="hidden" name="response_type" value="1" />
-            <input id="redirect_uri" type="hidden" name="redirect_uri" value="1" />
-            <input id="client_id" type="hidden" name="client_id" value="1" />
-            <script>
-                document.getElementById('response_type').value = getParameterByName('response_type');
-                document.getElementById('redirect_uri').value = getParameterByName('redirect_uri');
-                document.getElementById('client_id').value = getParameterByName('client_id');
-            </script>
-
             <h2 class="form-signin-heading">Sign in</h2>
 
             <small class="text">Connect IUNO Marketplace with your favorite social network</small>
             <br><br>
-
-
             <p>
                 <a class="btn btn-primary social-login-btn social-facebook" href="/passport/facebook"><i class="fa fa-facebook"></i></a>
                 <a class="btn btn-primary social-login-btn social-twitter" href="/passport/twitter"><i class="fa fa-twitter"></i></a>
@@ -171,16 +149,12 @@
                 <a class="btn btn-primary social-login-btn social-linkedin" href="/passport/linkedin"><i class="fa fa-linkedin"></i></a>
                 <a class="btn btn-primary social-login-btn social-google" href="/passport/google"><i class="fa fa-google-plus"></i></a>
             </p>
-
-
             <br><br>
-
-
             <small class="text">Or sign in with IUNO</small>
             <br><br>
 
-            <input name="email" id="ember360" class="ember-view ember-text-field form-control login-input" placeholder="Email Address" type="text">
-            <input name="password" id="ember361" class="ember-view ember-text-field form-control login-input-pass" placeholder="Password" type="password">
+            <input name="email" id="ember360" class="ember-view ember-text-field form-control login-input" placeholder="Email Address" type="text" required>
+            <input name="password" minlength="8" id="ember361" class="ember-view ember-text-field form-control login-input-pass" placeholder="Password" type="password" required>
 
             <script id="metamorph-22-start" type="text/x-placeholder"></script><script id="metamorph-22-end" type="text/x-placeholder"></script>
 
