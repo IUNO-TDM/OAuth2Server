@@ -1142,7 +1142,7 @@ $BODY$
 				RETURN FALSE;
 			END;
 		$BODY$
-  LANGUAGE plpgsql VOLATILE
+  LANGUAGE plpgsql VOLATILE;
 -- ##########################################################################
 -- Delete AuthorizationCodes
 CREATE FUNCTION public.deleteauthorizationcode(vauthorizationcode character varying)
@@ -1208,10 +1208,9 @@ DO
 $$
 	Declare
 		vUserUUID uuid;
-		vRoleUUID uuid; 
+		vRoleUUID uuid;
 		vGrants text[] := '{authorization_code, password, refresh_token, client_credentials}';
-		vRedirectUris text[] := '{http://localhost:3004/auth/iuno}';
-		
+		vRedirectUris text[] := '{http://localhost:3004/auth/iuno/callback}';
 
 	Begin
 		--Create Role
