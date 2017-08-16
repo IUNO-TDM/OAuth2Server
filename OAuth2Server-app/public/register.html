@@ -1,65 +1,90 @@
 <!doctype html>
-<html>
+<html ng-app="myApp">
 <head>
     <title>IUNO Technology Marketplace</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <style>
-        body{
+        body {
             background-color: #525252;
         }
-        .centered-form{
+
+        .centered-form {
             margin-top: 60px;
         }
 
-        .centered-form .panel{
+        .centered-form .panel {
             background: rgba(255, 255, 255, 0.8);
             box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
         }
     </style>
+    <script>
+        var check = function () {
+            if (document.getElementById('password').value ==
+                document.getElementById('confirm_password').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = '<label class="fa fa-check"></label>';
+                document.getElementById('register').disabled = false;
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = '<label class="fa fa-times"> passwords do not match</label>';
+                document.getElementById('register').disabled = true;
+            }
+        }
+    </script>
 </head>
-<body  background="img/bg_green.jpg">
+<body background="img/bg_green.jpg" ng-controller="stageController">
 <div class="container">
     <div class="row centered-form">
         <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Please sign up for IUNO Marketplace <small>It's free!</small></h3>
+                    <h3 class="panel-title">Please sign up for IUNO Marketplace
+                        <small>It's free!</small>
+                    </h3>
                 </div>
                 <div class="panel-body">
                     <form action="/passport/signup" method="post" role="form">
                         <div class="row">
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
-                                    <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name">
+                                    <input type="text" name="first_name" id="first_name" class="form-control input-sm"
+                                           placeholder="First Name*" required>
                                 </div>
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
-                                    <input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name">
+                                    <input type="text" name="last_name" id="last_name" class="form-control input-sm"
+                                           placeholder="Last Name*" required>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <input type="email" name="email" id="email" class="form-control input-sm" placeholder="Email Address">
+                            <input type="email" name="email" id="email" class="form-control input-sm"
+                                   placeholder="Email Address*" required>
                         </div>
 
                         <div class="row">
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
-                                    <input type="password" name="password" id="password" class="form-control input-sm" placeholder="Password">
+                                    <input type="password" minlength="8" name="password" id="password"
+                                           class="form-control input-sm" placeholder="Password*"
+                                           required onkeyup='check();'>
                                 </div>
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
-                                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password">
+                                    <input type="password" name="confirm_password" minlength="8"
+                                           id="confirm_password" class="form-control input-sm"
+                                           placeholder="Confirm Password*"
+                                           data-bv-excluded="false" data-match="#password" required onkeyup='check();'>
                                 </div>
                             </div>
+                            <small class="col-xs-6 col-sm-6 col-md-6" id='message'></small>
                         </div>
-
-                        <input type="submit" value="Register" class="btn btn-info btn-block">
-
+                        <input type="submit" id="register" value="Register" class="btn btn-info btn-block">
+                        <small class="create-account text">* Required fields.</small>
                     </form>
                 </div>
             </div>
