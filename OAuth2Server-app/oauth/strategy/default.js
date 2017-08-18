@@ -58,7 +58,7 @@ function getAccessToken(bearerToken) {
 }
 
 function getClient(clientID, clientSecret) {
-    logger.info('GetClient ', clientID, clientSecret);
+    logger.info('GetClient ', clientID);
 
     var dbDone;
     var _data = null;
@@ -97,7 +97,7 @@ function getClient(clientID, clientSecret) {
 }
 
 function getUser(username, password) {
-    logger.info('GetUser ', username, password);
+    logger.info('GetUser ', username);
     var dbDone;
     var _data;
     dbUser.getUser(username, password, function (err, data) {
