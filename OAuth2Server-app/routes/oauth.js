@@ -38,13 +38,13 @@ router.all('/token', function (req, res, next) {
                 });
             }).catch(function (err) {
                 logger.crit(err);
-            return res.status(500);
+            return res.sendStatus(500);
         })
     }
 );
 
 
-router.get('/authorise', isLoggedIn, function (req, res) {
+router.get('/authorise', isLoggedIn, function (req, res, next) {
 
     var oAuth = require('../oauth/oauth')('default');
 
@@ -60,7 +60,8 @@ router.get('/authorise', isLoggedIn, function (req, res) {
         //  return callback(null, true, req.user);
         res.redirect(data.redirectUri + '?code=' + data.authorizationCode)
     }).catch(function (err) {
-        res.status(err.code || 500).json(err)
+        logger.crit(err);
+        res.sendStatus(500);
     })
 });
 
