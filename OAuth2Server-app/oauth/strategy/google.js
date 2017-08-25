@@ -58,6 +58,7 @@ function getUser(id, token) {
     //Check if the token was requested by one of our trusted clients
     //aud 	always 	Identifies the audience that this ID token is intended for. It must be one of the OAuth 2.0 client IDs of your application.
     if (config.ALLOWED_CLIENT_IDS.indexOf(dict.tokenInfo.aud) < 0) {
+        logger.warn('[strategy/google] ' + dict.tokenInfo.aud + ' is not a known Google oAuth Client. (Check config file)');
         return false
     }
 
