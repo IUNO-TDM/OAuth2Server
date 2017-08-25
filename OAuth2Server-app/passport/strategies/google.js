@@ -31,7 +31,7 @@ function getToken(username, password, clientId, clientSecret, done) {
         },
         headers: {
             'authorization': 'Basic ' + new Buffer(clientId + ':' + clientSecret).toString('base64'),
-            'content-type':'application/x-www-form-urlencoded',
+            'content-type': 'application/x-www-form-urlencoded',
             'content-length': contentLength
         },
         method: 'POST',
@@ -62,16 +62,23 @@ module.exports = function (passport) {
     // =========================================================================
     // GOOGLE ==================================================================
     // =========================================================================
-    passport.use(new GoogleStrategy({
+    try {
+        passport.use(new GoogleStrategy({
 
-            clientID: CONFIG.OAUTH_PROVIDER.googleAuth.clientID,
-            clientSecret: CONFIG.OAUTH_PROVIDER.googleAuth.clientSecret,
-            callbackURL: CONFIG.OAUTH_PROVIDER.googleAuth.callbackURL,
-            passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
+                clientID: CONFIG.OAUTH_PROVIDER.googleAuth.clientID,
+                clientSecret: CONFIG.OAUTH_PROVIDER.googleAuth.clientSecret,
+                callbackURL: CONFIG.OAUTH_PROVIDER.googleAuth.callbackURL,
+                passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
 
-        },
-        function (req, token, refreshToken, profile, done) {
+            },
+            function (req, token, refreshToken, profile, done) {
 
-            getToken(profile.id, token, CONFIG.OAUTH_CREDENTIALS.CLIENT_ID, CONFIG.OAUTH_CREDENTIALS.CLIENT_SECRET, done);
-        }));
+                getToken(profile.id, token, CONFIG.OAUTH_CREDENTIALS.CLIENT_ID, CONFIG.OAUTH_CREDENTIALS.CLIENT_SECRET, done);
+            }));
+
+    } catch (err) {
+        logger.warn(err);
+        logger.warn('[strategies/google] Google oAuth was not configured');
+    }
+
 };
