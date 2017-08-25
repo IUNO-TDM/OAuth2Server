@@ -1210,7 +1210,7 @@ $$
 		vUserUUID uuid;
 		vRoleUUID uuid;
 		vGrants text[] := '{authorization_code, password, refresh_token, client_credentials}';
-		vRedirectUris text[] := '{http://localhost:3004/auth/iuno/callback, http://tdm990101:3004/auth/iuno/callback, }';
+		vRedirectUris text[] := '{http://localhost:3004/auth/iuno/callback, http://tdm990101:3004/auth/iuno/callback}';
 
 	Begin
 		--Create Role
