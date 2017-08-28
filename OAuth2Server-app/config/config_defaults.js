@@ -20,7 +20,7 @@ self.ALLOWED_CLIENT_IDS = [
 self.OAUTH_ORIGINS = {
     GOOGLE_TOKEN_INFO: 'https://www.googleapis.com/oauth2/v3/tokeninfo',
     GOOGLE_USER_INFO: 'https://www.googleapis.com/oauth2/v3/userinfo',
-    TWITTER_TOKEN_INFO: 'https://api.twitter.com/1.1/account/verify_credentials.json'
+    TWITTER_PROFILE_INFO: 'https://api.twitter.com/1.1/account/verify_credentials.json'
 };
 
 self.DB_CONNECTION_STRING = "postgres://{username}:{password}@{host}:{port}/{database}";

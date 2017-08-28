@@ -4,72 +4,10 @@
 
 const LocalStrategy = require('passport-local').Strategy;
 const logger = require('../../global/logger');
-
-const oauthServer = require('oauth2-server');
-const Request = oauthServer.Request;
-const Response = oauthServer.Response;
+const oauthWrapper = require('../oauth_wrapper');
 
 const User = require('../../database/model/user');
 const CONFIG = require('../../config/config_loader');
-
-const helper = require('../../services/helper_service');
-
-function getToken(email, password, clientId, clientSecret, done) {
-
-    const contentLength = helper.xwwwfurlenc({
-        grant_type: 'password',
-        username: email,
-        password: password
-    }).length;
-
-    const options = {
-        body: {
-            grant_type: 'password',
-            username: email,
-            password: password
-        },
-        headers: {
-            'authorization': 'Basic ' + new Buffer(clientId + ':' + clientSecret).toString('base64'),
-            'content-type': 'application/x-www-form-urlencoded',
-            'content-length': contentLength
-        },
-        method: 'POST',
-        query: {}
-    };
-
-    var oAuth = require('../../oauth/oauth')('default');
-    var request = new Request(options);
-    var response = new Response();
-
-    oAuth
-        .token(request, response)
-        .then(function (token) {
-            return done(null, {
-                id: email,
-                token: token
-            });
-
-        }).catch(function (err) {
-
-        logger.warn(err);
-
-        return done(false);
-    })
-}
-
-function authorise(req, done) {
-    var oAuth = require('../../oauth/oauth')('default');
-    var request = new Request(req);
-    var response = new Response();
-
-
-    oAuth.authorize(request, response).then(function (success) {
-        logger.log(success);
-    }).catch(function (err) {
-        logger.log(err);
-    })
-
-}
 
 module.exports = function (passport) {
     logger.debug('Configure user/pwd auth');
@@ -90,7 +28,7 @@ module.exports = function (passport) {
 
             req.body.username = email;
 
-            getToken(email, password, CONFIG.OAUTH_CREDENTIALS.CLIENT_ID, CONFIG.OAUTH_CREDENTIALS.CLIENT_SECRET, done);
+            oauthWrapper.getToken(email, password, 'default', done);
         }));
 
 
@@ -131,7 +69,7 @@ module.exports = function (passport) {
                         return done(null, false, {message: 'Registration failed. Username maybe already used.'});
                     }
 
-                    getToken(email, password, CONFIG.OAUTH_CREDENTIALS.CLIENT_ID, CONFIG.OAUTH_CREDENTIALS.CLIENT_SECRET, done);
+                    oauthWrapper.getToken(email, password, 'default', done);
                 });
             });
 

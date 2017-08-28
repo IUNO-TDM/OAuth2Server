@@ -38,6 +38,29 @@ module.exports = function (passport) {
     });
 
     // =============================================================================
+    // AUTHENTICATE (TWITTER) ==================================================
+    // =============================================================================
+
+    router.get('/twitter', function (req, res, next) {
+        logger.info('twitter login');
+
+        passport.authenticate('twitter', {
+            scope: 'email',
+            approvalPrompt: 'force'
+        })(req, res, next);
+    });
+
+    router.get('/twitter/callback', function (req, res, next) {
+        logger.info('twitter callback');
+
+        passport.authenticate('twitter', {
+            successRedirect: req.session.redirectTo,
+            failureRedirect: '/login.html?failure=true',
+            failureFlash: true
+        })(req, res, next);
+    });
+
+    // =============================================================================
     // AUTHENTICATE (LOCAL) ==================================================
     // =============================================================================
 
