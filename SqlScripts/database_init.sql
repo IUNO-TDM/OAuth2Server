@@ -1045,7 +1045,7 @@ $BODY$
   ROWS 1000;
 -- ##########################################################################
 -- SetUser
-CREATE FUNCTION SetUser(
+CREATE FUNCTION public.setuser(
     IN vexternalid character varying,
     IN vusername character varying,
     IN vfirstname character varying,
@@ -1054,9 +1054,9 @@ CREATE FUNCTION SetUser(
     IN voauth2provider character varying,
     IN vimgpath character varying,
     IN vthumbnail bytea,
-    IN vUserRoles text[],
+    IN vuserroles text[],
     IN vuserpwd character varying)
-RETURNS TABLE(id uuid, firstname character varying, lastname character varying, useremail character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+  RETURNS TABLE(id uuid, firstname character varying, lastname character varying, useremail character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$
 		#variable_conflict use_column
 		DECLARE vUserID integer := (select nextval('UserID'));
@@ -1066,7 +1066,7 @@ $BODY$
 			vRoleUUID uuid;
       BEGIN
 		INSERT INTO users (userid,externalid,useruuid,username,firstname,lastname,useremail,oauth2provider,createdat,imgpath,thumbnail, userPwd)
-		VALUES(vUserID,vexternalid,vUserUUID,vusername,vfirstname,vlastname,vuseremail,voauth2provider,now(),vimgpath,vthumbnail, vUserPWD);
+		VALUES(vUserID,vexternalid,vUserUUID,lower(vusername),vfirstname,vlastname,lower(vuseremail),voauth2provider,now(),vimgpath,vthumbnail, vUserPWD);
 
 		FOREACH vRoleName in array vUserRoles
 		LOOP

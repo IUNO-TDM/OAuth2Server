@@ -115,7 +115,7 @@ module.exports = function (passport) {
                     null,
                     req.body.first_name,
                     req.body.last_name,
-                    req.body.email,
+                    email,
                     'iuno',
                     null,
                     null,
