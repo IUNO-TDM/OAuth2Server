@@ -99,13 +99,13 @@ User.prototype.Delete = function () {
 
 User.prototype.getPrivateData = function () {
     return _.pick(this, [
-        'id', 'username', 'externalid', 'firstname', 'lastname', 'useremail', 'oauth2provider'
+        'id', 'externalid', 'firstname', 'lastname', 'useremail', 'oauth2provider'
     ]);
 };
 
 User.prototype.getPublicData = function () {
     return _.pick(this, [
-        'id', 'username'
+        'id', 'firstname', 'lastname'
     ]);
 };
 
