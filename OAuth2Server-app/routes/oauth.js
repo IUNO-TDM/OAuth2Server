@@ -33,12 +33,16 @@ router.all('/token', function (req, res, next) {
         oAuth
             .token(request, response)
             .then(function (token) {
+                if (!token) {
+                    return res.sendStatus(401);
+                }
+
                 return res.json({
                     access_token: token
                 });
             }).catch(function (err) {
                 logger.crit(err);
-            return res.sendStatus(500);
+            return res.sendStatus(401);
         })
     }
 );
@@ -61,7 +65,7 @@ router.get('/authorise', isLoggedIn, function (req, res, next) {
         res.redirect(data.redirectUri + '?code=' + data.authorizationCode)
     }).catch(function (err) {
         logger.crit(err);
-        res.sendStatus(500);
+        return res.sendStatus(401);
     })
 });
 

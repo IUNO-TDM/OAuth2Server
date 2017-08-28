@@ -47,7 +47,7 @@ module.exports = function (passport) {
 
         passport.authenticate('local-login', {
             successRedirect: req.session.redirectTo,
-            failureRedirect: '/login.html'
+            failureRedirect: '/login.html?failure=true'
         })(req, res, next);
     });
 
@@ -56,7 +56,7 @@ module.exports = function (passport) {
 
         passport.authenticate('local-signup', {
             successRedirect: req.session.redirectTo,
-            failureRedirect: '/login.html'
+            failureRedirect: '/register.html?failure=true'
         })(req, res, next);
     });
 

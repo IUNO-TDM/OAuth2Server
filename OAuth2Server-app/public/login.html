@@ -11,6 +11,11 @@
     <a href="landingpage/iuno.html"> <img src="img/logo_iuno_rgb_quer_klein.png" style="padding-left: 0.5%; padding-top: 0.5%"/></a>
 </div>
 <div class="container">
+    <script>
+        if (window.location.search.indexOf('failure=true') > -1) {
+            alert('Login Fehlgeschlagen. Bitte versuche es später erneut.');
+        }
+    </script>
     <script id="metamorph-1-start" type="text/x-placeholder"></script><script id="metamorph-21-start" type="text/x-placeholder"></script>
 
     <div class="container text-center">
@@ -18,11 +23,11 @@
             <h2 class="form-signin-heading">Login mit</h2>
             <br>
             <p>
-                <a class="btn btn-primary social-login-btn social-facebook" href="/passport/facebook"><i class="fa fa-facebook"></i></a>
+                <a class="btn btn-primary social-login-btn social-linkedin" href="/passport/linkedin"><i class="fa fa-linkedin"></i></a>
                 <a class="btn btn-primary social-login-btn social-twitter" href="/passport/twitter"><i class="fa fa-twitter"></i></a>
             </p>
             <p>
-                <a class="btn btn-primary social-login-btn social-linkedin" href="/passport/linkedin"><i class="fa fa-linkedin"></i></a>
+                <a class="btn btn-primary social-login-btn social-facebook" href="/passport/facebook"><i class="fa fa-facebook"></i></a>
                 <a class="btn btn-primary social-login-btn social-google" href="/passport/google"><i class="fa fa-google-plus"></i></a>
             </p>
             <br><br>

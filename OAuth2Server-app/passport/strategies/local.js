@@ -51,7 +51,9 @@ function getToken(email, password, clientId, clientSecret, done) {
 
         }).catch(function (err) {
 
-        return done(err);
+        logger.warn(err);
+
+        return done(false);
     })
 }
 
