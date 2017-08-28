@@ -1066,7 +1066,7 @@ $BODY$
 			vRoleUUID uuid;
       BEGIN
 		INSERT INTO users (userid,externalid,useruuid,username,firstname,lastname,useremail,oauth2provider,createdat,imgpath,thumbnail, userPwd)
-		VALUES(vUserID,vexternalid,vUserUUID,lower(vusername),vfirstname,vlastname,lower(vuseremail),voauth2provider,now(),vimgpath,vthumbnail, vUserPWD);
+		VALUES(vUserID,vexternalid,vUserUUID,vusername,vfirstname,vlastname,lower(vuseremail),voauth2provider,now(),vimgpath,vthumbnail, vUserPWD);
 
 		FOREACH vRoleName in array vUserRoles
 		LOOP
