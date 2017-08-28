@@ -32,7 +32,7 @@ module.exports = function (passport) {
 
         passport.authenticate('google', {
             successRedirect: req.session.redirectTo,
-            failureRedirect: '/login.html',
+            failureRedirect: '/login.html?failure=true',
             failureFlash: true
         })(req, res, next);
     });

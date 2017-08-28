@@ -59,6 +59,16 @@ function getToken(username, password, clientId, clientSecret, done) {
 module.exports = function (passport) {
     logger.debug('Configure google oauth');
 
+    if (!CONFIG.OAUTH_PROVIDER.googleAuth.clientID ||
+        !CONFIG.OAUTH_PROVIDER.googleAuth.clientSecret ||
+        !CONFIG.OAUTH_PROVIDER.googleAuth.callbackURL) {
+
+        logger.warn('[strategies/google] Missing Google oAuth configuration');
+        logger.warn('[strategies/google] Google oAuth was not configured');
+        return;
+    }
+
+
     // =========================================================================
     // GOOGLE ==================================================================
     // =========================================================================

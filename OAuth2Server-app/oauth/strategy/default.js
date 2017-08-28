@@ -11,9 +11,9 @@ var dbAuthorization = require('../../database/function/authorization');
 function getAccessToken(bearerToken) {
     logger.info('GetAccessToken', bearerToken);
 
-    var dbDone;
-    var token;
-    var _user;
+    var dbDone = false;
+    var token = false;
+    var _user = false;
 
     dbToken.getAccessToken(bearerToken, function (err, data) {
         token = data;
