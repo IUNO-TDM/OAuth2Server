@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-    <title>IUNO Technology Marketplace</title>
+    <title>IUNO Technologie Marktplatz</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
@@ -11,11 +11,6 @@
     <a href="landingpage/iuno.html"> <img src="img/logo_iuno_rgb_quer_klein.png" style="padding-left: 0.5%; padding-top: 0.5%"/></a>
 </div>
 <div class="container">
-    <script>
-        if (window.location.search.indexOf('failure=true') > -1) {
-            alert('Login Fehlgeschlagen. Bitte versuche es später erneut.');
-        }
-    </script>
     <script id="metamorph-1-start" type="text/x-placeholder"></script><script id="metamorph-21-start" type="text/x-placeholder"></script>
 
     <div class="container text-center">
@@ -34,8 +29,16 @@
             <small class="text">oder mit IUNO</small>
             <br><br>
 
-            <input name="email" id="ember360" class="ember-view ember-text-field form-control login-input" placeholder="Email Address" type="text" required>
-            <input name="password" minlength="8" id="ember361" class="ember-view ember-text-field form-control login-input-pass" placeholder="Password" type="password" required>
+            <div id="failure_alert" class="alert alert-danger">Login fehlgeschlagen. Benutzername oder Passwort falsch.</div>
+            <script>
+                var display = "none";
+                if (window.location.search.indexOf('failure=true') > -1) {
+                    display = ""
+                }
+                document.getElementById('failure_alert').style.display = display;
+            </script>
+            <input name="email" id="ember360" class="ember-view ember-text-field form-control login-input" placeholder="Email Adresse" type="text" required>
+            <input name="password" minlength="8" id="ember361" class="ember-view ember-text-field form-control login-input-pass" placeholder="Passwort" type="password" required>
 
             <script id="metamorph-22-start" type="text/x-placeholder"></script><script id="metamorph-22-end" type="text/x-placeholder"></script>
 

@@ -1,7 +1,7 @@
 <!doctype html>
 <html >
 <head>
-    <title>IUNO Technology Marketplace</title>
+    <title>IUNO Technologie Marktplatz</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <style>
@@ -34,18 +34,16 @@
     </script>
 </head>
 <body background="img/bg_green.jpg" ng-controller="stageController">
-<script>
-    if (window.location.search.indexOf('failure=true') > -1) {
-        alert('Registrierung fehlgeschlagen. Benutzer existiert bereits.');
-    }
-</script>
+<div class="">
+    <a href="landingpage/iuno.html"> <img src="img/logo_iuno_rgb_quer_klein.png" style="padding-left: 0.5%; padding-top: 0.5%"/></a>
+</div>
 <div class="container">
     <div class="row centered-form">
         <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Please sign up for IUNO Marketplace
-                        <small>It's free!</small>
+                    <h3 class="panel-title">Bitte registriere dich auf dem IUNO Marktplatz
+                        <small>Es ist kostenlos!</small>
                     </h3>
                 </div>
                 <div class="panel-body">
@@ -54,27 +52,27 @@
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
                                     <input type="text" name="first_name" id="first_name" class="form-control input-sm"
-                                           placeholder="First Name*" required>
+                                           placeholder="Vorname*" required>
                                 </div>
                             </div>
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
                                     <input type="text" name="last_name" id="last_name" class="form-control input-sm"
-                                           placeholder="Last Name*" required>
+                                           placeholder="Nachname*" required>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <input type="email" name="email" id="email" class="form-control input-sm"
-                                   placeholder="Email Address*" required>
+                                   placeholder="Email Adresse*" required>
                         </div>
 
                         <div class="row">
                             <div class="col-xs-6 col-sm-6 col-md-6">
                                 <div class="form-group">
                                     <input type="password" minlength="8" name="password" id="password"
-                                           class="form-control input-sm" placeholder="Password*"
+                                           class="form-control input-sm" placeholder="Passwort*"
                                            required onkeyup='check();'>
                                 </div>
                             </div>
@@ -82,14 +80,22 @@
                                 <div class="form-group">
                                     <input type="password" name="confirm_password" minlength="8"
                                            id="confirm_password" class="form-control input-sm"
-                                           placeholder="Confirm Password*"
+                                           placeholder="Passwort wiederholen*"
                                            data-bv-excluded="false" data-match="#password" required onkeyup='check();'>
                                 </div>
                             </div>
                             <small class="col-xs-6 col-sm-6 col-md-6" id='message'></small>
                         </div>
-                        <input type="submit" id="register" value="Register" class="btn btn-info btn-block">
-                        <small class="create-account text">* Required fields.</small>
+                        <div id="failure_alert" class="alert alert-danger">Registrierung fehlgeschlagen. Benutzer existiert bereits.</div>
+                        <script>
+                            var display = "none";
+                            if (window.location.search.indexOf('failure=true') > -1) {
+                                display = ""
+                            }
+                            document.getElementById('failure_alert').style.display = display;
+                        </script>
+                        <input type="submit" id="register" value="Jetzt Registrieren" class="btn btn-info btn-block">
+                        <small class="create-account text">* Pflichtfelder.</small>
                     </form>
                 </div>
             </div>
