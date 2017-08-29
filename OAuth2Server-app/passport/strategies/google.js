@@ -26,14 +26,7 @@ module.exports = function (passport) {
     // GOOGLE ==================================================================
     // =========================================================================
     try {
-        passport.use(new GoogleStrategy({
-
-                clientID: CONFIG.OAUTH_PROVIDER.googleAuth.clientID,
-                clientSecret: CONFIG.OAUTH_PROVIDER.googleAuth.clientSecret,
-                callbackURL: CONFIG.OAUTH_PROVIDER.googleAuth.callbackURL,
-                passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
-
-            },
+        passport.use(new GoogleStrategy(CONFIG.OAUTH_PROVIDER.googleAuth,
             function (req, token, refreshToken, profile, done) {
 
                 oauthWrapper.getToken(profile.id, token, oAuthProvider, done);

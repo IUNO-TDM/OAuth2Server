@@ -61,6 +61,29 @@ module.exports = function (passport) {
     });
 
     // =============================================================================
+    // AUTHENTICATE (FACEBOOK) ==================================================
+    // =============================================================================
+
+    router.get('/facebook', function (req, res, next) {
+        logger.info('facebook login');
+
+        passport.authenticate('facebook', {
+            scope: ['email'],
+            approvalPrompt: 'force'
+        })(req, res, next);
+    });
+
+    router.get('/facebook/callback', function (req, res, next) {
+        logger.info('facebook callback');
+
+        passport.authenticate('facebook', {
+            successRedirect: req.session.redirectTo,
+            failureRedirect: '/login.html?failure=true',
+            failureFlash: true
+        })(req, res, next);
+    });
+
+    // =============================================================================
     // AUTHENTICATE (LOCAL) ==================================================
     // =============================================================================
 

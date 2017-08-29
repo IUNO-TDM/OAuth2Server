@@ -9,44 +9,11 @@ const CONFIG = require('../../config/config_loader');
 const dbUser = require('../../database/function/user');
 const oauth2Provider = 'twitter';
 const downloadService = require('../../services/download_service');
-const Twit = require('twit');
 
 function verifyTwitterProfile(token, tokenSecret, callback) {
 
-    var profile = false;
-
     const consumerKey = CONFIG.OAUTH_PROVIDER.twitterAuth.consumerKey;
     const consumerSecret = CONFIG.OAUTH_PROVIDER.twitterAuth.consumerSecret;
-
-
-    // const twitter = new Twit({
-    //     consumer_key: consumerKey,
-    //     consumer_secret: consumerSecret,
-    //     access_token: token,
-    //     access_token_secret: tokenSecret,
-    //     timeout_ms: 10 * 1000
-    // });
-    //
-    // twitter.get('account/verify_credentials', {
-    //     skip_status: true,
-    //     include_entities: false,
-    //     include_email: true
-    // })
-    //     .catch(function (err) {
-    //         logger.crit(err);
-    //         callback(err);
-    //     })
-    //     .then(function (result) {
-    //         if (result && result.error) {
-    //             logger.warn(result.error);
-    //         }
-    //
-    //         if (result && result.data) {
-    //             profile = result.data;
-    //         }
-    //
-    //         callback(null, profile);
-    //     });
 
     const options = {
         url: CONFIG.OAUTH_ORIGINS.TWITTER_PROFILE_INFO,
@@ -114,7 +81,7 @@ function getUser(token, tokenSecret) {
                     imagePath = filePath;
                 }
 
-                dbUser.SetUser(profile.id_str, profile.screen_name, profile.name, '',
+                dbUser.SetUser(profile.id_str, profile.screen_name, profile.name.split(' ')[0], profile.name.split(' ')[1],
                     profile.email, oauth2Provider, imagePath, null, [CONFIG.USER_ROLES.TD_OWNER], null, function (err, _user) {
                         if (err) {
                             logger.warn(err);

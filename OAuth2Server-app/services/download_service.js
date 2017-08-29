@@ -13,24 +13,31 @@ var fs = require('fs'),
 var self = {};
 
 self.downloadImageFromUrl = function (url, callback) {
-    if (!url) {
-        return callback(new Error('Empty url string'));
-    }
-    request.head(url, function (err, res, body) {
-        if (err) {
-            return callback(err);
+    try {
+        if (!url) {
+            return callback(new Error('Empty url string'));
         }
+        request.head(url, function (err, res, body) {
+            if (err) {
+                return callback(err);
+            }
 
-        var relPath = 'images/' + uuid.v1().replace('-', '') + '.' + mime.extension(res.headers['content-type']);
-        var absPath = path.resolve(relPath);
+            var relPath = 'images/' + uuid.v1().replace('-', '') + '.' + mime.extension(res.headers['content-type']);
+            var absPath = path.resolve(relPath);
 
-        //TODO: Maybe set a maximum file size
+            //TODO: Maybe set a maximum file size
 
-        request(url).pipe(fs.createWriteStream(absPath)).on('close', function (err) {
-            logger.crit(err);
-            callback(err, relPath)
+            request(url).pipe(fs.createWriteStream(absPath)).on('close', function (err) {
+                logger.crit(err);
+                callback(err, relPath)
+            });
         });
-    });
+    }
+    catch (err) {
+        callback(err);
+    }
+
+
 };
 
 module.exports = self;
