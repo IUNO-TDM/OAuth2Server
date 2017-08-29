@@ -731,10 +731,11 @@ CREATE FUNCTION createscopesroles(vscopeuuid uuid, vroleuuid uuid)
 -- ##########################################################################
 --GetUserByExternalID
 CREATE FUNCTION public.getuserbyexternalid(IN vexternalid character varying)
-  RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+  RETURNS TABLE(id uuid, externalid character varying, username character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$
 	SELECT  useruuid,
 		externalid,
+		username,
 		firstname,
 		lastname,
 		useremail,
@@ -751,6 +752,7 @@ $BODY$
 	group by
 		useruuid,
 		externalid,
+		username,
 		firstname,
 		lastname,
 		useremail,
@@ -808,10 +810,11 @@ $BODY$
 -- ##########################################################################
 --GetUserByID
 CREATE FUNCTION public.getuserbyid(IN vuseruuid uuid)
-  RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
+  RETURNS TABLE(id uuid, externalid character varying, username character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$
 	SELECT  useruuid,
 		externalid,
+		username,
 		firstname,
 		lastname,
 		useremail,
@@ -828,6 +831,7 @@ $BODY$
 	group by
 		useruuid,
 		externalid,
+		username,
 		firstname,
 		lastname,
 		useremail,
