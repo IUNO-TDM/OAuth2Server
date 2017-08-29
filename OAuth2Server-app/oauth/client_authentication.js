@@ -15,9 +15,6 @@ module.exports = function (req, res, next) {
 
     var user = basicAuth(req);
 
-    console.log(req.headers);
-    console.log(user);
-
     if (!user || !user.name || !user.pass) {
         return unauthorized(res);
     }
