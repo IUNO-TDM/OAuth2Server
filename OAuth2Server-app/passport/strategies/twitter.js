@@ -4,7 +4,7 @@
 
 const TwitterStrategy = require('passport-twitter').Strategy;
 const oAuthConfig = require('../../config/config_loader').OAUTH_PROVIDER;
-const config = require('../../config/config_loader');
+const CONFIG = require('../../config/config_loader');
 const logger = require('../../global/logger');
 const oauthWrapper = require('../oauth_wrapper');
 
@@ -13,13 +13,25 @@ const oAuthProvider = 'twitter';
 module.exports = function (passport) {
     logger.debug('Configure twitter oauth');
 
-    // =========================================================================
-    // GOOGLE ==================================================================
-    // =========================================================================
-    passport.use(new TwitterStrategy(oAuthConfig.twitterAuth,
-        function (req, token, tokenSecret, profile, done) {
+    if (!CONFIG.OAUTH_PROVIDER.twitterAuth.consumerKey ||
+        !CONFIG.OAUTH_PROVIDER.twitterAuth.consumerSecret) {
 
-            oauthWrapper.getToken(token, tokenSecret, oAuthProvider, done);
+        logger.warn('[strategies/twitter] Missing Twitter oAuth configuration');
+        logger.warn('[strategies/twitter] Twitter oAuth was not configured');
 
-        }));
+        return;
+    }
+
+    try {
+        passport.use(new TwitterStrategy(oAuthConfig.twitterAuth,
+            function (req, token, tokenSecret, profile, done) {
+
+                oauthWrapper.getToken(token, tokenSecret, oAuthProvider, done);
+
+            }));
+    }
+    catch(err) {
+        logger.warn(err);
+        logger.warn('[strategies/twitter] Twitter oAuth was not configured');
+    }
 };
