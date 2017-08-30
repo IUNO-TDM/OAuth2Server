@@ -9,6 +9,7 @@ const CONFIG = require('../../config/config_loader');
 const dbUser = require('../../database/function/user');
 const oauth2Provider = 'twitter';
 const downloadService = require('../../services/download_service');
+const Promise = require('promise');
 
 function verifyTwitterProfile(token, tokenSecret, callback) {
 
@@ -45,64 +46,46 @@ function verifyTwitterProfile(token, tokenSecret, callback) {
 function getUser(token, tokenSecret) {
     logger.info('getUser (twitter)');
 
-    var profile = false;
-    var twitterCallback = false;
+    return new Promise(function (fulfill, reject) {
+        verifyTwitterProfile(token, tokenSecret, function (err, profile) {
+            if (err && !profile) {
+                logger.warn(err);
+                return fulfill(false);
+            }
 
-    verifyTwitterProfile(token, tokenSecret, function (err, _profile) {
-        if (!err && _profile) {
-            profile = _profile;
-        }
-
-        twitterCallback = true;
-    });
-
-    require('deasync').loopWhile(function () {
-        return !twitterCallback;
-    });
-
-    var user = null;
-    var dbDone = false;
-    dbUser.getUserByExternalID(profile.id_str, function (err, _user) {
-        user = _user;
-
-        if (err) {
-            logger.warn(err);
-        }
-
-        if (!user) {
-            downloadService.downloadImageFromUrl(profile.profile_image_url, function (err, filePath) {
-                var imagePath = '';
-
+            dbUser.getUserByExternalID(profile.id_str, function (err, user) {
                 if (err) {
                     logger.warn(err);
                 }
 
-                if (!err) {
-                    imagePath = filePath;
+                if (user) {
+                    return fulfill(user);
                 }
+                if (!user) {
+                    downloadService.downloadImageFromUrl(profile.profile_image_url, function (err, filePath) {
+                        var imagePath = '';
 
-                dbUser.SetUser(profile.id_str, profile.screen_name, profile.name.split(' ')[0], profile.name.split(' ')[1],
-                    profile.email, oauth2Provider, imagePath, null, [CONFIG.USER_ROLES.TD_OWNER], null, function (err, _user) {
                         if (err) {
                             logger.warn(err);
                         }
 
-                        user = _user;
-                        dbDone = true;
+                        if (!err) {
+                            imagePath = filePath;
+                        }
+
+                        dbUser.SetUser(profile.id_str, profile.screen_name, profile.name.split(' ')[0], profile.name.split(' ')[1],
+                            profile.email, oauth2Provider, imagePath, null, [CONFIG.USER_ROLES.TD_OWNER], null, function (err, _user) {
+                                if (err) {
+                                    logger.warn(err);
+                                }
+
+                                return fulfill(_user);
+                            });
                     });
+                }
             });
-        }
-        else {
-            dbDone = true;
-        }
+        });
     });
-
-
-    require('deasync').loopWhile(function () {
-        return !dbDone;
-    });
-
-    return user;
 }
 
 

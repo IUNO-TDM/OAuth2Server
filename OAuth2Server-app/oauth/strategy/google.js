@@ -2,109 +2,111 @@
  * Created by beuttlerma on 04.07.17.
  */
 
-var logger = require('../../global/logger');
-var request = require('request');
-var defaultStrategy = require('./default');
-var config = require('../../config/config_loader');
-var dbUser = require('../../database/function/user');
-var oauth2Provider = 'google';
-var downloadService = require('../../services/download_service');
+const logger = require('../../global/logger');
+const request = require('request');
+const defaultStrategy = require('./default');
+const config = require('../../config/config_loader');
+const dbUser = require('../../database/function/user');
+const oauth2Provider = 'google';
+const downloadService = require('../../services/download_service');
+const Promise = require('promise');
 
 function getUserAndTokenInfo(token) {
 
-    var userInfo;
-    var tokenInfo;
+    return new Promise(function (fulfill, reject) {
+        Promise.all([
+            new Promise(function (fulfill, reject) {
+                request(config.OAUTH_ORIGINS.GOOGLE_USER_INFO + '?access_token=' + token, function (err, response, body) {
+                    if (err) {
+                        logger.crit(err);
+                    }
 
-    request(config.OAUTH_ORIGINS.GOOGLE_USER_INFO + '?access_token=' + token, function (err, response, body) {
-        if (err) {
-            logger.crit(err);
-        }
-        // logger.debug(response);
-        logger.debug(body);
+                    const userInfo = JSON.parse(body);
 
-        userInfo = JSON.parse(body);
+                    return fulfill(userInfo);
+                });
+            }),
+            new Promise(function (fulfill, reject) {
+                request(config.OAUTH_ORIGINS.GOOGLE_TOKEN_INFO + '?access_token=' + token, function (err, response, body) {
+                    if (err) {
+                        logger.crit(err);
+                    }
+                    // logger.debug(response);
+                    logger.debug(body);
+
+                    const tokenInfo = JSON.parse(body);
+
+                    return fulfill(tokenInfo);
+                });
+            })
+        ]).then(function (result) {
+            return fulfill({
+                userInfo: result[0],
+                tokenInfo: result[1]
+            });
+        }).catch(function (err) {
+            return reject(err);
+        });
     });
 
-    request(config.OAUTH_ORIGINS.GOOGLE_TOKEN_INFO + '?access_token=' + token, function (err, response, body) {
-        if (err) {
-            logger.crit(err);
-        }
-        // logger.debug(response);
-        logger.debug(body);
-
-        tokenInfo = JSON.parse(body);
-    });
-
-    require('deasync').loopWhile(function () {
-        return !userInfo || !tokenInfo;
-    });
-
-
-    return {
-        userInfo: userInfo,
-        tokenInfo: tokenInfo
-    };
 }
 
 function getUser(id, token) {
     logger.info('getUser (google)');
-    var dict = getUserAndTokenInfo(token);
 
-
-    if (dict.userInfo.sub !== id) {
-        return false;
-    }
-
-    //Check if the token was requested by one of our trusted clients
-    //aud 	always 	Identifies the audience that this ID token is intended for. It must be one of the OAuth 2.0 client IDs of your application.
-    if (config.ALLOWED_CLIENT_IDS.indexOf(dict.tokenInfo.aud) < 0) {
-        logger.warn('[strategy/google] ' + dict.tokenInfo.aud + ' is not a known Google oAuth Client. (Check config file)');
-        return false
-    }
-
-    var user = null;
-    var dbDone = false;
-    dbUser.getUserByExternalID(id, function (err, _user) {
-        user = _user;
-
-        if (err) {
-            logger.warn(err);
-        }
-
-        if (!user) {
-            downloadService.downloadImageFromUrl(dict.userInfo.picture, function (err, filePath) {
-                var imagePath = '';
-
-                if (err) {
-                    logger.warn(err);
+    return new Promise(function (fulfill, reject) {
+        getUserAndTokenInfo(token)
+            .then(function (dict) {
+                if (dict.userInfo.sub !== id) {
+                    return false;
                 }
 
-                if (!err) {
-                    imagePath = filePath;
+                //Check if the token was requested by one of our trusted clients
+                //aud 	always 	Identifies the audience that this ID token is intended for. It must be one of the OAuth 2.0 client IDs of your application.
+                if (config.ALLOWED_CLIENT_IDS.indexOf(dict.tokenInfo.aud) < 0) {
+                    logger.warn('[strategy/google] ' + dict.tokenInfo.aud + ' is not a known Google oAuth Client. (Check config file)');
+                    return false
                 }
 
-                dbUser.SetUser(dict.userInfo.sub, dict.userInfo.name, dict.userInfo.given_name, dict.userInfo.family_name,
-                    dict.userInfo.email, oauth2Provider, imagePath, null, [config.USER_ROLES.TD_OWNER], null, function (err, _user) {
-                        if (err) {
-                            logger.warn(err);
-                        }
+                var user = null;
+                dbUser.getUserByExternalID(id, function (err, _user) {
+                    user = _user;
 
-                        user = _user;
-                        dbDone = true;
-                    });
-            });
-        }
-        else {
-            dbDone = true;
-        }
+                    if (err) {
+                        logger.warn(err);
+                    }
+
+                    if (user) {
+                        return fulfill(user);
+                    }
+
+                    if (!user) {
+                        downloadService.downloadImageFromUrl(dict.userInfo.picture, function (err, filePath) {
+                            var imagePath = '';
+
+                            if (err) {
+                                logger.warn(err);
+                            }
+
+                            if (!err) {
+                                imagePath = filePath;
+                            }
+
+                            dbUser.SetUser(dict.userInfo.sub, dict.userInfo.name, dict.userInfo.given_name, dict.userInfo.family_name,
+                                dict.userInfo.email, oauth2Provider, imagePath, null, [config.USER_ROLES.TD_OWNER], null, function (err, _user) {
+                                    if (err) {
+                                        logger.warn(err);
+                                    }
+
+                                    return fulfill(_user);
+                                });
+                        });
+                    }
+                });
+            }).catch(function (err) {
+                return reject(err);
+        });
     });
-
-
-    require('deasync').loopWhile(function () {
-        return !dbDone;
-    });
-
-    return user;
 }
 
 

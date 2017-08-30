@@ -31,7 +31,7 @@ module.exports = function (passport) {
         logger.info('google callback');
 
         passport.authenticate('google', {
-            successRedirect: req.session.redirectTo,
+            successRedirect: req.session.redirectTo || 'http://' + req.headers.host.split(':')[0] + ':3004',
             failureRedirect: '/login.html?failure=true',
             failureFlash: true
         })(req, res, next);
@@ -54,7 +54,7 @@ module.exports = function (passport) {
         logger.info('twitter callback');
 
         passport.authenticate('twitter', {
-            successRedirect: req.session.redirectTo,
+            successRedirect: req.session.redirectTo || 'http://' + req.headers.host.split(':')[0] + ':3004',
             failureRedirect: '/login.html?failure=true',
             failureFlash: true
         })(req, res, next);
@@ -77,7 +77,7 @@ module.exports = function (passport) {
         logger.info('facebook callback');
 
         passport.authenticate('facebook', {
-            successRedirect: req.session.redirectTo,
+            successRedirect: req.session.redirectTo || 'http://' + req.headers.host.split(':')[0] + ':3004',
             failureRedirect: '/login.html?failure=true',
             failureFlash: true
         })(req, res, next);
@@ -92,7 +92,7 @@ module.exports = function (passport) {
         logger.info('iuno login');
 
         passport.authenticate('local-login', {
-            successRedirect: req.session.redirectTo,
+            successRedirect: req.session.redirectTo || 'http://' + req.headers.host.split(':')[0] + ':3004',
             failureRedirect: '/login.html?failure=true'
         })(req, res, next);
     });
@@ -101,7 +101,7 @@ module.exports = function (passport) {
         logger.info('iuno signup');
 
         passport.authenticate('local-signup', {
-            successRedirect: req.session.redirectTo,
+            successRedirect: req.session.redirectTo || 'http://' + req.headers.host.split(':')[0] + ':3004',
             failureRedirect: '/register.html?failure=true'
         })(req, res, next);
     });

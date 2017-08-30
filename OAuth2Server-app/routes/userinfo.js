@@ -11,24 +11,26 @@ var User = require('../database/model/user');
 
 router.get('/', validate({query: require('../schema/userinfo_schema')}.query), function (req, res, next) {
 
-        var tokenInfo = oAuth.getAccessToken(req.query['access_token']);
-
-        //Validate token
-        if (!oAuth.validateToken(tokenInfo)) {
-            res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
-            return res.sendStatus(401);
-        }
-
-        User.FindSingle(tokenInfo.user.id, function (err, user) {
-            if (err) {
-                return next(err);
+        oAuth.getAccessToken(req.query['access_token']).then(function(tokenInfo) {
+            //Validate token
+            if (!oAuth.validateToken(tokenInfo)) {
+                res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+                return res.sendStatus(401);
             }
 
-            if (!user) {
-                return res.sendStatus(404);
-            }
+            User.FindSingle(tokenInfo.user.id, function (err, user) {
+                if (err) {
+                    return next(err);
+                }
 
-            res.json(user.getPrivateData());
+                if (!user) {
+                    return res.sendStatus(404);
+                }
+
+                res.json(user.getPrivateData());
+            });
+        }).catch(function(err){
+            next(err);
         });
     }
 );

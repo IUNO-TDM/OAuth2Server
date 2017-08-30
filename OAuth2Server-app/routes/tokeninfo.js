@@ -9,9 +9,11 @@ var oAuth = require('../oauth/strategy/default');
 
 router.get('/', validate({query: require('../schema/tokeninfo_schema')}), function (req, res, next) {
 
-        var tokenInfo = oAuth.getAccessToken(req.query['access_token']);
-
-        res.json(tokenInfo);
+        oAuth.getAccessToken(req.query['access_token']).then(function(tokenInfo) {
+            res.json(tokenInfo);
+        }).catch(function(err) {
+            next(err);
+        });
     }
 );
 

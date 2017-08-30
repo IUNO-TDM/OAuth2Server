@@ -4,7 +4,6 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const clientAuthentication = require('./oauth/client_authentication');
 const tokenAuthentication = require('./oauth/token_authentication');
 const passport = require('passport');
 const session = require('express-session');

@@ -7,6 +7,7 @@ const request = require('request');
 const defaultStrategy = require('./default');
 const CONFIG = require('../../config/config_loader');
 const dbUser = require('../../database/function/user');
+const Promise = require('promise');
 
 const oauth2Provider = 'facebook';
 
@@ -71,53 +72,35 @@ function verifyAccessToken(inputToken, callback) {
 function getUser(extId, token) {
     logger.info('getUser (facebook)');
 
-    var facebookCallback = false;
-    var isValid = true;
+    return new Promise(function (fulfill, reject) {
+        verifyAccessToken(token, function (err, tokenInfo) {
+            if (err || !tokenInfo) {
+                logger.warn(err);
+                return fulfill(false);
+            }
 
-    verifyAccessToken(token, function (err, tokenInfo) {
-        if (err || !tokenInfo) {
-            isValid = false;
-        }
+            if (CONFIG.ALLOWED_CLIENT_IDS.indexOf(tokenInfo.app_id) < 0) {
+                logger.warn('[strategy/facebook] ' + tokenInfo.app_id + ' is not a known Facebook oAuth Client. (Check config file)');
+                return fulfill(false);
+            }
 
-        if (CONFIG.ALLOWED_CLIENT_IDS.indexOf(tokenInfo.app_id) < 0) {
-            logger.warn('[strategy/facebook] ' + tokenInfo.app_id + ' is not a known Facebook oAuth Client. (Check config file)');
-            isValid = false;
-        }
+            if (tokenInfo.user_id !== extId) {
+                logger.warn('[strategy/facebook] User id linked to token does not match the user id sent by the client.')
 
-        if (tokenInfo.user_id !== extId) {
-            logger.warn('[strategy/facebook] User id linked to token does not match the user id sent by the client.')
+                return fulfill(false);
+            }
 
-            isValid = false;
-        }
 
-        facebookCallback = true;
+            dbUser.getUserByExternalID(extId, function (err, user) {
+                if (err) {
+                    logger.warn(err);
+
+                }
+
+                return fulfill(user);
+            });
+        });
     });
-
-    require('deasync').loopWhile(function () {
-        return !facebookCallback;
-    });
-
-    if (!isValid) {
-        return false;
-    }
-
-    var user = false;
-    var dbDone = false;
-
-    dbUser.getUserByExternalID(extId, function (err, _user) {
-        user = _user;
-
-        if (err) {
-            logger.warn(err);
-        }
-        dbDone = true;
-    });
-
-    require('deasync').loopWhile(function () {
-        return !dbDone;
-    });
-
-    return user;
 }
 
 

@@ -60,8 +60,6 @@ router.get('/authorise', isLoggedIn, function (req, res, next) {
     return oAuth.authorize(request, response, {
         allowEmptyState: true
     }).then(function (data) {
-        //  if (req.body.allow !== 'true') return callback(null, false);
-        //  return callback(null, true, req.user);
         res.redirect(data.redirectUri + '?code=' + data.authorizationCode)
     }).catch(function (err) {
         logger.crit(err);
