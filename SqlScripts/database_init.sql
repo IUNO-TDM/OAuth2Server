@@ -730,7 +730,7 @@ CREATE FUNCTION createscopesroles(vscopeuuid uuid, vroleuuid uuid)
   COST 100;
 -- ##########################################################################
 --GetUserByExternalID
-CREATE FUNCTION public.getuserbyexternalid(IN vexternalid character varying)
+CREATE FUNCTION public.getuserbyexternalid(IN vexternalid character varying, voauth2provider character varying)
   RETURNS TABLE(id uuid, externalid character varying, username character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, createdat timestamp with time zone, updatedat timestamp with time zone) AS
 $BODY$
 	SELECT  useruuid,
@@ -749,6 +749,7 @@ $BODY$
 		join usersroles ur on us.userid = ur.userid
 		join roles rl on rl.roleid = ur.roleid
 		where us.externalid = vExternalID
+		and us.oauth2provider = vOauth2Provider
 	group by
 		useruuid,
 		externalid,
@@ -766,7 +767,7 @@ $BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION public.getuserbyexternalid(character varying)
+ALTER FUNCTION public.getuserbyexternalid(character varying, character varying)
   OWNER TO postgres;
 -- ##########################################################################
 --GetClient

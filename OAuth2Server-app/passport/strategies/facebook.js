@@ -34,7 +34,7 @@ module.exports = function (passport) {
                 }
 
                 // Check if user account already exists in our system
-                dbUser.getUserByExternalID(profile.id + '', function (err, user) {
+                dbUser.getUserByExternalID(profile.id + '', oAuthProvider, function (err, user) {
                     if (err) {
                         logger.warn(err);
                     }

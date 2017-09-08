@@ -91,7 +91,7 @@ function getUser(extId, token) {
             }
 
 
-            dbUser.getUserByExternalID(extId, function (err, user) {
+            dbUser.getUserByExternalID(extId, oauth2Provider, function (err, user) {
                 if (err) {
                     logger.warn(err);
 

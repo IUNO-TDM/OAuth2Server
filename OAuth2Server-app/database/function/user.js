@@ -26,8 +26,8 @@ self.getUser = function(userEmail, password, callback) {
         });
 };
 
-self.getUserByExternalID = function(userid, callback) {
-    db.func('getUserByExternalID', [userid])
+self.getUserByExternalID = function(userid, oAuthProvider, callback) {
+    db.func('getUserByExternalID', [userid, oAuthProvider])
         .then(function (data) {
             if (data && data.length) {
                 data = data[0];

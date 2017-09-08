@@ -53,7 +53,7 @@ function getUser(token, tokenSecret) {
                 return fulfill(false);
             }
 
-            dbUser.getUserByExternalID(profile.id_str, function (err, user) {
+            dbUser.getUserByExternalID(profile.id_str, oauth2Provider, function (err, user) {
                 if (err) {
                     logger.warn(err);
                 }

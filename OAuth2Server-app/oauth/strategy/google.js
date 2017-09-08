@@ -69,7 +69,7 @@ function getUser(id, token) {
                 }
 
                 var user = null;
-                dbUser.getUserByExternalID(id, function (err, _user) {
+                dbUser.getUserByExternalID(id, oauth2Provider, function (err, _user) {
                     user = _user;
 
                     if (err) {
