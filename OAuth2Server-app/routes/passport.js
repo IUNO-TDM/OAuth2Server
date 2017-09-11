@@ -106,7 +106,7 @@ module.exports = function (passport) {
         })(req, res, next);
     });
 
-    router.post('/logout', function (req, res, next) {
+    router.get('/logout', function (req, res, next) {
         logger.info('iuno logout');
 
         req.logout();
