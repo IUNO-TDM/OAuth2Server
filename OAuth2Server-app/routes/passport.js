@@ -106,6 +106,14 @@ module.exports = function (passport) {
         })(req, res, next);
     });
 
+    router.post('/logout', function (req, res, next) {
+        logger.info('iuno logout');
+
+        req.logout();
+
+        res.sendStatus(200);
+    });
+
 
     return router;
 };
