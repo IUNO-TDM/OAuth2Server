@@ -111,7 +111,13 @@ module.exports = function (passport) {
 
         req.logout();
 
-        res.sendStatus(200);
+
+        if(req.query['redirect']) {
+            res.redirect(req.query['redirect']);
+        }
+        else {
+            res.sendStatus(200);
+        }
     });
 
 
