@@ -131,6 +131,10 @@ function getAuthorizationCode(code) {
 
             }
 
+            if (!code) {
+                return fulfill(false);
+            }
+
             dbUser.getUserByID(code.user, function (err, user) {
                 if (err) {
                     logger.warn(err);

@@ -9,8 +9,17 @@ module.exports = function (passport) {
 
     // LOGOUT ==============================
     router.get('/logout', function (req, res) {
+        logger.info('logout');
+
         req.logout();
-        res.redirect('/login.html');
+
+
+        if(req.query['redirect']) {
+            res.redirect(req.query['redirect']);
+        }
+        else {
+            res.redirect('/login.html');
+        }
     });
 
 
@@ -104,20 +113,6 @@ module.exports = function (passport) {
             successRedirect: req.session.redirectTo || 'http://' + req.headers.host.split(':')[0] + ':3004',
             failureRedirect: '/register.html?failure=true'
         })(req, res, next);
-    });
-
-    router.get('/logout', function (req, res, next) {
-        logger.info('iuno logout');
-
-        req.logout();
-
-
-        if(req.query['redirect']) {
-            res.redirect(req.query['redirect']);
-        }
-        else {
-            res.sendStatus(200);
-        }
     });
 
 
