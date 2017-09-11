@@ -6,7 +6,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const tokenAuthentication = require('./oauth/token_authentication');
 const passport = require('passport');
-const session = require('express-session');
+const session = require('cookie-session');
+const config = require('./config/config_loader');
 
 var app = express();
 
@@ -16,9 +17,7 @@ app.use(logger('dev'));
 //Configure Passport
 require('./passport/passport')(passport); // pass passport for configuration
 app.use(session({
-    secret: 'lbfifiou23bgofr2g18fbo2lbfl2hbfdskb2o78gf324ougf232vksjhdvfakfviy3263972i', // session secret
-    resave: true,
-    saveUninitialized: true
+    secret: config.SESSION_SECRET
 }));
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions

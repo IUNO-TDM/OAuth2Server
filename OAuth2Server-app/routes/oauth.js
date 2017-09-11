@@ -63,7 +63,9 @@ router.get('/authorise', isLoggedIn, function (req, res, next) {
         res.redirect(data.redirectUri + '?code=' + data.authorizationCode)
     }).catch(function (err) {
         logger.crit(err);
-        return res.sendStatus(401);
+        req.logout();
+
+        return res.redirect('/login.html');
     })
 });
 
