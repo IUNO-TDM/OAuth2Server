@@ -64,4 +64,6 @@ self.OAUTH_CREDENTIALS = {
     CLIENT_SECRET: ''
 };
 
+self.SESSION_SECRET = 'lbfifiou23bgofr2g18fbo2lbfl2hbfdskb2o78gf324ougf232vksjhdvfakfviy3263972i';
+
 module.exports = self;

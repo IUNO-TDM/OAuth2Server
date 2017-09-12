@@ -9,8 +9,17 @@ module.exports = function (passport) {
 
     // LOGOUT ==============================
     router.get('/logout', function (req, res) {
+        logger.info('logout');
+
         req.logout();
-        res.redirect('/login.html');
+
+
+        if(req.query['redirect']) {
+            res.redirect(req.query['redirect']);
+        }
+        else {
+            res.redirect('/login.html');
+        }
     });
 
 
