@@ -9,12 +9,13 @@
  -- Description: Routing service for TechnologyData
  -- ##########################################################################*/
 
-var express = require('express');
-var router = express.Router();
-var logger = require('../global/logger');
-var validate = require('express-jsonschema').validate;
-var User = require('../database/model/user');
-
+const express = require('express');
+const router = express.Router();
+const logger = require('../global/logger');
+const validate = require('express-jsonschema').validate;
+const User = require('../database/model/user');
+const path = require('path');
+const fs = require('fs');
 
 router.get('/:id', validate({query: require('../schema/users_schema').GetSingle}), function (req, res, next) {
 
@@ -49,14 +50,10 @@ router.get('/:id/image', validate({query: require('../schema/users_schema').GetS
             }
 
             var imgPath = user.imgpath;
-            var path = require('path');
-
             if (imgPath && imgPath.length) {
-                try {
+                const imgPath = path.resolve(imgPath);
+                if (fs.existsSync(imgPath)) {
                     return res.sendFile(path.resolve(imgPath));
-                }
-                catch (err) {
-                    logger.warn(err);
                 }
             }
 
