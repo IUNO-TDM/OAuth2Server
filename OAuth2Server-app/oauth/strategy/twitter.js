@@ -59,6 +59,7 @@ function getUser(token, tokenSecret) {
                 }
 
                 if (user) {
+                    downloadService.updateUserImage(profile.profile_image_url, user.imgpath);
                     return fulfill(user);
                 }
                 if (!user) {
