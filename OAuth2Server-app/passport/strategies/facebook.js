@@ -39,13 +39,13 @@ module.exports = function (passport) {
                         logger.warn(err);
                     }
 
+                    var profileImageUrl = null;
+                    if (profile.photos && profile.photos.length) {
+                        profileImageUrl = profile.photos[0].value;
+                    }
+
                     // If not: Download the profile image and create a user account
                     if (!user) {
-                        var profileImageUrl = null;
-                        if (profile.photos && profile.photos.length) {
-                            profileImageUrl = profile.photos[0].value;
-                        }
-
                         downloadService.downloadImageFromUrl(profileImageUrl, function (err, filePath) {
                             var imagePath = '';
 
@@ -68,6 +68,8 @@ module.exports = function (passport) {
                         });
                     }
                     else {
+
+                        downloadService.updateUserImage(profileImageUrl, user.imgpath);
                         oauthWrapper.getToken(profile.id, accessToken, oAuthProvider, done);
                     }
                 });

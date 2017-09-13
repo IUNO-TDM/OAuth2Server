@@ -77,6 +77,7 @@ function getUser(id, token) {
                     }
 
                     if (user) {
+                        downloadService.updateUserImage(dict.userInfo.picture, user.imgpath);
                         return fulfill(user);
                     }
 
