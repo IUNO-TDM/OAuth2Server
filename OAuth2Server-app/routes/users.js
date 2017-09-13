@@ -51,7 +51,7 @@ router.get('/:id/image', validate({query: require('../schema/users_schema').GetS
 
             var imgPath = user.imgpath;
             if (imgPath && imgPath.length) {
-                const imgPath = path.resolve(imgPath);
+                imgPath = path.resolve(imgPath);
                 if (fs.existsSync(imgPath)) {
                     return res.sendFile(path.resolve(imgPath));
                 }
