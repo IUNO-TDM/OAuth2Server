@@ -9,12 +9,13 @@
  -- Description: Routing service for TechnologyData
  -- ##########################################################################*/
 
-var express = require('express');
-var router = express.Router();
-var logger = require('../global/logger');
-var validate = require('express-jsonschema').validate;
-var User = require('../database/model/user');
-
+const express = require('express');
+const router = express.Router();
+const logger = require('../global/logger');
+const validate = require('express-jsonschema').validate;
+const User = require('../database/model/user');
+const path = require('path');
+const fs = require('fs');
 
 router.get('/:id', validate({query: require('../schema/users_schema').GetSingle}), function (req, res, next) {
 
@@ -49,16 +50,16 @@ router.get('/:id/image', validate({query: require('../schema/users_schema').GetS
             }
 
             var imgPath = user.imgpath;
-            var path = require('path');
-
             if (imgPath && imgPath.length) {
-                res.sendFile(path.resolve(imgPath));
-            }
-            else {
-                logger.info('No image found for user :  Sending default image instead');
-                res.sendFile(path.resolve('images/default.svg'))
+                imgPath = path.resolve(imgPath);
+                logger.debug('[users] User img path: '+ imgPath);
+                if (fs.existsSync(imgPath)) {
+                    return res.sendFile(imgPath);
+                }
             }
 
+            logger.info('No image found for user :  Sending default image instead');
+            res.sendFile(path.resolve('images/default.svg'))
         }
     });
 

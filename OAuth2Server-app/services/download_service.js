@@ -23,14 +23,8 @@ self.downloadImageFromUrl = function (url, callback) {
             }
 
             var relPath = 'images/' + uuid.v1().replace('-', '') + '.' + mime.extension(res.headers['content-type']);
-            var absPath = path.resolve(relPath);
 
-            //TODO: Maybe set a maximum file size
-
-            request(url).pipe(fs.createWriteStream(absPath)).on('close', function (err) {
-                logger.crit(err);
-                callback(err, relPath)
-            });
+            downloadImageToPath(url, relPath, callback);
         });
     }
     catch (err) {
@@ -39,5 +33,38 @@ self.downloadImageFromUrl = function (url, callback) {
 
 
 };
+
+self.updateUserImage = function(imageUrl, localImagePath) {
+    if (localImagePath && fs.existsSync(path.resolve(localImagePath))) {
+        logger.debug('[download_service] User image up-to-date');
+        //TODO: Compare images
+        return;
+    }
+
+    if (!imageUrl) {
+        logger.warn('[download_service] Missing profile image url');
+        return;
+    }
+
+    logger.info('User image is not up-do-date. Downloading it again');
+    downloadImageToPath(imageUrl, localImagePath)
+};
+
+function downloadImageToPath(url, relPath, callback) {
+    var absPath = path.resolve(relPath);
+
+    //TODO: Maybe set a maximum file size
+
+    request(url).pipe(fs.createWriteStream(absPath)).on('close', function (err) {
+
+        if (err) {
+            logger.crit(err);
+        }
+
+        if (callback) {
+            callback(err, relPath)
+        }
+    });
+}
 
 module.exports = self;
