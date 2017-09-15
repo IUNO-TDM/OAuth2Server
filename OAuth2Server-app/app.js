@@ -74,6 +74,13 @@ app.use(function (err, req, res, next) {
     }
 });
 
+if (app.get('env') !== 'development') {
+    app.use(function(err, req, res, next) {
+        //Always logout user on failure
+        req.logout();
+        next(err, req, res)
+    });
+}
 
 if (app.get('env') === 'development') {
     app.use(function (err, req, res, next) {
@@ -89,14 +96,14 @@ if (app.get('env') === 'development') {
         console.error(err.stack);
         // Send error details to the client only when the status is 4XX
         if (err.status && err.status >= 400 && err.status < 500) {
-            res.status = err.status;
+            res.status(err.status);
             res.json({
                 message: err.message,
                 error: err
             });
         }
         else {
-            res.status = 500;
+            res.status(500);
             res.send('Something broke!');
         }
     });
