@@ -16,11 +16,6 @@ app.use(logger('dev'));
 
 //Configure Passport
 require('./passport/passport')(passport); // pass passport for configuration
-app.use(session({
-    secret: config.SESSION_SECRET
-}));
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -28,8 +23,14 @@ app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Load all routes
+app.use(session({
+    secret: config.SESSION_SECRET
+}));
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
 
+
+// Load all routes
 
 app.use('/passport', require('./routes/passport')(passport));
 app.use('/oauth', require('./routes/oauth'));
