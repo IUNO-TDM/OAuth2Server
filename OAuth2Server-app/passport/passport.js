@@ -5,6 +5,35 @@ var logger = require('../global/logger');
 
 var userStore = {}; //TODO: Maybe move this into a database
 
+// Cleanup Session objects periodically
+const cleanUpInterval = setInterval(function () {
+    logger.info('[passport] Session cleanup');
+    Object.keys(userStore).forEach(function (uuid) {
+        try {
+            // Delete all sessions where refresh token has expired.
+            const session = userStore[uuid];
+            if (session) {
+                if (!session.token || !session.token.accessTokenExpiresAt) {
+                    logger.info('[passport] deleting invalid session object for user: ' + uuid);
+                    delete userStore[uuid];
+
+                    return;
+                }
+
+                if (new Date(session.token.accessTokenExpiresAt) < new Date()) {
+                    if (!session.token.refreshTokenExpiresAt || new Date(session.token.refreshTokenExpiresAt) < new Date()) {
+                        logger.info('[passport] Refresh token expired, deleting session object for user: ' + uuid);
+                        delete userStore[uuid];
+                    }
+                }
+            }
+        }
+        catch (err) {
+            logger.warn(err);
+        }
+    });
+}, 1000 * 60 * 60);
+
 function configurePassportForStragiesInPath(dirPath, passport) {
     // Loop through all the files in the temp directory
     fs.readdir(dirPath, function (err, files) {
