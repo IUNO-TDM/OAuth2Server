@@ -210,8 +210,9 @@ function getRefreshToken(refreshToken) {
                     return fulfill(token);
                 });
             }
-
-            return fulfill(null);
+            else {
+                return fulfill(null);
+            }
         });
     });
 }
