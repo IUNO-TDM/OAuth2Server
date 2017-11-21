@@ -193,20 +193,26 @@ function getRefreshToken(refreshToken) {
             if (err) {
                 logger.warn(err);
 
+                return reject(err);
             }
 
-            token.client = {id: token.client};
+            if (token) {
+                token.client = {id: token.client};
 
-            dbUser.getUserByID(token.user, function (err, user) {
-                if (err) {
-                    logger.warn(err);
+                dbUser.getUserByID(token.user, function (err, user) {
+                    if (err) {
+                        logger.warn(err);
 
-                }
+                    }
 
-                token.user = user;
+                    token.user = user;
 
-                return fulfill(token);
-            });
+                    return fulfill(token);
+                });
+            }
+            else {
+                return fulfill(null);
+            }
         });
     });
 }
