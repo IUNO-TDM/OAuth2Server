@@ -11,6 +11,15 @@ const config = require('./config/config_loader');
 
 var app = express();
 
+// Accept JSON only
+app.use('/', function (req, res, next) {
+    if (!(req.is('application/json') || req.is('application/x-www-form-urlencoded'))) {
+        return res.status(400).send('content-type not accepted');
+    }
+
+    next();
+});
+
 // basic setup
 app.use(logger('dev'));
 
