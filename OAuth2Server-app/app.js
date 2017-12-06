@@ -13,8 +13,10 @@ var app = express();
 
 // Accept JSON only
 app.use('/', function (req, res, next) {
-    if (!(req.is('application/json') || req.is('application/x-www-form-urlencoded'))) {
-        return res.status(400).send('content-type not accepted');
+    if (req.method !== 'GET' && req.method !== 'HEAD') {
+        if (!(req.is('application/json') || req.is('application/x-www-form-urlencoded'))) {
+            return res.status(400).send('content-type not accepted');
+        }
     }
 
     next();
