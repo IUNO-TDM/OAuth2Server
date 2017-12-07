@@ -5,22 +5,14 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const tokenAuthentication = require('./oauth/token_authentication');
+const contentTypeValidation = require('./services/content_type_validation');
 const passport = require('passport');
 const session = require('cookie-session');
 const config = require('./config/config_loader');
 
 var app = express();
 
-// Accept JSON only
-app.use('/', function (req, res, next) {
-    if (req.method !== 'GET' && req.method !== 'HEAD') {
-        if (!(req.is('application/json') || req.is('application/x-www-form-urlencoded'))) {
-            return res.status(400).send('content-type not accepted');
-        }
-    }
-
-    next();
-});
+app.use('/', contentTypeValidation);
 
 // basic setup
 app.use(logger('dev'));
