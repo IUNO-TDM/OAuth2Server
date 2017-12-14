@@ -1,12 +1,18 @@
 /**
  * Created by beuttlerma on 12.06.17.
  */
-var express = require('express');
-var router = express.Router();
-var logger = require('../global/logger');
-var oauthServer = require('oauth2-server');
-var Request = oauthServer.Request;
-var Response = oauthServer.Response;
+const express = require('express');
+const router = express.Router();
+const logger = require('../global/logger');
+const oauthServer = require('oauth2-server');
+const Request = oauthServer.Request;
+const Response = oauthServer.Response;
+
+const {Validator, ValidationError} = require('express-json-validator-middleware');
+const validator = new Validator({allErrors: true});
+const validate = validator.validate;
+const validation_schema = require('../schema/oauth_schema');
+
 
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
@@ -17,18 +23,20 @@ function isLoggedIn(req, res, next) {
 }
 
 
-router.all('/token', function (req, res, next) {
-        var oauthStrategy = req.body.oauth_provider;
+router.all('/token', validate({
+        query: validation_schema.Empty,
+        body: validation_schema.Token_Body
+    }), function (req, res, next) {
+        let oauthStrategy = req.body.oauth_provider;
 
         if (!oauthStrategy) {
             oauthStrategy = 'default';
         }
 
+        const oAuth = require('../oauth/oauth')(oauthStrategy);
 
-        var oAuth = require('../oauth/oauth')(oauthStrategy);
-
-        var request = new Request(req);
-        var response = new Response(res);
+        const request = new Request(req);
+        const response = new Response(res);
 
         oAuth
             .token(request, response, {
@@ -51,14 +59,17 @@ router.all('/token', function (req, res, next) {
 );
 
 
-router.get('/authorise', isLoggedIn, function (req, res, next) {
+router.get('/authorise', isLoggedIn, validate({
+    query: validation_schema.Authorise_Query,
+    body: validation_schema.Empty
+}), function (req, res, next) {
 
-    var oAuth = require('../oauth/oauth')('default');
+    const oAuth = require('../oauth/oauth')('default');
 
     req.headers['authorization'] = 'Bearer ' + req.user.token.accessToken;
 
-    var request = new Request(req);
-    var response = new Response(res);
+    const request = new Request(req);
+    const response = new Response(res);
 
     return oAuth.authorize(request, response, {
         allowEmptyState: true
