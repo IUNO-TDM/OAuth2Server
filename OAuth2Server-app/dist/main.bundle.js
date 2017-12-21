@@ -467,7 +467,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/register/register.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <div class=\"login-background\"></div> -->\n<div fxLayoutAlign=\"center center\" class=\"container\" style=\"width: 100%; height: 100%;\">\n    <div class=\"iuno-card mat-elevation-z4\" fxLayout=\"column\" fxFlex=\"grow\" fxLayoutGap=\"10px\">\n        <img fxFlexAlign=\"center\" class=\"iuno-logo\" src=\"assets/images/iuno.svg\" />\n        <div fxLayout=\"column\" fxLayoutGap=\"5px\">\n            <form [formGroup]=\"registerForm\" #formDir=\"ngForm\" (ngSubmit)=\"register()\">\n                <div fxLayout=\"column\" fxLayoutGap=\"5px\">\n                    <mat-form-field>\n                        <input matInput placeholder=\"Vorname\" name=\"firstname\" formControlName=\"first_name\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput placeholder=\"Nachname\" name=\"lastname\" formControlName=\"last_name\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput placeholder=\"E-Mail-Adresse\" name=\"email\" formControlName=\"email\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput type=\"password\" placeholder=\"Passwort\" name=\"password\" formControlName=\"password\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput type=\"password\" placeholder=\"Passwort wiederholen\" name=\"password_confirm\" formControlName=\"password_confirm\">\n                        <!-- <div *ngIf=\"passwordConfirm.invalid && (passwordConfirm.dirty || passwordConfirm.touched)\" class=\"alert alert-danger\">\n                            <div *ngIf=\"passwordConfirm != password\">\n                                Passwörter stimmen nicht überein.\n                            </div>\n                        </div> -->\n                    </mat-form-field>\n                    <div fxLayout=\"row\" fxLayoutGap=\"15px\" fxFlex=\"grow\">\n                        <button mat-button fxFlex=\"50\" class=\"iuno-cancel-button\" (click)=\"cancelRegistration()\">Abbrechen</button>\n                        <button mat-button fxFlex=\"50\" class=\"iuno-primary-button\">Registrieren</button>\n                    </div>\n                </div>\n            </form>\n        </div>\n    </div>\n</div>\n\n\n<!-- \n\n<form action=\"/passport/signup\" method=\"post\" role=\"form\">\n    <div class=\"row\">\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"text\" name=\"first_name\" id=\"first_name\" class=\"form-control input-sm\" placeholder=\"Vorname*\" required>\n            </div>\n        </div>\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"text\" name=\"last_name\" id=\"last_name\" class=\"form-control input-sm\" placeholder=\"Nachname*\" required>\n            </div>\n        </div>\n    </div>\n\n    <div class=\"form-group\">\n        <input type=\"email\" name=\"email\" id=\"email\" class=\"form-control input-sm\" placeholder=\"Email Adresse*\" required>\n    </div>\n\n    <div class=\"row\">\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"password\" minlength=\"8\" name=\"password\" id=\"password\" class=\"form-control input-sm\" placeholder=\"Passwort*\"\n                    required onkeyup='check();'>\n            </div>\n        </div>\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"password\" name=\"confirm_password\" minlength=\"8\" id=\"confirm_password\" class=\"form-control input-sm\" placeholder=\"Passwort wiederholen*\"\n                    data-bv-excluded=\"false\" data-match=\"#password\" required onkeyup='check();'>\n            </div>\n        </div>\n        <small class=\"col-xs-6 col-sm-6 col-md-6\" id='message'></small>\n    </div>\n    <div id=\"failure_alert\" class=\"alert alert-danger\">Registrierung fehlgeschlagen. Benutzer existiert bereits.</div>\n    <script>\n        var display = \"none\";\n        if (window.location.search.indexOf('failure=true') > -1) {\n            display = \"\"\n        }\n        document.getElementById('failure_alert').style.display = display;\n    </script>\n    <input type=\"submit\" id=\"register\" value=\"Jetzt Registrieren\" class=\"btn btn-info btn-block\">\n    <small class=\"create-account text\">* Pflichtfelder.</small>\n</form> -->"
+module.exports = "<!-- <div class=\"login-background\"></div> -->\n<div fxLayoutAlign=\"center center\" class=\"container\" style=\"width: 100%; height: 100%;\">\n    <div class=\"iuno-card mat-elevation-z4\" fxLayout=\"column\" fxFlex=\"grow\" fxLayoutGap=\"10px\">\n        <img fxFlexAlign=\"center\" class=\"iuno-logo\" src=\"assets/images/iuno.svg\" />\n        <div *ngIf=\"registrationFailed\" class=\"alert-error\">Registrierung fehlgeschlagen. Benutzer existiert bereits.</div>\n        <div fxLayout=\"column\" fxLayoutGap=\"5px\">\n            <form #registration action=\"/passport/signup\" method=\"POST\" [formGroup]=\"registerForm\" (submit)=\"registration.submit()\" (ngSubmit)=\"registration.submit()\">\n                <div fxLayout=\"column\" fxLayoutGap=\"5px\">\n                    <mat-form-field>\n                        <input matInput placeholder=\"Vorname\" name=\"first_name\" formControlName=\"first_name\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput placeholder=\"Nachname\" name=\"last_name\" formControlName=\"last_name\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput placeholder=\"E-Mail-Adresse\" name=\"email\" formControlName=\"email\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput type=\"password\" placeholder=\"Passwort\" name=\"password\" formControlName=\"password\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput type=\"password\" placeholder=\"Passwort wiederholen\" name=\"password_confirm\" formControlName=\"password_confirm\">\n                        <!-- <div *ngIf=\"passwordConfirm.invalid && (passwordConfirm.dirty || passwordConfirm.touched)\" class=\"alert alert-danger\">\n                            <div *ngIf=\"passwordConfirm != password\">\n                                Passwörter stimmen nicht überein.\n                            </div>\n                        </div> -->\n                    </mat-form-field>\n                    <div fxLayout=\"row\" fxLayoutGap=\"15px\" fxFlex=\"grow\">\n                        <button mat-button fxFlex=\"50\" class=\"iuno-cancel-button\" (click)=\"cancelRegistration()\">Abbrechen</button>\n                        <button mat-button type=\"submit\" fxFlex=\"50\" class=\"iuno-primary-button\">Registrieren</button>\n                    </div>\n                </div>\n            </form>\n        </div>\n    </div>\n</div>\n\n\n<!-- \n\n<form action=\"/passport/signup\" method=\"post\" role=\"form\">\n    <div class=\"row\">\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"text\" name=\"first_name\" id=\"first_name\" class=\"form-control input-sm\" placeholder=\"Vorname*\" required>\n            </div>\n        </div>\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"text\" name=\"last_name\" id=\"last_name\" class=\"form-control input-sm\" placeholder=\"Nachname*\" required>\n            </div>\n        </div>\n    </div>\n\n    <div class=\"form-group\">\n        <input type=\"email\" name=\"email\" id=\"email\" class=\"form-control input-sm\" placeholder=\"Email Adresse*\" required>\n    </div>\n\n    <div class=\"row\">\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"password\" minlength=\"8\" name=\"password\" id=\"password\" class=\"form-control input-sm\" placeholder=\"Passwort*\"\n                    required onkeyup='check();'>\n            </div>\n        </div>\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"password\" name=\"confirm_password\" minlength=\"8\" id=\"confirm_password\" class=\"form-control input-sm\" placeholder=\"Passwort wiederholen*\"\n                    data-bv-excluded=\"false\" data-match=\"#password\" required onkeyup='check();'>\n            </div>\n        </div>\n        <small class=\"col-xs-6 col-sm-6 col-md-6\" id='message'></small>\n    </div>\n    <div id=\"failure_alert\" class=\"alert alert-danger\">Registrierung fehlgeschlagen. Benutzer existiert bereits.</div>\n    <script>\n        var display = \"none\";\n        if (window.location.search.indexOf('failure=true') > -1) {\n            display = \"\"\n        }\n        document.getElementById('failure_alert').style.display = display;\n    </script>\n    <input type=\"submit\" id=\"register\" value=\"Jetzt Registrieren\" class=\"btn btn-info btn-block\">\n    <small class=\"create-account text\">* Pflichtfelder.</small>\n</form> -->"
 
 /***/ }),
 
@@ -493,19 +493,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 // Custom includes
 
 
 var RegisterComponent = (function () {
-    function RegisterComponent(router, userService) {
+    function RegisterComponent(router, route, userService) {
         this.router = router;
+        this.route = route;
         this.userService = userService;
         this.registrationRunning = false;
+        this.registrationFailed = false;
         this.user = new __WEBPACK_IMPORTED_MODULE_3__models_user__["a" /* User */]();
         this.password_confirm = "";
     }
     RegisterComponent.prototype.ngOnInit = function () {
         var _this = this;
+        var failure = this.route.snapshot.queryParams["failure"];
         this.registerForm = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["c" /* FormGroup */]({
             'first_name': new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormControl */](this.user.first_name, [
                 __WEBPACK_IMPORTED_MODULE_1__angular_forms__["k" /* Validators */].required,
@@ -533,17 +537,20 @@ var RegisterComponent = (function () {
             _this.user.email = form.email;
             _this.user.password = form.password;
         });
+        if (failure == 'true') {
+            this.registrationFailed = true;
+        }
     };
     RegisterComponent.prototype.register = function () {
         console.log("Register");
-        this.registrationRunning = true;
-        this.userService.create(this.user).subscribe(function (res) {
-            console.log("Result: ");
-            console.log(res);
-        }, function (error) {
-            console.log("Error: ");
-            console.log(error);
-        });
+        // this.registrationRunning = true;
+        // this.userService.create(this.user).subscribe(res => {
+        //   console.log("Result: ");
+        //   console.log(res);
+        // }, error => {
+        //   console.log("Error: ");
+        //   console.log(error);
+        // });
     };
     RegisterComponent.prototype.cancelRegistration = function () {
         this.router.navigateByUrl('login');
@@ -556,6 +563,7 @@ var RegisterComponent = (function () {
             providers: [__WEBPACK_IMPORTED_MODULE_4__services_user_service__["a" /* UserService */]]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */],
             __WEBPACK_IMPORTED_MODULE_4__services_user_service__["a" /* UserService */]])
     ], RegisterComponent);
     return RegisterComponent;

@@ -2,14 +2,15 @@
 <div fxLayoutAlign="center center" class="container" style="width: 100%; height: 100%;">
     <div class="iuno-card mat-elevation-z4" fxLayout="column" fxFlex="grow" fxLayoutGap="10px">
         <img fxFlexAlign="center" class="iuno-logo" src="assets/images/iuno.svg" />
+        <div *ngIf="registrationFailed" class="alert-error">Registrierung fehlgeschlagen. Benutzer existiert bereits.</div>
         <div fxLayout="column" fxLayoutGap="5px">
-            <form [formGroup]="registerForm" #formDir="ngForm" (ngSubmit)="register()">
+            <form #registration action="/passport/signup" method="POST" [formGroup]="registerForm" (submit)="registration.submit()" (ngSubmit)="registration.submit()">
                 <div fxLayout="column" fxLayoutGap="5px">
                     <mat-form-field>
-                        <input matInput placeholder="Vorname" name="firstname" formControlName="first_name">
+                        <input matInput placeholder="Vorname" name="first_name" formControlName="first_name">
                     </mat-form-field>
                     <mat-form-field>
-                        <input matInput placeholder="Nachname" name="lastname" formControlName="last_name">
+                        <input matInput placeholder="Nachname" name="last_name" formControlName="last_name">
                     </mat-form-field>
                     <mat-form-field>
                         <input matInput placeholder="E-Mail-Adresse" name="email" formControlName="email">
@@ -27,7 +28,7 @@
                     </mat-form-field>
                     <div fxLayout="row" fxLayoutGap="15px" fxFlex="grow">
                         <button mat-button fxFlex="50" class="iuno-cancel-button" (click)="cancelRegistration()">Abbrechen</button>
-                        <button mat-button fxFlex="50" class="iuno-primary-button">Registrieren</button>
+                        <button mat-button type="submit" fxFlex="50" class="iuno-primary-button">Registrieren</button>
                     </div>
                 </div>
             </form>
