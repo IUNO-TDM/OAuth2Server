@@ -1,33 +1,45 @@
-<form action="/passport/login" method="post" class="form-signin" data-ember-action="2">
-  <h2 class="form-signin-heading">Login mit</h2>
-  <br>
-  <p>
-      <!--<a class="btn btn-primary social-login-btn social-linkedin" href="/passport/linkedin"><i class="fa fa-linkedin"></i></a>-->
-      <a class="btn btn-primary social-login-btn social-twitter" href="/passport/twitter"><i class="fa fa-twitter"></i></a>
-  </p>
-  <p>
-      <a class="btn btn-primary social-login-btn social-facebook" href="/passport/facebook"><i class="fa fa-facebook"></i></a>
-      <a class="btn btn-primary social-login-btn social-google" href="/passport/google"><i class="fa fa-google-plus"></i></a>
-  </p>
-  <br><br>
-  <small class="text">oder mit IUNO</small>
-  <br><br>
-
-  <div id="failure_alert" class="alert alert-danger">Login fehlgeschlagen. Benutzername oder Passwort falsch.</div>
-  <script>
-      var display = "none";
-      if (window.location.search.indexOf('failure=true') > -1) {
-          display = ""
-      }
-      document.getElementById('failure_alert').style.display = display;
-  </script>
-  <input name="email" id="ember360" class="ember-view ember-text-field form-control login-input" placeholder="Email Adresse" type="text" required>
-  <input name="password" minlength="8" id="ember361" class="ember-view ember-text-field form-control login-input-pass" placeholder="Passwort" type="password" required>
-
-  <script id="metamorph-22-start" type="text/x-placeholder"></script><script id="metamorph-22-end" type="text/x-placeholder"></script>
-
-  <button class="btn btn-lg btn-primary btn-block btn-center" type="submit" data-bindattr-3="3">Login</button>
-  <br>
-  <button (click)="register()" mat-button class="nav-button">Jetzt registrieren</button>
-  <!-- <small class="create-account text">Noch keine IUNO Account?<br> <a id="ember363" class="ember-view btn btn-sm btn-default" href="register.html"> Jetzt registrieren </a> </small> -->
-</form>
+<!-- <div class="login-background"></div> -->
+<div fxLayoutAlign="center center" class="container" style="width: 100%; height: 100%;">
+    <div class="iuno-card mat-elevation-z4" fxLayout="column" fxFlex="grow" fxLayoutGap="10px">
+        <img fxFlexAlign="center" class="iuno-logo" src="assets/images/iuno.svg" />
+        <div *ngIf="!showIunoLogin" fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex="grow" fxLayout="column" fxLayoutGap="5px">
+                <button mat-button class="social-button social-twitter" (click)="loginTwitter()">
+                    <i class="fa fa-twitter fa-2x" aria-hidden="true"></i>&nbsp; Twitter</button>
+                <button mat-button class="social-button social-facebook" (click)="loginFacebook()">
+                    <i class="fa fa-facebook fa-2x" aria-hidden="true"></i>&nbsp; Facebook</button>
+                <button mat-button class="social-button social-google" (click)="loginGoogle()">
+                    <i class="fa fa-google fa-2x" aria-hidden="true"></i>&nbsp; Google</button>
+            </div>
+            <div class="or-container" fxLayoutAlign="center center">
+                <span class="or">oder</span>
+            </div>
+            <div fxFlex="grow" fxLayout="column" fxLayoutGap="5px">
+                <button mat-button class="social-button social-iuno" (click)="openIunoLogin()">Mit IUNO anmelden</button>
+            </div>
+        </div>
+        <div *ngIf="showIunoLogin">
+            <div *ngIf="loginFailed" class="alert-error">Login fehlgeschlagen. Benutzername oder Passwort falsch.</div>
+            <div fxLayout="column" fxLayoutGap="5px">
+                <form #login (submit)="login.submit()" (ngSubmit)="login.submit()" name="login" action="/passport/login" method="POST">
+                    <div fxLayout="column" fxLayoutGap="5px">
+                        <mat-form-field>
+                            <input matInput placeholder="E-Mail-Adresse" name="email">
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input matInput type="password" placeholder="Passwort" name="password">
+                        </mat-form-field>
+                        <div fxLayout="row" fxLayoutGap="15px" fxFlex="grow">
+                            <button mat-button fxFlex="50" class="iuno-cancel-button" (click)="closeIunoLogin()">Zurück</button>
+                            <button mat-button type="submit" fxFlex="50" class="iuno-primary-button">Login</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="or-container" fxLayoutAlign="center center">
+                    <span class="or">Noch keinen Login?</span>
+                </div>
+                <button mat-button class="iuno-secondary-button" (click)="register()">Jetzt registrieren</button>
+            </div>
+        </div>
+    </div>
+</div>

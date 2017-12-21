@@ -1,18 +1,9 @@
-<div class="app" fxLayout="column" style="background-color: #0d47a1">
-  <!-- <mat-toolbar color="primary" class="mat-elevation-z5 nav-bar" style="z-index: 2">
-
-    <button *ngIf="menuButtonVisible" mat-button (click)="sidenav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <img *ngIf="tdmLogoVisible" class="logo" src="./assets/images/tdm_logo.svg">
-    <div *ngIf="navigationButtonsVisible" class="nav-buttons">
-      <a #start mat-button class="lightupper " (click)="startClicked()">Start</a>
-      <a #tdm mat-button class="lightupper " (click)="tdmClicked()">Marktplatz</a>
-      <a #stats mat-button class="lightupper " (click)="statisticsClicked()">Statistiken</a>
-      <a #news mat-button class="lightupper " (click)="newsClicked()">Neuigkeiten</a>
-    </div>
-    <span class="spacer"></span>
+<!-- <mat-toolbar color="primary" class="mat-elevation-z5 nav-bar" style="z-index: 2">
   </mat-toolbar> -->
-  <router-outlet></router-outlet>
+    <div class="app" fxLayout="column">
+    <div fxFlex="grow">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer fxFlex="none"></app-footer>
 </div>
 

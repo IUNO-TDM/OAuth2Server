@@ -102,7 +102,7 @@ module.exports = function (passport) {
 
         passport.authenticate('local-login', {
             successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-            failureRedirect: '/login.html?failure=true'
+            failureRedirect: '/login?failure=true'
         })(req, res, next);
     });
 
@@ -111,7 +111,7 @@ module.exports = function (passport) {
 
         passport.authenticate('local-signup', {
             successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-            failureRedirect: '/register.html?failure=true'
+            failureRedirect: '/register?failure=true'
         })(req, res, next);
     });
 
