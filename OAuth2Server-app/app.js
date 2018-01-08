@@ -24,7 +24,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
     secret: config.SESSION_SECRET
@@ -38,9 +38,17 @@ app.use(passport.session()); // persistent login sessions
 app.use('/passport', require('./routes/passport')(passport));
 app.use('/oauth', require('./routes/oauth'));
 app.use('/users', tokenAuthentication, require('./routes/users'));
-app.use('/', function (req, res, next) {
-    res.redirect('/login.html')
+
+// Point static path to dist
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.use('*', function (req, res, next) {
+    res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
+
+// app.use('/', function (req, res, next) {
+//     res.redirect('/login.html')
+// });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

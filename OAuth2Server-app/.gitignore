@@ -75,3 +75,4 @@ fabric.properties
 
 private_*
 images/*
+dist/*
