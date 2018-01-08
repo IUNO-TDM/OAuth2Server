@@ -3,20 +3,21 @@
     <div class="iuno-card mat-elevation-z4" fxLayout="column" fxFlex="grow" fxLayoutGap="10px">
         <img fxFlexAlign="center" class="iuno-logo" src="assets/images/iuno.svg" />
         <div *ngIf="!showIunoLogin" fxLayout="row" fxLayoutAlign="center center">
-            <div fxFlex="grow" fxLayout="column" fxLayoutGap="5px">
+            <div fxLayout="column" fxLayoutGap="5px">
                 <button mat-button class="social-button social-twitter" (click)="loginTwitter()">
-                    <i class="fa fa-twitter fa-2x" aria-hidden="true"></i>&nbsp; Twitter</button>
+                    <i class="social-button-icon fa fa-twitter fa-2x" aria-hidden="true"></i>&nbsp; Twitter</button>
                 <button mat-button class="social-button social-facebook" (click)="loginFacebook()">
-                    <i class="fa fa-facebook fa-2x" aria-hidden="true"></i>&nbsp; Facebook</button>
+                    <i class="social-button-icon fa fa-facebook fa-2x" aria-hidden="true"></i>&nbsp; Facebook</button>
                 <button mat-button class="social-button social-google" (click)="loginGoogle()">
-                    <i class="fa fa-google fa-2x" aria-hidden="true"></i>&nbsp; Google</button>
-            </div>
-            <div class="or-container" fxLayoutAlign="center center">
+                    <i class="social-button-icon fa fa-google fa-2x" aria-hidden="true"></i>&nbsp; Google</button>
+                    <button mat-button class="social-button social-iuno" (click)="openIunoLogin()">Mit IUNO anmelden</button>
+                </div>
+            <!-- <div class="or-container" fxLayoutAlign="center center">
                 <span class="or">oder</span>
             </div>
             <div fxFlex="grow" fxLayout="column" fxLayoutGap="5px">
                 <button mat-button class="social-button social-iuno" (click)="openIunoLogin()">Mit IUNO anmelden</button>
-            </div>
+            </div> -->
         </div>
         <div *ngIf="showIunoLogin">
             <div *ngIf="loginFailed" class="alert-error">Login fehlgeschlagen. Benutzername oder Passwort falsch.</div>
@@ -30,7 +31,7 @@
                             <input matInput type="password" placeholder="Passwort" name="password">
                         </mat-form-field>
                         <div fxLayout="row" fxLayoutGap="15px" fxFlex="grow">
-                            <button mat-button fxFlex="50" class="iuno-cancel-button" (click)="closeIunoLogin()">Zurück</button>
+                            <button mat-button type='button' fxFlex="50" class="iuno-cancel-button" (click)="closeIunoLogin()">Zurück</button>
                             <button mat-button type="submit" fxFlex="50" class="iuno-primary-button">Login</button>
                         </div>
                     </div>

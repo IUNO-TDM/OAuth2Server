@@ -2,20 +2,20 @@
 @include mat-core();
 
 $iuno-palette: (
-    50 : #f5f8ea,
-    100 : #e6edcb,
-    200 : #d5e1a9,
-    300 : #c4d487,
-    400 : #b7cb6d,
-    500 : #aac253,
-    600 : #a3bc4c,
-    700 : #99b442,
-    800 : #90ac39,
-    900 : #7f9f29,
-    A100 : #f6ffe0,
-    A200 : #e8ffad,
-    A400 : #d9ff7a,
-    A700 : #d2ff61,
+    50 : #f7f9e7,
+    100 : #ebf0c3,
+    200 : #dee69b,
+    300 : #d1db72,
+    400 : #c7d454,
+    500 : #bdcc36,
+    600 : #b7c730,
+    700 : #aec029,
+    800 : #a6b922,
+    900 : #98ad16,
+    A100 : #faffe0,
+    A200 : #f3ffad,
+    A400 : #ebff7a,
+    A700 : #e7ff61,
     contrast: (
         50 : #000000,
         100 : #000000,
@@ -33,12 +33,11 @@ $iuno-palette: (
         A700 : #000000,
     )
 );
+$iuno-primary: mat-palette($iuno-palette,500);
+$iuno-accent: mat-palette($iuno-palette,200);
 
-// $iuno-primary: mat-palette($iuno-palette,500);
-// $iuno-accent: mat-palette($iuno-palette,200);
-
-$iuno-primary: mat-palette($mat-lime);
-$iuno-accent:  mat-palette($mat-pink, A200, A100, A400);
+// $iuno-primary: mat-palette($mat-lime);
+// $iuno-accent:  mat-palette($mat-pink, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $iuno-warn:    mat-palette($mat-red);
