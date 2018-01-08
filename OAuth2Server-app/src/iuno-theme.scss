@@ -1,0 +1,49 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$iuno-palette: (
+    50 : #f5f8ea,
+    100 : #e6edcb,
+    200 : #d5e1a9,
+    300 : #c4d487,
+    400 : #b7cb6d,
+    500 : #aac253,
+    600 : #a3bc4c,
+    700 : #99b442,
+    800 : #90ac39,
+    900 : #7f9f29,
+    A100 : #f6ffe0,
+    A200 : #e8ffad,
+    A400 : #d9ff7a,
+    A700 : #d2ff61,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+// $iuno-primary: mat-palette($iuno-palette,500);
+// $iuno-accent: mat-palette($iuno-palette,200);
+
+$iuno-primary: mat-palette($mat-lime);
+$iuno-accent:  mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$iuno-warn:    mat-palette($mat-red);
+
+$iuno-theme: mat-light-theme($iuno-primary, $iuno-accent);
+
+@include angular-material-theme($iuno-theme);
+
