@@ -42,7 +42,7 @@ app.use('/users', tokenAuthentication, require('./routes/users'));
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
 
-app.use('*', (req, res) => {
+app.use('*', function (req, res, next) {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
 
