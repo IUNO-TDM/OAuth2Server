@@ -31,7 +31,10 @@ router.all('/token', function (req, res, next) {
         var response = new Response(res);
 
         oAuth
-            .token(request, response)
+            .token(request, response, {
+                refreshTokenLifetime: 3600 * 24,
+                alwaysIssueNewRefreshToken: false
+            })
             .then(function (token) {
                 if (!token) {
                     return res.sendStatus(401);
@@ -41,7 +44,7 @@ router.all('/token', function (req, res, next) {
                     access_token: token
                 });
             }).catch(function (err) {
-                logger.crit(err);
+            logger.crit(err);
             return res.sendStatus(401);
         })
     }
