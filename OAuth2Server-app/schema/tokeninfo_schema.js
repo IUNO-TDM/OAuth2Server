@@ -2,16 +2,24 @@
  * Created by beuttlerma on 12.06.17.
  */
 
-var self = {};
+const self = {};
 
-self.query = {
+self.TokenInfo_Query = {
     type: 'object',
     properties: {
         access_token: {
             type: 'string',
-            required: true
+            pattern: '^[a-z0-9]{40}$'
         }
-    }
+    },
+    required: ['access_token'],
+    additionalProperties: false
+};
+
+self.Empty = {
+    type: 'object',
+    properties: {},
+    additionalProperties: false
 };
 
 

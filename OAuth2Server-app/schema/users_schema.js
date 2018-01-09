@@ -5,32 +5,12 @@
  -- Description: Schema for Users
  -- ##########################################################################*/
 
-var self ={};
+const self ={};
 
-self.GetSingle = {
+self.Empty = {
     type: 'object',
-    properties: {
-    }
+    properties: {},
+    additionalProperties: false
 };
-self.Create = {
-    type: 'object',
-    properties: {
-        first_name: {
-            type: 'string',
-            required: true
-        },
-        last_name: {
-            type: 'string',
-            required: true
-        },
-        email: {
-            type: 'string',
-            required: true
-        },
-        password: {
-            type: 'string',
-            required: true
-        }
-    }
-};
+
 module.exports = self;

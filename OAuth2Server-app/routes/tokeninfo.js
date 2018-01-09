@@ -1,13 +1,20 @@
 /**
  * Created by beuttlerma on 07.07.17.
  */
-var express = require('express');
-var router = express.Router();
-var logger = require('../global/logger');
-var validate = require('express-jsonschema').validate;
-var oAuth = require('../oauth/strategy/default');
+const express = require('express');
+const router = express.Router();
+const logger = require('../global/logger');
+const oAuth = require('../oauth/strategy/default');
 
-router.get('/', validate({query: require('../schema/tokeninfo_schema')}), function (req, res, next) {
+const {Validator, ValidationError} = require('express-json-validator-middleware');
+const validator = new Validator({allErrors: true});
+const validate = validator.validate;
+const validation_schema = require('../schema/tokeninfo_schema');
+
+router.get('/', validate({
+    query: validation_schema.TokenInfo_Query,
+    body:  validation_schema.Empty
+}), function (req, res, next) {
 
         oAuth.getAccessToken(req.query['access_token']).then(function(tokenInfo) {
             res.json(tokenInfo);

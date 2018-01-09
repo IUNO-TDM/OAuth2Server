@@ -5,11 +5,19 @@ var express = require('express');
 var logger = require('../global/logger');
 const captchaAdapter = require('../adapter/recaptcha_adapter');
 
+const {Validator, ValidationError} = require('express-json-validator-middleware');
+const validator = new Validator({allErrors: true});
+const validate = validator.validate;
+const validation_schema = require('../schema/passport_schema');
+
 module.exports = function (passport) {
-    var router = express.Router();
+    const router = express.Router();
 
     // LOGOUT ==============================
-    router.get('/logout', function (req, res) {
+    router.get('/logout', validate({
+        query: validation_schema.Logout_Query,
+        body: validation_schema.Empty
+    }), function (req, res) {
         logger.info('logout');
 
         req.logout();
@@ -28,7 +36,10 @@ module.exports = function (passport) {
     // AUTHENTICATE (GOOGLE) ==================================================
     // =============================================================================
 
-    router.get('/google', function (req, res, next) {
+    router.get('/google', validate({
+        query: validation_schema.Empty,
+        body: validation_schema.Empty
+    }), function (req, res, next) {
         logger.info('google login');
 
         passport.authenticate('google', {
@@ -37,7 +48,10 @@ module.exports = function (passport) {
         })(req, res, next);
     });
 
-    router.get('/google/callback', function (req, res, next) {
+    router.get('/google/callback', validate({
+        query: validation_schema.GoogleCallback_Query,
+        body: validation_schema.Empty
+    }), function (req, res, next) {
         logger.info('google callback');
 
         passport.authenticate('google', {
@@ -51,7 +65,10 @@ module.exports = function (passport) {
     // AUTHENTICATE (TWITTER) ==================================================
     // =============================================================================
 
-    router.get('/twitter', function (req, res, next) {
+    router.get('/twitter', validate({
+        query: validation_schema.Empty,
+        body: validation_schema.Empty
+    }), function (req, res, next) {
         logger.info('twitter login');
 
         passport.authenticate('twitter', {
@@ -60,7 +77,10 @@ module.exports = function (passport) {
         })(req, res, next);
     });
 
-    router.get('/twitter/callback', function (req, res, next) {
+    router.get('/twitter/callback', validate({
+        query: validation_schema.TwitterCallback_Query,
+        body: validation_schema.Empty
+    }), function (req, res, next) {
         logger.info('twitter callback');
 
         passport.authenticate('twitter', {
@@ -74,7 +94,10 @@ module.exports = function (passport) {
     // AUTHENTICATE (FACEBOOK) ==================================================
     // =============================================================================
 
-    router.get('/facebook', function (req, res, next) {
+    router.get('/facebook', validate({
+        query: validation_schema.Empty,
+        body: validation_schema.Empty
+    }), function (req, res, next) {
         logger.info('facebook login');
 
         passport.authenticate('facebook', {
@@ -83,7 +106,10 @@ module.exports = function (passport) {
         })(req, res, next);
     });
 
-    router.get('/facebook/callback', function (req, res, next) {
+    router.get('/facebook/callback', validate({
+        query: validation_schema.FacebookCallback_Query,
+        body: validation_schema.Empty
+    }), function (req, res, next) {
         logger.info('facebook callback');
 
         passport.authenticate('facebook', {
@@ -98,7 +124,10 @@ module.exports = function (passport) {
     // =============================================================================
 
     // process the login form
-    router.post('/login', function (req, res, next) {
+    router.post('/login', validate({
+        query: validation_schema.PassportLogin_Query,
+        body: validation_schema.PassportLogin_Body
+    }), function (req, res, next) {
         logger.info('iuno login');
 
         passport.authenticate('local-login', {
@@ -107,7 +136,10 @@ module.exports = function (passport) {
         })(req, res, next);
     });
 
-    router.post('/signup', function (req, res, next) {
+    router.post('/signup', validate({
+        query: validation_schema.PassportSignup_Query,
+        body: validation_schema.PassportSignup_Body
+    }), function (req, res, next) {
         logger.info('iuno signup');
         const captchaResponse = req.body['g-recaptcha-response'];
         logger.info('testing captcha response "'+captchaResponse+'".');
