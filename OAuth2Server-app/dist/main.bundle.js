@@ -152,11 +152,12 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_flex_layout__ = __webpack_require__("../../../flex-layout/esm5/flex-layout.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__footer_footer_component__ = __webpack_require__("../../../../../src/app/footer/footer.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__app_routing_module__ = __webpack_require__("../../../../../src/app/app-routing.module.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__login_login_component__ = __webpack_require__("../../../../../src/app/login/login.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__register_register_component__ = __webpack_require__("../../../../../src/app/register/register.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7_angular_google_recaptcha__ = __webpack_require__("../../../../angular-google-recaptcha/angular-google-recaptcha.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__footer_footer_component__ = __webpack_require__("../../../../../src/app/footer/footer.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__app_routing_module__ = __webpack_require__("../../../../../src/app/app-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__login_login_component__ = __webpack_require__("../../../../../src/app/login/login.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__register_register_component__ = __webpack_require__("../../../../../src/app/register/register.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -185,6 +186,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 // Custom imports
 
+
 // import { AccountComponent } from './account/account.component';
 
 
@@ -198,10 +200,10 @@ var AppModule = (function () {
     AppModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["K" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_9__app_component__["a" /* AppComponent */],
-                __WEBPACK_IMPORTED_MODULE_10__login_login_component__["a" /* LoginComponent */],
-                __WEBPACK_IMPORTED_MODULE_11__register_register_component__["a" /* RegisterComponent */],
-                __WEBPACK_IMPORTED_MODULE_7__footer_footer_component__["a" /* FooterComponent */],
+                __WEBPACK_IMPORTED_MODULE_10__app_component__["a" /* AppComponent */],
+                __WEBPACK_IMPORTED_MODULE_11__login_login_component__["a" /* LoginComponent */],
+                __WEBPACK_IMPORTED_MODULE_12__register_register_component__["a" /* RegisterComponent */],
+                __WEBPACK_IMPORTED_MODULE_8__footer_footer_component__["a" /* FooterComponent */],
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__["a" /* BrowserModule */],
@@ -209,7 +211,7 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_3__angular_forms__["e" /* FormsModule */],
                 __WEBPACK_IMPORTED_MODULE_3__angular_forms__["j" /* ReactiveFormsModule */],
                 __WEBPACK_IMPORTED_MODULE_4__angular_common_http__["b" /* HttpClientModule */],
-                __WEBPACK_IMPORTED_MODULE_8__app_routing_module__["a" /* AppRoutingModule */],
+                __WEBPACK_IMPORTED_MODULE_9__app_routing_module__["a" /* AppRoutingModule */],
                 __WEBPACK_IMPORTED_MODULE_6__angular_material__["h" /* MatToolbarModule */],
                 __WEBPACK_IMPORTED_MODULE_6__angular_material__["g" /* MatSidenavModule */],
                 __WEBPACK_IMPORTED_MODULE_6__angular_material__["a" /* MatButtonModule */],
@@ -218,11 +220,14 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_6__angular_material__["f" /* MatMenuModule */],
                 __WEBPACK_IMPORTED_MODULE_6__angular_material__["b" /* MatCardModule */],
                 __WEBPACK_IMPORTED_MODULE_5__angular_flex_layout__["a" /* FlexLayoutModule */],
+                __WEBPACK_IMPORTED_MODULE_7_angular_google_recaptcha__["a" /* RecaptchaModule */].forRoot({
+                    siteKey: '6LcFUDMUAAAAANHdh_RtQvy67IGG1hnKkbeqwHgj',
+                }),
             ],
             providers: [
                 __WEBPACK_IMPORTED_MODULE_6__angular_material__["d" /* MatIconRegistry */]
             ],
-            bootstrap: [__WEBPACK_IMPORTED_MODULE_9__app_component__["a" /* AppComponent */]]
+            bootstrap: [__WEBPACK_IMPORTED_MODULE_10__app_component__["a" /* AppComponent */]]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6__angular_material__["d" /* MatIconRegistry */]])
     ], AppModule);
@@ -465,7 +470,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/register/register.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <div class=\"login-background\"></div> -->\n<div fxLayoutAlign=\"center center\" class=\"container\" style=\"width: 100%; height: 100%;\">\n    <div class=\"iuno-card mat-elevation-z4\" fxLayout=\"column\" fxFlex=\"grow\" fxLayoutGap=\"10px\">\n        <img fxFlexAlign=\"center\" class=\"iuno-logo\" src=\"assets/images/iuno.svg\" />\n        <div *ngIf=\"registrationFailed\" class=\"alert-error\">Registrierung fehlgeschlagen. Benutzer existiert bereits.</div>\n        <div fxLayout=\"column\" fxLayoutGap=\"5px\">\n            <form #registration action=\"/passport/signup\" method=\"POST\" [formGroup]=\"registerForm\" (submit)=\"registration.submit()\" (ngSubmit)=\"registration.submit()\">\n                <div fxLayout=\"column\" fxLayoutGap=\"5px\">\n                    <mat-form-field>\n                        <input matInput placeholder=\"Vorname\" name=\"first_name\" formControlName=\"first_name\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput placeholder=\"Nachname\" name=\"last_name\" formControlName=\"last_name\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput placeholder=\"E-Mail-Adresse\" name=\"email\" formControlName=\"email\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput type=\"password\" placeholder=\"Passwort\" name=\"password\" formControlName=\"password\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput type=\"password\" placeholder=\"Passwort wiederholen\" name=\"password_confirm\" formControlName=\"password_confirm\">\n                        <!-- <div *ngIf=\"passwordConfirm.invalid && (passwordConfirm.dirty || passwordConfirm.touched)\" class=\"alert alert-danger\">\n                            <div *ngIf=\"passwordConfirm != password\">\n                                Passwörter stimmen nicht überein.\n                            </div>\n                        </div> -->\n                    </mat-form-field>\n                    <div fxLayout=\"row\" fxLayoutGap=\"15px\" fxFlex=\"grow\">\n                        <button mat-button type='button' fxFlex=\"50\" class=\"iuno-cancel-button\" (click)=\"cancelRegistration()\">Abbrechen</button>\n                        <button mat-button type=\"submit\" fxFlex=\"50\" class=\"iuno-primary-button\">Registrieren</button>\n                    </div>\n                </div>\n            </form>\n        </div>\n    </div>\n</div>\n\n\n<!-- \n\n<form action=\"/passport/signup\" method=\"post\" role=\"form\">\n    <div class=\"row\">\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"text\" name=\"first_name\" id=\"first_name\" class=\"form-control input-sm\" placeholder=\"Vorname*\" required>\n            </div>\n        </div>\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"text\" name=\"last_name\" id=\"last_name\" class=\"form-control input-sm\" placeholder=\"Nachname*\" required>\n            </div>\n        </div>\n    </div>\n\n    <div class=\"form-group\">\n        <input type=\"email\" name=\"email\" id=\"email\" class=\"form-control input-sm\" placeholder=\"Email Adresse*\" required>\n    </div>\n\n    <div class=\"row\">\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"password\" minlength=\"8\" name=\"password\" id=\"password\" class=\"form-control input-sm\" placeholder=\"Passwort*\"\n                    required onkeyup='check();'>\n            </div>\n        </div>\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"password\" name=\"confirm_password\" minlength=\"8\" id=\"confirm_password\" class=\"form-control input-sm\" placeholder=\"Passwort wiederholen*\"\n                    data-bv-excluded=\"false\" data-match=\"#password\" required onkeyup='check();'>\n            </div>\n        </div>\n        <small class=\"col-xs-6 col-sm-6 col-md-6\" id='message'></small>\n    </div>\n    <div id=\"failure_alert\" class=\"alert alert-danger\">Registrierung fehlgeschlagen. Benutzer existiert bereits.</div>\n    <script>\n        var display = \"none\";\n        if (window.location.search.indexOf('failure=true') > -1) {\n            display = \"\"\n        }\n        document.getElementById('failure_alert').style.display = display;\n    </script>\n    <input type=\"submit\" id=\"register\" value=\"Jetzt Registrieren\" class=\"btn btn-info btn-block\">\n    <small class=\"create-account text\">* Pflichtfelder.</small>\n</form> -->"
+module.exports = "<!-- <div class=\"login-background\"></div> -->\n<div fxLayoutAlign=\"center center\" class=\"container\" style=\"width: 100%; height: 100%;\">\n    <div class=\"iuno-card mat-elevation-z4\" fxLayout=\"column\" fxFlex=\"grow\" fxLayoutGap=\"10px\">\n        <img fxFlexAlign=\"center\" class=\"iuno-logo\" src=\"assets/images/iuno.svg\" />\n        <div *ngIf=\"registrationFailed\" class=\"alert-error\">Registrierung fehlgeschlagen. Benutzer existiert bereits.</div>\n        <div fxLayout=\"column\" fxLayoutGap=\"5px\">\n            <form #registration action=\"/passport/signup\" method=\"POST\" [formGroup]=\"registerForm\" (submit)=\"registration.submit()\" (ngSubmit)=\"registration.submit()\">\n                <div fxLayout=\"column\" fxLayoutGap=\"5px\">\n                    <mat-form-field>\n                        <input matInput placeholder=\"Vorname\" name=\"first_name\" formControlName=\"first_name\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput placeholder=\"Nachname\" name=\"last_name\" formControlName=\"last_name\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput placeholder=\"E-Mail-Adresse\" name=\"email\" formControlName=\"email\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput type=\"password\" placeholder=\"Passwort\" name=\"password\" formControlName=\"password\">\n                    </mat-form-field>\n                    <mat-form-field>\n                        <input matInput type=\"password\" placeholder=\"Passwort wiederholen\" name=\"password_confirm\" formControlName=\"password_confirm\">\n                        <!-- <div *ngIf=\"passwordConfirm.invalid && (passwordConfirm.dirty || passwordConfirm.touched)\" class=\"alert alert-danger\">\n                            <div *ngIf=\"passwordConfirm != password\">\n                                Passwörter stimmen nicht überein.\n                            </div>\n                        </div> -->\n                    </mat-form-field>\n                    <div fxLayoutAlign=\"center center\">\n                        <recaptcha [formControl]=\"recaptcha\" (scriptLoad)=\"onRecaptchaScriptLoad()\" (scriptError)=\"onRecaptchaScriptError()\"></recaptcha>\n                    </div>\n                    <div *ngIf=\"captchaFailed\" class=\"alert-error\">Captcha-Überprüfung fehlgeschlagen</div>\n                    <div fxLayout=\"row\" fxLayoutGap=\"15px\" fxFlex=\"grow\">\n                        <button mat-button type='button' fxFlex=\"50\" class=\"iuno-cancel-button\" (click)=\"cancelRegistration()\">Abbrechen</button>\n                        <button mat-button type=\"submit\" fxFlex=\"50\" class=\"iuno-primary-button\">Registrieren</button>\n                    </div>\n                </div>\n            </form>\n        </div>\n    </div>\n</div>\n\n\n<!-- \n\n<form action=\"/passport/signup\" method=\"post\" role=\"form\">\n    <div class=\"row\">\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"text\" name=\"first_name\" id=\"first_name\" class=\"form-control input-sm\" placeholder=\"Vorname*\" required>\n            </div>\n        </div>\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"text\" name=\"last_name\" id=\"last_name\" class=\"form-control input-sm\" placeholder=\"Nachname*\" required>\n            </div>\n        </div>\n    </div>\n\n    <div class=\"form-group\">\n        <input type=\"email\" name=\"email\" id=\"email\" class=\"form-control input-sm\" placeholder=\"Email Adresse*\" required>\n    </div>\n\n    <div class=\"row\">\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"password\" minlength=\"8\" name=\"password\" id=\"password\" class=\"form-control input-sm\" placeholder=\"Passwort*\"\n                    required onkeyup='check();'>\n            </div>\n        </div>\n        <div class=\"col-xs-6 col-sm-6 col-md-6\">\n            <div class=\"form-group\">\n                <input type=\"password\" name=\"confirm_password\" minlength=\"8\" id=\"confirm_password\" class=\"form-control input-sm\" placeholder=\"Passwort wiederholen*\"\n                    data-bv-excluded=\"false\" data-match=\"#password\" required onkeyup='check();'>\n            </div>\n        </div>\n        <small class=\"col-xs-6 col-sm-6 col-md-6\" id='message'></small>\n    </div>\n    <div id=\"failure_alert\" class=\"alert alert-danger\">Registrierung fehlgeschlagen. Benutzer existiert bereits.</div>\n    <script>\n        var display = \"none\";\n        if (window.location.search.indexOf('failure=true') > -1) {\n            display = \"\"\n        }\n        document.getElementById('failure_alert').style.display = display;\n    </script>\n    <input type=\"submit\" id=\"register\" value=\"Jetzt Registrieren\" class=\"btn btn-info btn-block\">\n    <small class=\"create-account text\">* Pflichtfelder.</small>\n</form> -->"
 
 /***/ }),
 
@@ -502,8 +507,10 @@ var RegisterComponent = (function () {
         this.userService = userService;
         this.registrationRunning = false;
         this.registrationFailed = false;
+        this.captchaFailed = false;
         this.user = new __WEBPACK_IMPORTED_MODULE_3__models_user__["a" /* User */]();
         this.password_confirm = "";
+        this.recaptcha = new __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormControl */](false);
     }
     RegisterComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -538,6 +545,9 @@ var RegisterComponent = (function () {
         if (failure == 'true') {
             this.registrationFailed = true;
         }
+        else if (failure == 'captcha') {
+            this.captchaFailed = true;
+        }
     };
     RegisterComponent.prototype.register = function () {
         console.log("Register");
@@ -552,6 +562,12 @@ var RegisterComponent = (function () {
     };
     RegisterComponent.prototype.cancelRegistration = function () {
         this.router.navigateByUrl('login');
+    };
+    RegisterComponent.prototype.onRecaptchaScriptLoad = function () {
+        console.log("Script loaded.");
+    };
+    RegisterComponent.prototype.onRecaptchaScriptError = function () {
+        console.log("Script NOT loaded.");
     };
     RegisterComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({

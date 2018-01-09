@@ -3,6 +3,7 @@
  */
 var express = require('express');
 var logger = require('../global/logger');
+const captchaAdapter = require('../adapter/recaptcha_adapter');
 
 module.exports = function (passport) {
     var router = express.Router();
@@ -108,11 +109,23 @@ module.exports = function (passport) {
 
     router.post('/signup', function (req, res, next) {
         logger.info('iuno signup');
-
-        passport.authenticate('local-signup', {
-            successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-            failureRedirect: '/register?failure=true'
-        })(req, res, next);
+        const captchaResponse = req.body['g-recaptcha-response'];
+        logger.info('testing captcha response "'+captchaResponse+'".');
+        captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
+            if (err || !success) {
+                logger.info("Captcha failed!" + err);
+                res.redirect('/register?failure=captcha');
+                // return res.sendStatus(400);
+            } else {
+                logger.info("Captcha succeeded!");
+                passport.authenticate('local-signup', {
+                    successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
+                    failureRedirect: '/register?failure=true'
+                });
+            }
+        });
+        // logger.info("Captcha 1: "+captchaResponse);
+        // logger.info("Captcha 2: "+captchaResponse2);
     });
 
 

@@ -19,6 +19,7 @@ import { MatMenuModule } from '@angular/material';
 import { MatCardModule } from '@angular/material';
 
 // Custom imports
+import { RecaptchaModule } from 'angular-google-recaptcha';
 import { FooterComponent } from './footer/footer.component';
 // import { AccountComponent } from './account/account.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -50,6 +51,9 @@ import { RegisterComponent } from './register/register.component';
     MatMenuModule,
     MatCardModule,
     FlexLayoutModule,
+    RecaptchaModule.forRoot({
+      siteKey: '6LcFUDMUAAAAANHdh_RtQvy67IGG1hnKkbeqwHgj',
+      }),
   ],
   providers: [
     MatIconRegistry

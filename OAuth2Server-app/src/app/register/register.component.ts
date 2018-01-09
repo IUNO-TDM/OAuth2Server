@@ -16,9 +16,11 @@ import { UserService } from '../services/user.service';
 export class RegisterComponent implements OnInit {
   registrationRunning = false;
   registrationFailed = false;
+  captchaFailed = false;
   user = new User();
   password_confirm = ""
   registerForm: FormGroup;
+  recaptcha = new FormControl(false);
 
   constructor(
     private router: Router,
@@ -59,6 +61,8 @@ export class RegisterComponent implements OnInit {
     });
     if (failure == 'true') {
       this.registrationFailed = true;
+    } else if (failure == 'captcha') {
+      this.captchaFailed = true;
     }
   }
 
@@ -76,5 +80,13 @@ export class RegisterComponent implements OnInit {
 
   cancelRegistration() {
     this.router.navigateByUrl('login');
+  }
+
+  onRecaptchaScriptLoad() {
+    console.log("Script loaded.");
+  }
+
+  onRecaptchaScriptError() {
+    console.log("Script NOT loaded.");
   }
 }
