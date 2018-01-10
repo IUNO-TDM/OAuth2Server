@@ -28,6 +28,7 @@
     "debug": "~2.6.3",
     "express": "~4.16.0",
     "express-json-validator-middleware": "^1.2.0",
+    "express-query-int": "^2.0.0",
     "express-session": "^1.15.5",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
