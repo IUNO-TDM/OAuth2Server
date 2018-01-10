@@ -4,6 +4,7 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const queryParser = require('express-query-int');
 const tokenAuthentication = require('./oauth/token_authentication');
 const contentTypeValidation = require('./services/content_type_validation');
 const passport = require('passport');
@@ -21,6 +22,7 @@ app.use(logger('dev'));
 require('./passport/passport')(passport); // pass passport for configuration
 
 app.use(bodyParser.json());
+app.use(queryParser());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
