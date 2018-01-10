@@ -126,9 +126,13 @@ self.PassportSignup_Body = {
             type: 'string',
             minLength: 1,
             maxLength: 250
+        },
+        'g-recaptcha-response': {
+            type: 'string',
+            pattern: '[A-Za-z0-9_-]+'
         }
     },
-    required: ['first_name', 'last_name', 'email', 'password'],
+    required: ['first_name', 'last_name', 'email', 'password', 'g-recaptcha-response'],
     additionalProperties: false
 };
 

@@ -4,7 +4,7 @@
         <img fxFlexAlign="center" class="iuno-logo" src="assets/images/iuno.svg" />
         <div *ngIf="registrationFailed" class="alert-error">Registrierung fehlgeschlagen. Benutzer existiert bereits.</div>
         <div fxLayout="column" fxLayoutGap="5px">
-            <form #registration action="/passport/signup" method="POST" [formGroup]="registerForm" (submit)="registration.submit()" (ngSubmit)="registration.submit()">
+            <form #registration [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                 <div fxLayout="column" fxLayoutGap="5px">
                     <mat-form-field>
                         <input matInput placeholder="Vorname" name="first_name" formControlName="first_name">
@@ -19,7 +19,7 @@
                         <input matInput type="password" placeholder="Passwort" name="password" formControlName="password">
                     </mat-form-field>
                     <mat-form-field>
-                        <input matInput type="password" placeholder="Passwort wiederholen" name="password_confirm" formControlName="password_confirm">
+                        <input matInput type="password" placeholder="Passwort wiederholen" name="confirm_password" formControlName="confirm_password">
                         <!-- <div *ngIf="passwordConfirm.invalid && (passwordConfirm.dirty || passwordConfirm.touched)" class="alert alert-danger">
                             <div *ngIf="passwordConfirm != password">
                                 Passwörter stimmen nicht überein.
@@ -27,12 +27,13 @@
                         </div> -->
                     </mat-form-field>
                     <div fxLayoutAlign="center center">
-                        <recaptcha [formControl]="recaptcha" (scriptLoad)="onRecaptchaScriptLoad()" (scriptError)="onRecaptchaScriptError()"></recaptcha>
+                        <re-captcha #captchaControl formControlName="recaptcha" siteKey="6LcFUDMUAAAAANHdh_RtQvy67IGG1hnKkbeqwHgj" required></re-captcha>
+                        <!-- <re-captcha (resolved)="resolved($event)" siteKey="6LcFUDMUAAAAANHdh_RtQvy67IGG1hnKkbeqwHgj"></re-captcha> -->
                     </div>
                     <div *ngIf="captchaFailed" class="alert-error">Captcha-Überprüfung fehlgeschlagen</div>
                     <div fxLayout="row" fxLayoutGap="15px" fxFlex="grow">
                         <button mat-button type='button' fxFlex="50" class="iuno-cancel-button" (click)="cancelRegistration()">Abbrechen</button>
-                        <button mat-button type="submit" fxFlex="50" class="iuno-primary-button">Registrieren</button>
+                        <button mat-button type="submit" [disabled]="registerForm.invalid" fxFlex="50" class="iuno-primary-button">Registrieren</button>
                     </div>
                 </div>
             </form>

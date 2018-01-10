@@ -22,7 +22,6 @@ module.exports = function (passport) {
 
         req.logout();
 
-
         if(req.query['redirect']) {
             res.redirect(req.query['redirect']);
         }
@@ -145,21 +144,25 @@ module.exports = function (passport) {
         logger.info('testing captcha response "'+captchaResponse+'".');
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
-                logger.info("Captcha failed!" + err);
-                res.redirect('/register?failure=captcha');
-                // return res.sendStatus(400);
-            } else {
-                logger.info("Captcha succeeded!");
-                passport.authenticate('local-signup', {
-                    successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-                    failureRedirect: '/register?failure=true'
-                });
+                res.sendStatus(403);
+            } else { // captcha success
+                passport.authenticate('local-signup', function(error, user, info) {
+                    // console.log(err);
+                    // console.log(user);
+                    // console.log(info);
+                    res.json({
+                        error: error,
+                        info: info,
+                        targetUrl: req.session.redirectTo || 'https://iuno.axoom.cloud'
+                    })
+                })(req, res, next);
+                // passport.authenticate('local-signup')(req, res, function(){
+                //     console.log("passport");
+                //     console.log(res);
+                // });
             }
         });
-        // logger.info("Captcha 1: "+captchaResponse);
-        // logger.info("Captcha 2: "+captchaResponse2);
     });
-
 
     return router;
 };
