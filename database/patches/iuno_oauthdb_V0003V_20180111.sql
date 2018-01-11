@@ -55,6 +55,7 @@ $$
 			vPatchNumber int := 0003;
 		BEGIN
 	----------------------------------------------------------------------------------------------------------------------------------------
+   DROP FUNCTION public.createauthorizationcode(character varying, timestamp without time zone, character varying, uuid, uuid);
 
    CREATE OR REPLACE FUNCTION public.createauthorizationcode(
     IN vauthorizationcode character varying,
