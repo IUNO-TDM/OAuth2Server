@@ -63,7 +63,7 @@ $$
     IN vredirecturi character varying,
     IN vclientuuid uuid,
     IN vuseruuid uuid)
-      RETURNS TABLE(authorizationcode character varying, expires timestamp with time zone, redirecturi character varying, clientuuid uuid, useruuid uuid, createdat timestamp with time zone) AS
+      RETURNS TABLE("authorizationCode" character varying, "expiresAt" timestamp with time zone, redirecturi character varying, clientuuid uuid, "user" uuid, createdat timestamp with time zone) AS
     $BODY$
           #variable_conflict use_column
            DECLARE 	vAuthorizationCodeID integer := (select nextval('AuthorizationCodeID'));
