@@ -140,26 +140,20 @@ module.exports = function (passport) {
         body: validation_schema.PassportSignup_Body
     }), function (req, res, next) {
         logger.info('iuno signup');
+
         const captchaResponse = req.body['g-recaptcha-response'];
-        logger.info('testing captcha response "'+captchaResponse+'".');
+
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
                 res.sendStatus(403);
             } else { // captcha success
                 passport.authenticate('local-signup', function(error, user, info) {
-                    // console.log(err);
-                    // console.log(user);
-                    // console.log(info);
                     res.json({
                         error: error,
                         info: info,
                         targetUrl: req.session.redirectTo || 'https://iuno.axoom.cloud'
                     })
                 })(req, res, next);
-                // passport.authenticate('local-signup')(req, res, function(){
-                //     console.log("passport");
-                //     console.log(res);
-                // });
             }
         });
     });

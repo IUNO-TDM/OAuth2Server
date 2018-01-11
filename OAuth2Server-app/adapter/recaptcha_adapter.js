@@ -25,7 +25,7 @@ self.verifyReCaptchaResponse = function (res, callback) {
             secret: CONFIG.G_RE_CAPTCHA_SECRET
         });
 
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'docker') {
         logger.info('[recaptcha_adapter] ignoring captcha result on development env');
         callback(null, true);
         return;
