@@ -66,7 +66,7 @@ module.exports = function (passport) {
 
                 user.Create(function (err) {
                     if (err) {
-                        return done(null, false, {message: 'Registration failed. Username maybe already used.'});
+                        return done(true, null, {message: 'Registration failed. Username maybe already used.'});
                     }
 
                     oauthWrapper.getToken(email, password, 'default', done);
