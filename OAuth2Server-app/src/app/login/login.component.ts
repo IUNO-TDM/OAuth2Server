@@ -73,13 +73,11 @@ export class LoginComponent implements OnInit {
 
   closeIunoLogin() {
     this.loginFailed = false;
-    console.log("Close!");
     this.showIunoLogin = false;
   }
 
   iunoLogin() {
     this.loginRunning = true;
-    console.log("Hi!");
     // this.loginForm.submit();
     // this.authenticationService.login(this.loginCredentials.user, this.loginCredentials.password);
         // .subscribe(
@@ -90,6 +88,5 @@ export class LoginComponent implements OnInit {
         //         // this.alertService.error(error);
         //         this.loginRunning = false;
         //     });
-}
-
+  }
 }

@@ -1,8 +1,9 @@
 /**
  * Created by beuttlerma on 02.06.17.
  */
-const express = require('express');
-const logger = require('../global/logger');
+var express = require('express');
+var logger = require('../global/logger');
+const captchaAdapter = require('../adapter/recaptcha_adapter');
 
 const {Validator, ValidationError} = require('express-json-validator-middleware');
 const validator = new Validator({allErrors: true});
@@ -20,7 +21,6 @@ module.exports = function (passport) {
         logger.info('logout');
 
         req.logout();
-
 
         if(req.query['redirect']) {
             res.redirect(req.query['redirect']);
@@ -141,12 +141,22 @@ module.exports = function (passport) {
     }), function (req, res, next) {
         logger.info('iuno signup');
 
-        passport.authenticate('local-signup', {
-            successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-            failureRedirect: '/register?failure=true'
-        })(req, res, next);
-    });
+        const captchaResponse = req.body['g-recaptcha-response'];
 
+        captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
+            if (err || !success) {
+                res.sendStatus(403);
+            } else { // captcha success
+                passport.authenticate('local-signup', function(error, user, info) {
+                    res.json({
+                        error: error,
+                        info: info,
+                        targetUrl: req.session.redirectTo || 'https://iuno.axoom.cloud'
+                    })
+                })(req, res, next);
+            }
+        });
+    });
 
     return router;
 };

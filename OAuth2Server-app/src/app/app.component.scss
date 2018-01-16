@@ -13,7 +13,7 @@ $config: mat-typography-config();
 }
 
 :host ::ng-deep .container {
-  background-color: #f5f5f5;    
+  background-color: #f5f5f5;
 }
 
 :host ::ng-deep .iuno-card {
@@ -30,6 +30,7 @@ $config: mat-typography-config();
 }
 
 :host ::ng-deep .iuno-primary-button {
+  color: #fff !important;
   background-color: mat-color($iuno-primary) !important;
 }
 
