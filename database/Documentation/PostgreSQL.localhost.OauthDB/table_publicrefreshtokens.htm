@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?><html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><head xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" /><link rel="stylesheet" href="sqlspec.css" /><title>OauthDB - public.refreshtokens</title><script language="JavaScript" src="resort_table.js"></script><script language="javascript">
+//
+// this hides the SVG if you are on IE, 
+// and hides the VML if you are NOT on IE.
+//
+function init()
+{
+  var isIE = navigator.userAgent.indexOf("MSIE") != -1;
+  showhideIfIE('FK_SVG', isIE, true);
+  showhideIfIE('DEPENDENCY_SVG', isIE, true);
+  showhideIfIE('MODEL_SVG', isIE, true); 
+  showhideIfIE('FK_VML', isIE, false);
+  showhideIfIE('DEPENDENCY_VML', isIE, false);
+  showhideIfIE('MODEL_VML', isIE, false);
+  
+  var node = document.getElementById('copy_url_div');
+  if (node != null)
+  {
+    var inChm = document.URL.indexOf('mk:@MSITStore') != -1;
+    node.style.display = inChm || !isIE ? 'none' : 'block';
+  }
+}   
+
+function showhideIfIE(elementName, isIE, hide)
+{
+  node = document.getElementById(elementName);
+  if (node != null) 
+  {
+    if (hide) 
+      node.style.display = isIE ? 'none' : 'block';
+    else
+      node.style.display = isIE ? 'block' : 'none';
+  }
+}
+
+function copyToClipboard(s)
+{
+  if(window.clipboardData)
+    if (clipboardData.setData)
+      clipboardData.setData('text', s);
+}
+</script></head><body onload="init()"><div id="nsbanner" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><div id="bannerrow1"><table class="bannerparthead" cellspacing="0" id="Table1"><tr id="hdr"><td class="runninghead">Database reference - OauthDB</td><td class="product" /></tr></table></div><div id="TitleRow"><h1 class="dtH1"><a href="default.htm">OauthDB</a> -         
+                    <a href="allTables.htm">tables</a> -         
+                    public.refreshtokens</h1></div></div><div id="nstext"><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2">Description</h2><span class="desc">none</span><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2">Table properties</h2><table class="dtTABLE"><thead><tr valign="top"><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">name</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">value</th></tr></thead><tbody><tr><td>name</td><td>public.refreshtokens 
+                  </td></tr><tr><td>rows</td><td>1662 
+                  </td></tr><tr><td>pages</td><td>21 
+                  </td></tr></tbody></table><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2">Columns</h2><table class="dtTABLE"><thead><tr valign="top"><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">column</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">datatype</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">default</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">nulls</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">PK</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">FK</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">UQ</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">comment</th></tr></thead><tbody><tr valign="top"><td>refreshtokenid 
+                    </td><td>int4 
+                    </td><td> 
+                      </td><td>NO 
+                    </td><td>YES 
+                      </td><td> 
+                      </td><td>YES 
+                      </td><td> 
+                    </td></tr><tr valign="top"><td>refreshtoken 
+                    </td><td>varchar(256) 
+                    </td><td> 
+                      </td><td>NO 
+                    </td><td> 
+                      </td><td> 
+                      </td><td>YES 
+                      </td><td> 
+                    </td></tr><tr valign="top"><td>expires 
+                    </td><td>timestamp 
+                    </td><td> 
+                      </td><td>YES 
+                    </td><td> 
+                      </td><td> 
+                      </td><td> 
+                      </td><td> 
+                    </td></tr><tr valign="top"><td>scopeid 
+                    </td><td>int4 
+                    </td><td> 
+                      </td><td>YES 
+                    </td><td> 
+                      </td><td><a href="&#xA;                                  table_publicscopes.htm&#xA;                                ">public.scopes</a>.scopeid 
+                      </td><td> 
+                      </td><td> 
+                    </td></tr><tr valign="top"><td>clientid 
+                    </td><td>int4 
+                    </td><td> 
+                      </td><td>NO 
+                    </td><td> 
+                      </td><td><a href="&#xA;                                  table_publicclients.htm&#xA;                                ">public.clients</a>.clientid 
+                      </td><td> 
+                      </td><td> 
+                    </td></tr><tr valign="top"><td>userid 
+                    </td><td>int4 
+                    </td><td> 
+                      </td><td>NO 
+                    </td><td> 
+                      </td><td><a href="&#xA;                                  table_publicusers.htm&#xA;                                ">public.users</a>.userid 
+                      </td><td> 
+                      </td><td> 
+                    </td></tr><tr valign="top"><td>createdat 
+                    </td><td>timestamp 
+                    </td><td> 
+                      </td><td>NO 
+                    </td><td> 
+                      </td><td> 
+                      </td><td> 
+                      </td><td> 
+                    </td></tr></tbody></table><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2">Indexes</h2><table class="dtTABLE"><thead><tr valign="top"><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">name</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">columns</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)" sortType="number">rows</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)" sortType="number">pages</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">valid</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">description</th></tr></thead><tbody><tr valign="top"><td><a href="index_publicrefreshtockens_pk.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">refreshtockens_pk</a></td><td>refreshtokenid 
+                    </td><td>1662 
+                    </td><td>7 
+                    </td><td>1 
+                    </td><td>primary non-clustered unique </td></tr><tr valign="top"><td><a href="index_publicrefreshtokens__un.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">refreshtokens__un</a></td><td>refreshtoken 
+                    </td><td>1662 
+                    </td><td>16 
+                    </td><td>1 
+                    </td><td>non-clustered unique </td></tr></tbody></table><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">Foreign key graph</h2><div id="FK_VML" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><table width="100%"><tr valign="top"><td valign="top" align="center"><v:group coordsize="1000px,1000px" coordorig="0px,0px" style="position:relative;top:20px;left:0px;width:700;height:100"><a href="table_publicclients.htm"><v:shape title="public.refreshtokens.clientid --&gt; public.clients.clientid" fillcolor="#0000FF" strokecolor="#0000FF" style="position:absolute;cursor:hand;z-index:10;behavior:url(#default#VML);top:-10;left:76;width:10;height:10;" path="m 750,750 l 750,-750, -750,-750, -750,750, 750,750 xe"><v:fill method="linear sigma" angle="-135" type="gradient" style="behavior:url(#default#VML);" /><span title="public.refreshtokens.clientid --&gt; public.clients.clientid" style="white-space:nowrap;position:relative;top:17;left:-16.099999999999998;cursor:hand;font-family:verdana;font-size:10;z-index:9;background-color:white;">clients</span></v:shape></a><v:shape strokeweight="1px" style="position:absolute;behavior:url(#default#VML);z-index:-1000;height:1000;width:1000;top:0;left:0;" strokecolor="gray" path="m 310,40 l 76,-10 xe" title="public.refreshtokens.clientid --&gt; public.clients.clientid" /><a href="table_publicscopes.htm"><v:shape title="public.refreshtokens.scopeid --&gt; public.scopes.scopeid" fillcolor="#0000FF" strokecolor="#0000FF" style="position:absolute;cursor:hand;z-index:10;behavior:url(#default#VML);top:-10;left:310;width:10;height:10;" path="m 750,750 l 750,-750, -750,-750, -750,750, 750,750 xe"><v:fill method="linear sigma" angle="-135" type="gradient" style="behavior:url(#default#VML);" /><span title="public.refreshtokens.scopeid --&gt; public.scopes.scopeid" style="white-space:nowrap;position:relative;top:17;left:-13.799999999999999;cursor:hand;font-family:verdana;font-size:10;z-index:9;background-color:white;">scopes</span></v:shape></a><v:shape strokeweight="1px" style="position:absolute;behavior:url(#default#VML);z-index:-1000;height:1000;width:1000;top:0;left:0;" strokecolor="gray" path="m 310,40 l 310,-10 xe" title="public.refreshtokens.scopeid --&gt; public.scopes.scopeid" /><a href="table_publicusers.htm"><v:shape title="public.refreshtokens.userid --&gt; public.users.userid" fillcolor="#0000FF" strokecolor="#0000FF" style="position:absolute;cursor:hand;z-index:10;behavior:url(#default#VML);top:-10;left:543;width:10;height:10;" path="m 750,750 l 750,-750, -750,-750, -750,750, 750,750 xe"><v:fill method="linear sigma" angle="-135" type="gradient" style="behavior:url(#default#VML);" /><span title="public.refreshtokens.userid --&gt; public.users.userid" style="white-space:nowrap;position:relative;top:17;left:-11.5;cursor:hand;font-family:verdana;font-size:10;z-index:9;background-color:white;">users</span></v:shape></a><v:shape strokeweight="1px" style="position:absolute;behavior:url(#default#VML);z-index:-1000;height:1000;width:1000;top:0;left:0;" strokecolor="gray" path="m 310,40 l 543,-10 xe" title="public.refreshtokens.userid --&gt; public.users.userid" /><a href="table_publicrefreshtokens.htm"><v:shape title="table: public.refreshtokens" fillcolor="#0000FF" strokecolor="#0000FF" style="position:absolute;cursor:hand;z-index:10;behavior:url(#default#VML);top:40;left:310;width:10;height:10;" path="m 1000,1000 l 1000,-1000, -1000,-1000, -1000,1000, 1000,1000 xe"><v:fill method="linear sigma" angle="-135" type="gradient" style="behavior:url(#default#VML);" /><span title="table: public.refreshtokens" style="white-space:nowrap;position:relative;top:22;left:-29.9;cursor:hand;font-family:verdana;font-size:10;z-index:9;background-color:white;">refreshtokens</span></v:shape></a></v:group></td></tr></table></div><div id="FK_SVG" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><table width="100%"><tr valign="top"><td valign="top" align="center"><embed type="image/svg+xml" pluginspage="http://www.adobe.com/svg/viewer/install/" src="foreignkey_publicrefreshtokens.svg" width="771" height="111"></embed></td></tr></table></div><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2">Foreign keys</h2><table class="dtTABLE"><thead><tr valign="top"><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">name</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">columns</th></tr></thead><tbody><tr><td>public.refreshtockens_users_fk</td><td>userid 
+                    </td></tr><tr><td>public.refreshtockens_scopes_fk</td><td>scopeid 
+                    </td></tr><tr><td>public.refreshtockens_clients_fk</td><td>clientid 
+                    </td></tr></tbody></table><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">Dependency graph</h2><div id="DEPENDENCY_VML" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><table width="100%"><tr valign="top"><td valign="top" align="center"><v:group coordsize="1000px,1000px" coordorig="0px,0px" style="position:relative;top:20px;left:0px;width:700;height:100"><a href="table_publicrefreshtokens.htm"><v:shape title="table: OauthDB.public.refreshtokens" fillcolor="#0000FF" strokecolor="#0000FF" style="position:absolute;cursor:hand;z-index:10;behavior:url(#default#VML);top:-10;left:310;width:10;height:10;" path="m 1000,1000 l 1000,-1000, -1000,-1000, -1000,1000, 1000,1000 xe"><v:fill method="linear sigma" angle="-135" type="gradient" style="behavior:url(#default#VML);" /><span title="table: OauthDB.public.refreshtokens" style="white-space:nowrap;position:relative;top:22;left:-29.9;cursor:hand;font-family:verdana;font-size:10;z-index:9;background-color:white;">refreshtokens</span></v:shape></a><a href="../PostgreSQL.localhost.OauthDB/index_publicrefreshtockens_pk.htm"><v:shape title="index: public.refreshtockens_pk" fillcolor="#990000" strokecolor="#990000" style="position:absolute;cursor:hand;z-index:10;behavior:url(#default#VML);top:40;left:135;width:10;height:10;" path="m 750,750 l 750,-750, -750,-750, -750,750, 750,750 xe"><v:fill method="linear sigma" angle="-135" type="gradient" style="behavior:url(#default#VML);" /><span title="index: public.refreshtockens_pk" style="white-space:nowrap;position:relative;top:17;left:-39.099999999999994;cursor:hand;font-family:verdana;font-size:10;z-index:9;background-color:white;">refreshtockens_pk</span></v:shape></a><v:shape strokeweight="1px" style="position:absolute;behavior:url(#default#VML);z-index:-1000;height:1000;width:1000;top:0;left:0;" strokecolor="gray" path="m 310,-10 l 135,40 xe" /><a href="../PostgreSQL.localhost.OauthDB/index_publicrefreshtokens__un.htm"><v:shape title="index: public.refreshtokens__un" fillcolor="#990000" strokecolor="#990000" style="position:absolute;cursor:hand;z-index:10;behavior:url(#default#VML);top:40;left:485;width:10;height:10;" path="m 750,750 l 750,-750, -750,-750, -750,750, 750,750 xe"><v:fill method="linear sigma" angle="-135" type="gradient" style="behavior:url(#default#VML);" /><span title="index: public.refreshtokens__un" style="white-space:nowrap;position:relative;top:17;left:-39.099999999999994;cursor:hand;font-family:verdana;font-size:10;z-index:9;background-color:white;">refreshtokens__un</span></v:shape></a><v:shape strokeweight="1px" style="position:absolute;behavior:url(#default#VML);z-index:-1000;height:1000;width:1000;top:0;left:0;" strokecolor="gray" path="m 310,-10 l 485,40 xe" /></v:group></td></tr></table></div><div id="DEPENDENCY_SVG" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><table width="100%"><tr valign="top"><td valign="top" align="center"><embed type="image/svg+xml" pluginspage="http://www.adobe.com/svg/viewer/install/" src="dependency_U_publicrefreshtokens.svg" width="771" height="111"></embed></td></tr></table></div><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2">Code</h2><pre class="csharpcode"><span class="kwrd">CREATE</span> <span class="kwrd">TABLE</span> refreshtokens (
+    refreshtokenid <span class="kwrd">integer</span> <span class="kwrd">NOT</span> <span class="kwrd">NULL</span>,
+    refreshtoken <span class="kwrd">character</span> <span class="kwrd">varying</span>(256) <span class="kwrd">NOT</span> <span class="kwrd">NULL</span>,
+    expires <span class="kwrd">timestamp</span> <span class="kwrd">without</span> <span class="kwrd">time</span> <span class="kwrd">zone</span>,
+    scopeid <span class="kwrd">integer</span>,
+    clientid <span class="kwrd">integer</span> <span class="kwrd">NOT</span> <span class="kwrd">NULL</span>,
+    userid <span class="kwrd">integer</span> <span class="kwrd">NOT</span> <span class="kwrd">NULL</span>,
+    createdat <span class="kwrd">timestamp</span> <span class="kwrd">without</span> <span class="kwrd">time</span> <span class="kwrd">zone</span> <span class="kwrd">NOT</span> <span class="kwrd">NULL</span>
+)</pre></div><p style="page-break-after:always" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><br /><br /><div id="copy_url_div"><center><a href="javascript:void(0)" onclick="copyToClipboard(document.URL)">copy URL to clipboard (IE only)</a></center><br /></div><center>Documentation generated by <a target="_blank" href="http://elsasoft.com">SqlSpec</a></center></p></body></html>

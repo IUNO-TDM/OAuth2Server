@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?><html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><head xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" /><link rel="stylesheet" href="sqlspec.css" /><title>OauthDB - public.savetoken</title><script language="JavaScript" src="resort_table.js"></script><script language="javascript">
+//
+// this hides the SVG if you are on IE, 
+// and hides the VML if you are NOT on IE.
+//
+function init()
+{
+  var isIE = navigator.userAgent.indexOf("MSIE") != -1;
+  showhideIfIE('FK_SVG', isIE, true);
+  showhideIfIE('DEPENDENCY_SVG', isIE, true);
+  showhideIfIE('MODEL_SVG', isIE, true); 
+  showhideIfIE('FK_VML', isIE, false);
+  showhideIfIE('DEPENDENCY_VML', isIE, false);
+  showhideIfIE('MODEL_VML', isIE, false);
+  
+  var node = document.getElementById('copy_url_div');
+  if (node != null)
+  {
+    var inChm = document.URL.indexOf('mk:@MSITStore') != -1;
+    node.style.display = inChm || !isIE ? 'none' : 'block';
+  }
+}   
+
+function showhideIfIE(elementName, isIE, hide)
+{
+  node = document.getElementById(elementName);
+  if (node != null) 
+  {
+    if (hide) 
+      node.style.display = isIE ? 'none' : 'block';
+    else
+      node.style.display = isIE ? 'block' : 'none';
+  }
+}
+
+function copyToClipboard(s)
+{
+  if(window.clipboardData)
+    if (clipboardData.setData)
+      clipboardData.setData('text', s);
+}
+</script></head><body onload="init()"><div id="nsbanner" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><div id="bannerrow1"><table class="bannerparthead" cellspacing="0" id="Table1"><tr id="hdr"><td class="runninghead">Database reference - OauthDB</td><td class="product" /></tr></table></div><div id="TitleRow"><h1 class="dtH1"><a href="default.htm">OauthDB</a> -         
+                    <a href="allUDFs.htm">functions</a> -         
+                    public.savetoken</h1></div></div><div id="nstext"><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2">Description</h2><span class="desc">none</span><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2">Function properties</h2><table class="dtTABLE"><thead><tr valign="top"><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">name</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">value</th></tr></thead><tbody><tr valign="top"><td>name</td><td>public.savetoken</td></tr><tr valign="top"><td>return type</td><td>pg_catalog.record 
+                  </td></tr><tr valign="top"><td>language</td><td>PLPGSQL</td></tr><tr valign="top"><td>deterministic</td><td>NO</td></tr></tbody></table><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2">Parameters</h2><table class="dtTABLE"><thead><tr valign="top"><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">name</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">datatype</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">udt</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">in/out</th></tr></thead><tbody><tr valign="top"><td>vaccesstoken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td>vexpiresacctoken 
+                                            </td><td>timestamp without time zone 
+                                            </td><td>pg_catalog.timestamp 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td>vrefreshtoken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td>vexpiresreftoken 
+                                            </td><td>timestamp without time zone 
+                                            </td><td>pg_catalog.timestamp 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td>vscopeuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td>vclientuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td>vuseruuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td>accessToken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td>accessTokenExpiresAt 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td>refreshToken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td>refreshTokenExpiresAt 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td>scope 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td>client 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td>user 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr></tbody></table><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2">Usage</h2><pre class="csharpcode"><span class="kwrd">result</span> = <span class="kwrd">public</span>.savetoken(
+    my_vaccesstoken,
+    my_vexpiresacctoken,
+    my_vrefreshtoken,
+    my_vexpiresreftoken,
+    my_vscopeuuid,
+    my_vclientuuid,
+    my_vuseruuid,
+    my_accessToken,
+    my_accessTokenExpiresAt,
+    my_refreshToken,
+    my_refreshTokenExpiresAt,
+    my_scope,
+    my_client,
+    my_user,
+    my_createdat
+);</pre><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2">Code</h2><pre class="csharpcode"><span class="kwrd">CREATE</span> <span class="kwrd">FUNCTION</span> savetoken(vaccesstoken <span class="kwrd">character</span> <span class="kwrd">varying</span>, vexpiresacctoken <span class="kwrd">timestamp</span> <span class="kwrd">without</span> <span class="kwrd">time</span> <span class="kwrd">zone</span>, vrefreshtoken <span class="kwrd">character</span> <span class="kwrd">varying</span>, vexpiresreftoken <span class="kwrd">timestamp</span> <span class="kwrd">without</span> <span class="kwrd">time</span> <span class="kwrd">zone</span>, vscopeuuid uuid, vclientuuid uuid, vuseruuid uuid) <span class="kwrd">RETURNS</span> <span class="kwrd">TABLE</span>(<span class="str">"accessToken"</span> <span class="kwrd">character</span> <span class="kwrd">varying</span>, <span class="str">"accessTokenExpiresAt"</span> <span class="kwrd">timestamp</span> <span class="kwrd">with</span> <span class="kwrd">time</span> <span class="kwrd">zone</span>, <span class="str">"refreshToken"</span> <span class="kwrd">character</span> <span class="kwrd">varying</span>, <span class="str">"refreshTokenExpiresAt"</span> <span class="kwrd">timestamp</span> <span class="kwrd">with</span> <span class="kwrd">time</span> <span class="kwrd">zone</span>, <span class="kwrd">scope</span> uuid, client uuid, <span class="str">"user"</span> uuid, createdat <span class="kwrd">timestamp</span> <span class="kwrd">with</span> <span class="kwrd">time</span> <span class="kwrd">zone</span>)
+    <span class="kwrd">LANGUAGE</span> plpgsql
+    <span class="kwrd">AS</span> $$
+      #variable_conflict use_column
+      <span class="kwrd">DECLARE</span>     vAccessTokenID <span class="kwrd">integer</span> := (<span class="kwrd">select</span> nextval(<span class="str">'AccessTokenID'</span>));
+                <span class="rem">--vAccessToken varchar := (select replace((select uuid_generate_v4())::text || (select uuid_generate_v1mc())::text,'-',''));</span>
+                vUserID <span class="kwrd">integer</span> := (<span class="kwrd">select</span> userid <span class="kwrd">from</span> users <span class="kwrd">where</span> useruuid = vuseruuid);
+                vScopeID <span class="kwrd">integer</span> := (<span class="kwrd">select</span> scopeid <span class="kwrd">from</span> scopes <span class="kwrd">where</span> scopeuuid = vscopeuuid);
+                vClientID <span class="kwrd">integer</span> := (<span class="kwrd">select</span> clientid <span class="kwrd">from</span> clients <span class="kwrd">where</span> clientuuid = vclientuuid);
+        <span class="kwrd">BEGIN</span>
+            <span class="kwrd">INSERT</span> <span class="kwrd">INTO</span> accesstokens (accesstokenid,accesstoken,expires,scopeid,clientid,userid,createdat)
+            <span class="kwrd">VALUES</span>(vAccessTokenID,vAccessToken,vexpiresAccToken,vScopeID,vclientid,vUserID,now());
+
+            <span class="rem">-- Begin Log if success</span>
+        perform <span class="kwrd">public</span>.createlog(0,<span class="str">'Created AccessToken sucessfully'</span>, <span class="str">'saveToken'</span>,
+                                <span class="str">'Expires: '</span> || <span class="kwrd">cast</span>(vexpiresAccToken <span class="kwrd">as</span> <span class="kwrd">varchar</span>) ||
+                                <span class="str">', ScopeID: '</span> || <span class="kwrd">cast</span>(vScopeID <span class="kwrd">as</span> <span class="kwrd">varchar</span>) ||
+                                <span class="str">', ClientID: '</span> || <span class="kwrd">cast</span>(vClientID <span class="kwrd">as</span> <span class="kwrd">varchar</span>) ||
+                                <span class="str">', UserID: '</span> || <span class="kwrd">cast</span>(vUserID <span class="kwrd">as</span> <span class="kwrd">varchar</span>));
+        <span class="kwrd">if</span>(vRefreshToken <span class="kwrd">is</span> <span class="kwrd">not</span> <span class="kwrd">null</span> <span class="kwrd">and</span> vexpiresRefToken <span class="kwrd">is</span> <span class="kwrd">not</span> <span class="kwrd">null</span>) <span class="kwrd">then</span>
+            perform createRefreshToken(vRefreshToken, vexpiresRefToken, vscopeuuid, vclientuuid, vuseruuid);
+        <span class="kwrd">end</span> <span class="kwrd">if</span>;
+
+
+        <span class="rem">-- RETURN</span>
+        <span class="kwrd">RETURN</span> QUERY (<span class="kwrd">select</span>    vAccessToken,
+                    vexpiresAccToken <span class="kwrd">at</span> <span class="kwrd">time</span> <span class="kwrd">zone</span> <span class="str">'utc'</span>,
+                    vRefreshToken,
+                    vexpiresRefToken <span class="kwrd">at</span> <span class="kwrd">time</span> <span class="kwrd">zone</span> <span class="str">'utc'</span>,
+                    vscopeuuid <span class="kwrd">as</span> scopeuuid,
+                    vclientuuid <span class="kwrd">as</span> clientuuid,
+                    vuseruuid <span class="kwrd">as</span> useruuid,
+                    ac.createdat <span class="kwrd">at</span> <span class="kwrd">time</span> <span class="kwrd">zone</span> <span class="str">'utc'</span>
+            <span class="kwrd">from</span> accesstokens ac
+            <span class="kwrd">where</span> accesstokenid = vAccessTokenID);
+
+        <span class="kwrd">exception</span> <span class="kwrd">when</span> others <span class="kwrd">then</span>
+        <span class="rem">-- Begin Log if error</span>
+        perform <span class="kwrd">public</span>.createlog(1,<span class="str">'ERROR: '</span> || SQLERRM || <span class="str">' '</span> || <span class="kwrd">SQLSTATE</span>,  <span class="str">'saveToken'</span>,
+                                <span class="str">'Expires: '</span> || <span class="kwrd">cast</span>(vexpiresAccToken <span class="kwrd">as</span> <span class="kwrd">varchar</span>) ||
+                                <span class="str">', ScopeID: '</span> || <span class="kwrd">cast</span>(vScopeID <span class="kwrd">as</span> <span class="kwrd">varchar</span>) ||
+                                <span class="str">', ClientID: '</span> || <span class="kwrd">cast</span>(vClientID <span class="kwrd">as</span> <span class="kwrd">varchar</span>) ||
+                                <span class="str">', UserID: '</span> || <span class="kwrd">cast</span>(vUserID <span class="kwrd">as</span> <span class="kwrd">varchar</span>));
+
+        RAISE <span class="kwrd">EXCEPTION</span> <span class="str">'%'</span>, <span class="str">'ERROR: '</span> || SQLERRM || <span class="str">' '</span> || <span class="kwrd">SQLSTATE</span> || <span class="str">' at saveToken'</span>;
+        <span class="rem">-- End Log if error</span>
+
+        <span class="kwrd">END</span>;
+  $$;
+
+
+</pre></div><p style="page-break-after:always" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><br /><br /><div id="copy_url_div"><center><a href="javascript:void(0)" onclick="copyToClipboard(document.URL)">copy URL to clipboard (IE only)</a></center><br /></div><center>Documentation generated by <a target="_blank" href="http://elsasoft.com">SqlSpec</a></center></p></body></html>
