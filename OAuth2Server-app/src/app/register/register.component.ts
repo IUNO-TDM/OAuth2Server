@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ElementRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, AbstractControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { RecaptchaComponent } from 'ng-recaptcha/recaptcha/recaptcha.component';
+import { CookieService } from 'ngx-cookie';
 
 // Custom includes
-
-
 
 @Component({
   selector: 'app-register',
@@ -16,110 +16,93 @@ import { HttpClient } from '@angular/common/http';
   providers: []
 })
 export class RegisterComponent implements OnInit {
+  cookieName = "iuno_register";
   registrationRunning = false;
   registrationFailed = false;
   captchaFailed = false;
-  password_confirm = ""
-  registerForm: FormGroup;
+  registrationForm: FormGroup;
   recaptcha = new FormControl(false);
-  recaptchaResponse = "";
-  registrationData = {};
-  @ViewChild('g-recaptcha-response') captchaResponse: ElementRef;
+  registrationData = {
+    firstName: "",
+    lastName: "",
+    email: ""
+  }
+  // @ViewChild('g-recaptcha-response') captchaResponse: ElementRef;
+  // @ViewChild('captchaControl') captchaRef: RecaptchaComponent;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private elementRef: ElementRef,
-    private http: HttpClient
+    private http: HttpClient,
+    private formBuilder: FormBuilder,
+    private cookieService: CookieService    
   ) {
+    this.createForm();
+  }
+
+  checkPasswordMatch(passwordFieldName: string, passwordConfirmFieldName: string) {
+    return (group: FormGroup) => {
+      let password = group.controls[passwordFieldName];
+      let passwordConfirm = group.controls[passwordConfirmFieldName];
+      if (password.value !== passwordConfirm.value) {
+        return passwordConfirm.setErrors({notEquivalent: true})
+      } else {
+          return passwordConfirm.setErrors(null);
+      }
+    }
+  }
+
+  createForm() {
+    this.registrationForm = this.formBuilder.group({
+      first_name: ['', Validators.required],
+      last_name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirm_password: ['', Validators.required],
+      recaptcha: [null, Validators.required],
+    }, {
+        validator: this.checkPasswordMatch('password', 'confirm_password')
+      });
   }
 
   ngOnInit() {
     let failure = this.route.snapshot.queryParams["failure"];
-
-    this.registerForm = new FormGroup({
-      'first_name': new FormControl(this.registrationData['first_name'], [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-      'last_name': new FormControl(this.registrationData['last_name'], [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-      'email': new FormControl(this.registrationData['email'], [
-        Validators.required,
-        Validators.email
-      ]),
-      'password': new FormControl(this.registrationData['password'], [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-      'confirm_password': new FormControl(this.registrationData['confirm_password'], [
-        Validators.required,
-      ]),
-      'recaptcha': new FormControl(null, [
-        Validators.required
-      ]),
-    });
-    this.registerForm.valueChanges.subscribe(form => {
-      this.registrationData['first_name'] = form.first_name;
-      this.registrationData['last_name'] = form.last_name;
-      this.registrationData['email'] = form.email;
-      this.registrationData['password'] = form.password;
-      this.registrationData['confirm_password'] = form.confirm_password;
-      this.registrationData['g-recaptcha-response'] = form.recaptcha;
-    });
     if (failure == 'true') {
       this.registrationFailed = true;
-    } else if (failure == 'captcha') {
-      this.captchaFailed = true;
+    }
+
+    let cookieData = this.getCookie();
+    if (cookieData) {
+      this.registrationData['first_name'] = cookieData['first_name'];
+      this.registrationData['last_name'] = cookieData['last_name'];
+      this.registrationData['email'] = cookieData['email'];
+      this.removeCookie();
     }
   }
 
-  onSubmit() {
-    console.log("form");
-    // console.log(form);
-    // this.registrationData['g-recaptcha-response'] = this.recaptcha;
-    // console.log("captcha");
-    // console.log(this.registerForm.captcha);
-    console.log("registrationData: ");
-    console.log(this.registrationData);
-    this.http.post('/passport/signup', this.registrationData).subscribe(result => {
-      console.log("error:");
-      console.log(result['error']);
-      console.log("target:");
-      console.log(result['targetUrl']);
-      let error = result['error'];
-      let targetUrl = result['targetUrl'];
-      if (!error && targetUrl) {
-        window.location.href = targetUrl;
-        // this.router.navigateByUrl(targetUrl);
-      }
-    });
-
-    return
-    // console.log("Submit!");
-    // let registrationData = {
-    //   first_name: this.user.first_name,
-    //   last_name: this.user.last_name,
-    //   email: this.user.email,
-    //   password: this.user.password,
-    //   confirm_password: this.user.password_confirm,
-    //   'g-recaptcha-response': g-recaptcha-response,
-    // }
-    // this.registrationRunning = true;
-    // this.userService.create(this.user).subscribe(res => {
-    //   console.log("Result: ");
-    //   console.log(res);
-    // }, error => {
-    //   console.log("Error: ");
-    //   console.log(error);
-    // });
+  setCookie(data: any) {
+    this.cookieService.put(
+      this.cookieName, 
+      JSON.stringify(data)
+    );
   }
 
-  resolved(captchaResponse: string) {
-    this.registrationData['g-recaptcha-response'] = captchaResponse;
-    // console.log(`Resolved captcha with response ${captchaResponse}:`);
+  getCookie(): any {
+    let cookieString = this.cookieService.get(this.cookieName);
+    var cookieJSON = null;
+    if (cookieString) {
+      cookieJSON = JSON.parse(cookieString);
+    }
+    return cookieJSON;
+  }
+
+  removeCookie() {
+    this.cookieService.remove(this.cookieName);    
+  }
+
+  onSubmit() {
+    this.setCookie(this.registrationData);
   }
 
   cancelRegistration() {

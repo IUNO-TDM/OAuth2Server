@@ -5,8 +5,8 @@ var express = require('express');
 var logger = require('../global/logger');
 const captchaAdapter = require('../adapter/recaptcha_adapter');
 
-const {Validator, ValidationError} = require('express-json-validator-middleware');
-const validator = new Validator({allErrors: true});
+const { Validator, ValidationError } = require('express-json-validator-middleware');
+const validator = new Validator({ allErrors: true });
 const validate = validator.validate;
 const validation_schema = require('../schema/passport_schema');
 
@@ -22,7 +22,7 @@ module.exports = function (passport) {
 
         req.logout();
 
-        if(req.query['redirect']) {
+        if (req.query['redirect']) {
             res.redirect(req.query['redirect']);
         }
         else {
@@ -140,29 +140,11 @@ module.exports = function (passport) {
         body: validation_schema.PassportSignup_Body
     }), function (req, res, next) {
         logger.info('iuno signup');
-        const captchaResponse = req.body['g-recaptcha-response'];
-        logger.info('testing captcha response "'+captchaResponse+'".');
-        captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
-            if (err || !success) {
-                res.sendStatus(403);
-            } else { // captcha success
-                passport.authenticate('local-signup', function(error, user, info) {
-                    // console.log(err);
-                    // console.log(user);
-                    // console.log(info);
-                    res.json({
-                        error: error,
-                        info: info,
-                        targetUrl: req.session.redirectTo || 'https://iuno.axoom.cloud'
-                    })
-                })(req, res, next);
-                // passport.authenticate('local-signup')(req, res, function(){
-                //     console.log("passport");
-                //     console.log(res);
-                // });
-            }
-        });
-    });
 
+        passport.authenticate('local-signup', {
+            successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
+            failureRedirect: '/register?failure=true'
+        })(req, res, next);
+    });
     return router;
 };
