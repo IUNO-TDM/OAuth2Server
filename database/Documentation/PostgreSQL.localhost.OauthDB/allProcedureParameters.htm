@@ -1,0 +1,1058 @@
+﻿<?xml version="1.0" encoding="utf-8"?><html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><head xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" /><link rel="stylesheet" href="sqlspec.css" /><title>OauthDB - procedure parameters</title><script language="JavaScript" src="resort_table.js"></script><script language="javascript">
+//
+// this hides the SVG if you are on IE, 
+// and hides the VML if you are NOT on IE.
+//
+function init()
+{
+  var isIE = navigator.userAgent.indexOf("MSIE") != -1;
+  showhideIfIE('FK_SVG', isIE, true);
+  showhideIfIE('DEPENDENCY_SVG', isIE, true);
+  showhideIfIE('MODEL_SVG', isIE, true); 
+  showhideIfIE('FK_VML', isIE, false);
+  showhideIfIE('DEPENDENCY_VML', isIE, false);
+  showhideIfIE('MODEL_VML', isIE, false);
+  
+  var node = document.getElementById('copy_url_div');
+  if (node != null)
+  {
+    var inChm = document.URL.indexOf('mk:@MSITStore') != -1;
+    node.style.display = inChm || !isIE ? 'none' : 'block';
+  }
+}   
+
+function showhideIfIE(elementName, isIE, hide)
+{
+  node = document.getElementById(elementName);
+  if (node != null) 
+  {
+    if (hide) 
+      node.style.display = isIE ? 'none' : 'block';
+    else
+      node.style.display = isIE ? 'block' : 'none';
+  }
+}
+
+function copyToClipboard(s)
+{
+  if(window.clipboardData)
+    if (clipboardData.setData)
+      clipboardData.setData('text', s);
+}
+</script></head><body onload="init()"><div id="nsbanner" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><div id="bannerrow1"><table class="bannerparthead" cellspacing="0" id="Table1"><tr id="hdr"><td class="runninghead">Database reference - OauthDB</td><td class="product" /></tr></table></div><div id="TitleRow"><h1 class="dtH1"><a href="default.htm">OauthDB</a> -         
+                    procedure parameters</h1></div></div><div id="nstext"><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2">All function parameters</h2><table class="dtTABLE"><thead><tr valign="top"><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">procedure</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">parameter</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">datatype</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">udt</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">in/out</th></tr></thead><tbody><tr valign="top"><td><a href="udf_publiccreateauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createauthorizationcode</a> 
+                                            </td><td>vauthorizationcode 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createauthorizationcode</a> 
+                                            </td><td>vexpires 
+                                            </td><td>timestamp without time zone 
+                                            </td><td>pg_catalog.timestamp 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createauthorizationcode</a> 
+                                            </td><td>vredirecturi 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createauthorizationcode</a> 
+                                            </td><td>vclientuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createauthorizationcode</a> 
+                                            </td><td>vuseruuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createauthorizationcode</a> 
+                                            </td><td>authorisationcode 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createauthorizationcode</a> 
+                                            </td><td>expires 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createauthorizationcode</a> 
+                                            </td><td>redirecturi 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createauthorizationcode</a> 
+                                            </td><td>clientuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createauthorizationcode</a> 
+                                            </td><td>useruuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createauthorizationcode</a> 
+                                            </td><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createclient</a> 
+                                            </td><td>vclientname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createclient</a> 
+                                            </td><td>vclientsecret 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createclient</a> 
+                                            </td><td>vuseruuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createclient</a> 
+                                            </td><td>vgrants 
+                                            </td><td>ARRAY 
+                                            </td><td>pg_catalog._text 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createclient</a> 
+                                            </td><td>vredirecturis 
+                                            </td><td>ARRAY 
+                                            </td><td>pg_catalog._text 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createclient</a> 
+                                            </td><td>vscopeuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createclient</a> 
+                                            </td><td>id 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createclient</a> 
+                                            </td><td>clientname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createclient</a> 
+                                            </td><td>redirecturis 
+                                            </td><td>ARRAY 
+                                            </td><td>pg_catalog._text 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createclient</a> 
+                                            </td><td>grants 
+                                            </td><td>ARRAY 
+                                            </td><td>pg_catalog._text 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createclient</a> 
+                                            </td><td>scope 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreatelog.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createlog</a> 
+                                            </td><td>vlogstatusid 
+                                            </td><td>integer 
+                                            </td><td>pg_catalog.int4 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreatelog.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createlog</a> 
+                                            </td><td>vlogmessage 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreatelog.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createlog</a> 
+                                            </td><td>vlogobjectname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreatelog.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createlog</a> 
+                                            </td><td>vparameters 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrefreshtoken</a> 
+                                            </td><td>vrefreshtoken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrefreshtoken</a> 
+                                            </td><td>vexpires 
+                                            </td><td>timestamp without time zone 
+                                            </td><td>pg_catalog.timestamp 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrefreshtoken</a> 
+                                            </td><td>vscopeuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrefreshtoken</a> 
+                                            </td><td>vclientuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrefreshtoken</a> 
+                                            </td><td>vuseruuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrefreshtoken</a> 
+                                            </td><td>refreshtoken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrefreshtoken</a> 
+                                            </td><td>expires 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrefreshtoken</a> 
+                                            </td><td>scopeuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrefreshtoken</a> 
+                                            </td><td>clientuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrefreshtoken</a> 
+                                            </td><td>useruuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrefreshtoken</a> 
+                                            </td><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterole.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrole</a> 
+                                            </td><td>vrolename 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterole.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrole</a> 
+                                            </td><td>vroledescription 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterole.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrole</a> 
+                                            </td><td>roleuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterole.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrole</a> 
+                                            </td><td>rolename 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreaterole.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrole</a> 
+                                            </td><td>roledescription 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreatescope.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createscope</a> 
+                                            </td><td>visdefault 
+                                            </td><td>boolean 
+                                            </td><td>pg_catalog.bool 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreatescope.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createscope</a> 
+                                            </td><td>vparameters 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreatescope.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createscope</a> 
+                                            </td><td>vdescription 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreatescope.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createscope</a> 
+                                            </td><td>scopeuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreatescope.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createscope</a> 
+                                            </td><td>isdefault 
+                                            </td><td>boolean 
+                                            </td><td>pg_catalog.bool 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreatescope.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createscope</a> 
+                                            </td><td>parameters 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreatescope.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createscope</a> 
+                                            </td><td>description 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreatescope.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createscope</a> 
+                                            </td><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreatescopesroles.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createscopesroles</a> 
+                                            </td><td>vscopeuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreatescopesroles.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createscopesroles</a> 
+                                            </td><td>vroleuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vexternalid 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vexternalid 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vusername 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vusername 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vfirstname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vfirstname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vlastname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vlastname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vuseremail 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vuseremail 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>voauth2provider 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>voauth2provider 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vimgpath 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vimgpath 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vthumbnail 
+                                            </td><td>bytea 
+                                            </td><td>pg_catalog.bytea 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vthumbnail 
+                                            </td><td>bytea 
+                                            </td><td>pg_catalog.bytea 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>id 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>vuserpwd 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>userfirstname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>useruuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>userlastname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>userfirstname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>useremail 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>userlastname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>useremail 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>updatedat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                            </td><td>updatedat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateusersroles.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createusersroles</a> 
+                                            </td><td>vuseruuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publiccreateusersroles.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createusersroles</a> 
+                                            </td><td>vroleuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicdeleteauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">deleteauthorizationcode</a> 
+                                            </td><td>vauthorizationcode 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicdeleterefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">deleterefreshtoken</a> 
+                                            </td><td>vrefreshtoken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetaccesstoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getaccesstoken</a> 
+                                            </td><td>vaccesstoken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetaccesstoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getaccesstoken</a> 
+                                            </td><td>accessToken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetaccesstoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getaccesstoken</a> 
+                                            </td><td>accessTokenExpiresAt 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetaccesstoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getaccesstoken</a> 
+                                            </td><td>scope 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetaccesstoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getaccesstoken</a> 
+                                            </td><td>client 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetaccesstoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getaccesstoken</a> 
+                                            </td><td>user 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetaccesstoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getaccesstoken</a> 
+                                            </td><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getauthorizationcode</a> 
+                                            </td><td>vauthorizationcode 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getauthorizationcode</a> 
+                                            </td><td>authorizationCode 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getauthorizationcode</a> 
+                                            </td><td>expiresAt 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getauthorizationcode</a> 
+                                            </td><td>scope 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getauthorizationcode</a> 
+                                            </td><td>redirecturi 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getauthorizationcode</a> 
+                                            </td><td>client 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getauthorizationcode</a> 
+                                            </td><td>user 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getauthorizationcode</a> 
+                                            </td><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclient</a> 
+                                            </td><td>vclientuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclient</a> 
+                                            </td><td>vclientsecret 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclient</a> 
+                                            </td><td>id 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclient</a> 
+                                            </td><td>clientname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclient</a> 
+                                            </td><td>redirectUris 
+                                            </td><td>ARRAY 
+                                            </td><td>pg_catalog._text 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclient</a> 
+                                            </td><td>grants 
+                                            </td><td>ARRAY 
+                                            </td><td>pg_catalog._text 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclient</a> 
+                                            </td><td>scope 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetclientbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclientbyid</a> 
+                                            </td><td>vclientuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetclientbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclientbyid</a> 
+                                            </td><td>id 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetclientbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclientbyid</a> 
+                                            </td><td>clientname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetclientbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclientbyid</a> 
+                                            </td><td>redirectUris 
+                                            </td><td>ARRAY 
+                                            </td><td>pg_catalog._text 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetclientbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclientbyid</a> 
+                                            </td><td>grants 
+                                            </td><td>ARRAY 
+                                            </td><td>pg_catalog._text 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetclientbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclientbyid</a> 
+                                            </td><td>scope 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetrefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getrefreshtoken</a> 
+                                            </td><td>vrefreshtoken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetrefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getrefreshtoken</a> 
+                                            </td><td>refreshToken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetrefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getrefreshtoken</a> 
+                                            </td><td>refreshTokenExpiresAt 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetrefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getrefreshtoken</a> 
+                                            </td><td>scope 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetrefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getrefreshtoken</a> 
+                                            </td><td>client 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetrefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getrefreshtoken</a> 
+                                            </td><td>user 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetrefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getrefreshtoken</a> 
+                                            </td><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuser</a> 
+                                            </td><td>vuseremail 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuser</a> 
+                                            </td><td>vuserpwd 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuser</a> 
+                                            </td><td>id 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuser</a> 
+                                            </td><td>externalid 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuser</a> 
+                                            </td><td>firstname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuser</a> 
+                                            </td><td>lastname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuser</a> 
+                                            </td><td>useremail 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuser</a> 
+                                            </td><td>roles 
+                                            </td><td>ARRAY 
+                                            </td><td>pg_catalog._text 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuser</a> 
+                                            </td><td>oauth2provider 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuser</a> 
+                                            </td><td>thumbnail 
+                                            </td><td>bytea 
+                                            </td><td>pg_catalog.bytea 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuser</a> 
+                                            </td><td>imgpath 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuser</a> 
+                                            </td><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuser</a> 
+                                            </td><td>updatedat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                            </td><td>vexternalid 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                            </td><td>voauth2provider 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                            </td><td>id 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                            </td><td>externalid 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                            </td><td>username 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                            </td><td>firstname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                            </td><td>lastname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                            </td><td>useremail 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                            </td><td>roles 
+                                            </td><td>ARRAY 
+                                            </td><td>pg_catalog._text 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                            </td><td>oauth2provider 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                            </td><td>thumbnail 
+                                            </td><td>bytea 
+                                            </td><td>pg_catalog.bytea 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                            </td><td>imgpath 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                            </td><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                            </td><td>updatedat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyid</a> 
+                                            </td><td>vuseruuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyid</a> 
+                                            </td><td>id 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyid</a> 
+                                            </td><td>externalid 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyid</a> 
+                                            </td><td>username 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyid</a> 
+                                            </td><td>firstname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyid</a> 
+                                            </td><td>lastname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyid</a> 
+                                            </td><td>useremail 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyid</a> 
+                                            </td><td>roles 
+                                            </td><td>ARRAY 
+                                            </td><td>pg_catalog._text 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyid</a> 
+                                            </td><td>oauth2provider 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyid</a> 
+                                            </td><td>thumbnail 
+                                            </td><td>bytea 
+                                            </td><td>pg_catalog.bytea 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyid</a> 
+                                            </td><td>imgpath 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyid</a> 
+                                            </td><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyid</a> 
+                                            </td><td>updatedat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserfromclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserfromclient</a> 
+                                            </td><td>vclientuuid 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserfromclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserfromclient</a> 
+                                            </td><td>id 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserfromclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserfromclient</a> 
+                                            </td><td>externalid 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserfromclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserfromclient</a> 
+                                            </td><td>firstname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserfromclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserfromclient</a> 
+                                            </td><td>lastname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserfromclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserfromclient</a> 
+                                            </td><td>useremail 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserfromclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserfromclient</a> 
+                                            </td><td>roles 
+                                            </td><td>ARRAY 
+                                            </td><td>pg_catalog._text 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserfromclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserfromclient</a> 
+                                            </td><td>oauth2provider 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserfromclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserfromclient</a> 
+                                            </td><td>thumbnail 
+                                            </td><td>bytea 
+                                            </td><td>pg_catalog.bytea 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserfromclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserfromclient</a> 
+                                            </td><td>imgpath 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserfromclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserfromclient</a> 
+                                            </td><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicgetuserfromclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserfromclient</a> 
+                                            </td><td>updatedat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>vaccesstoken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>vexpiresacctoken 
+                                            </td><td>timestamp without time zone 
+                                            </td><td>pg_catalog.timestamp 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>vrefreshtoken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>vexpiresreftoken 
+                                            </td><td>timestamp without time zone 
+                                            </td><td>pg_catalog.timestamp 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>vscopeuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>vclientuuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>vuseruuid 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>accessToken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>accessTokenExpiresAt 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>refreshToken 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>refreshTokenExpiresAt 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>scope 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>client 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>user 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                            </td><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>vexternalid 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>vusername 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>vfirstname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>vlastname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>vuseremail 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>voauth2provider 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>vimgpath 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>vthumbnail 
+                                            </td><td>bytea 
+                                            </td><td>pg_catalog.bytea 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>vuserroles 
+                                            </td><td>ARRAY 
+                                            </td><td>pg_catalog._text 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>vuserpwd 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>IN 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>id 
+                                            </td><td>uuid 
+                                            </td><td>pg_catalog.uuid 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>firstname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>lastname 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>useremail 
+                                            </td><td>character varying 
+                                            </td><td>pg_catalog.varchar 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>createdat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr><tr valign="top"><td><a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                            </td><td>updatedat 
+                                            </td><td>timestamp with time zone 
+                                            </td><td>pg_catalog.timestamptz 
+                                            </td><td>OUT 
+                                            </td></tr></tbody></table></div><p style="page-break-after:always" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><br /><br /><div id="copy_url_div"><center><a href="javascript:void(0)" onclick="copyToClipboard(document.URL)">copy URL to clipboard (IE only)</a></center><br /></div><center>Documentation generated by <a target="_blank" href="http://elsasoft.com">SqlSpec</a></center></p></body></html>

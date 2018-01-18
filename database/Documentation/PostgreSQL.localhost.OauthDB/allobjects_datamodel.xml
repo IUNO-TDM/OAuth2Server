@@ -1,0 +1,63 @@
+<SqlSpec>
+  <models>
+    <model name="all objects - localhost.OauthDB">
+      <server type="PostgreSQL" name="localhost">
+        <database name="OauthDB">
+          <object xtype="U" name="public.accesstokens" />
+          <object xtype="U" name="public.authorizationcodes" />
+          <object xtype="U" name="public.clients" />
+          <object xtype="U" name="public.logstatus" />
+          <object xtype="U" name="public.logtable" />
+          <object xtype="U" name="public.patches" />
+          <object xtype="U" name="public.refreshtokens" />
+          <object xtype="U" name="public.roles" />
+          <object xtype="U" name="public.scopes" />
+          <object xtype="U" name="public.scopesroles" />
+          <object xtype="U" name="public.users" />
+          <object xtype="U" name="public.usersroles" />
+          <object xtype="FN" name="public.createauthorizationcode" />
+          <object xtype="FN" name="public.createclient" />
+          <object xtype="FN" name="public.createlog" />
+          <object xtype="FN" name="public.createrefreshtoken" />
+          <object xtype="FN" name="public.createrole" />
+          <object xtype="FN" name="public.createscope" />
+          <object xtype="FN" name="public.createscopesroles" />
+          <object xtype="FN" name="public.createuser" />
+          <object xtype="FN" name="public.createuser" />
+          <object xtype="FN" name="public.createusersroles" />
+          <object xtype="FN" name="public.deleteauthorizationcode" />
+          <object xtype="FN" name="public.deleterefreshtoken" />
+          <object xtype="FN" name="public.getaccesstoken" />
+          <object xtype="FN" name="public.getauthorizationcode" />
+          <object xtype="FN" name="public.getclient" />
+          <object xtype="FN" name="public.getclientbyid" />
+          <object xtype="FN" name="public.getrefreshtoken" />
+          <object xtype="FN" name="public.getuser" />
+          <object xtype="FN" name="public.getuserbyexternalid" />
+          <object xtype="FN" name="public.getuserbyid" />
+          <object xtype="FN" name="public.getuserfromclient" />
+          <object xtype="FN" name="public.savetoken" />
+          <object xtype="FN" name="public.setuser" />
+        </database>
+      </server>
+    </model>
+    <model name="all tables - localhost.OauthDB">
+      <server type="PostgreSQL" name="localhost">
+        <database name="OauthDB">
+          <object xtype="U" name="public.accesstokens" />
+          <object xtype="U" name="public.authorizationcodes" />
+          <object xtype="U" name="public.clients" />
+          <object xtype="U" name="public.logstatus" />
+          <object xtype="U" name="public.logtable" />
+          <object xtype="U" name="public.patches" />
+          <object xtype="U" name="public.refreshtokens" />
+          <object xtype="U" name="public.roles" />
+          <object xtype="U" name="public.scopes" />
+          <object xtype="U" name="public.scopesroles" />
+          <object xtype="U" name="public.users" />
+          <object xtype="U" name="public.usersroles" />
+        </database>
+      </server>
+    </model>
+  </models>
+</SqlSpec>

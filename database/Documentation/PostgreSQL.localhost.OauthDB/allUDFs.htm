@@ -1,0 +1,586 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <head xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" />
+    <link rel="stylesheet" href="sqlspec.css" />
+    <title>OauthDB - functions</title>
+    <script language="JavaScript" src="resort_table.js">
+    </script>
+    <script language="javascript">
+//
+// this hides the SVG if you are on IE, 
+// and hides the VML if you are NOT on IE.
+//
+function init()
+{
+  var isIE = navigator.userAgent.indexOf("MSIE") != -1;
+  showhideIfIE('FK_SVG', isIE, true);
+  showhideIfIE('DEPENDENCY_SVG', isIE, true);
+  showhideIfIE('MODEL_SVG', isIE, true); 
+  showhideIfIE('FK_VML', isIE, false);
+  showhideIfIE('DEPENDENCY_VML', isIE, false);
+  showhideIfIE('MODEL_VML', isIE, false);
+  
+  var node = document.getElementById('copy_url_div');
+  if (node != null)
+  {
+    var inChm = document.URL.indexOf('mk:@MSITStore') != -1;
+    node.style.display = inChm || !isIE ? 'none' : 'block';
+  }
+}   
+
+function showhideIfIE(elementName, isIE, hide)
+{
+  node = document.getElementById(elementName);
+  if (node != null) 
+  {
+    if (hide) 
+      node.style.display = isIE ? 'none' : 'block';
+    else
+      node.style.display = isIE ? 'block' : 'none';
+  }
+}
+
+function copyToClipboard(s)
+{
+  if(window.clipboardData)
+    if (clipboardData.setData)
+      clipboardData.setData('text', s);
+}
+</script>
+  </head>
+  <body onload="init()">
+    <div id="nsbanner" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <div id="bannerrow1">
+        <table class="bannerparthead" cellspacing="0" id="Table1">
+          <tr id="hdr">
+            <td class="runninghead">Database reference - OauthDB</td>
+            <td class="product" />
+          </tr>
+        </table>
+      </div>
+      <div id="TitleRow">
+        <h1 class="dtH1">
+          <a href="default.htm">OauthDB</a> -         
+                    functions</h1>
+      </div>
+    </div>
+    <div id="nstext">
+      <h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <font color="red">Evaluation</font>
+      </h2>
+      <p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <font color="red">
+          <b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b>
+        </font>
+      </p>
+      <h2 class="dtH2">function overview</h2>
+      <table class="dtTABLE">
+        <thead>
+          <tr valign="top">
+            <th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">name</th>
+            <th>returns set</th>
+            <th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)" sortType="number">params</th>
+            <th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)" sortType="number">code length</th>
+            <th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)" sortType="number">dependents</th>
+            <th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)" sortType="number">depends on</th>
+            <th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">comment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr valign="top">
+            <td>
+              <a href="udf_publiccreateauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createauthorizationcode</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">11 
+                                        </td>
+            <td align="right">2,267 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publiccreateclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createclient</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">11 
+                                        </td>
+            <td align="right">2,264 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publiccreatelog.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createlog</a> 
+                                        </td>
+            <td>no</td>
+            <td align="right">4 
+                                        </td>
+            <td align="right">1,155 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publiccreaterefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrefreshtoken</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">11 
+                                        </td>
+            <td align="right">2,234 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publiccreaterole.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createrole</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">5 
+                                        </td>
+            <td align="right">1,375 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publiccreatescope.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createscope</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">8 
+                                        </td>
+            <td align="right">1,565 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publiccreatescopesroles.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createscopesroles</a> 
+                                        </td>
+            <td>no</td>
+            <td align="right">2 
+                                        </td>
+            <td align="right">1,092 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">29 
+                                        </td>
+            <td align="right">2,085 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publiccreateuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createuser</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">2,085 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publiccreateusersroles.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">createusersroles</a> 
+                                        </td>
+            <td>no</td>
+            <td align="right">2 
+                                        </td>
+            <td align="right">1,067 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publicdeleteauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">deleteauthorizationcode</a> 
+                                        </td>
+            <td>no</td>
+            <td align="right">1 
+                                        </td>
+            <td align="right">993 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publicdeleterefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">deleterefreshtoken</a> 
+                                        </td>
+            <td>no</td>
+            <td align="right">1 
+                                        </td>
+            <td align="right">1,040 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publicgetaccesstoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getaccesstoken</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">7 
+                                        </td>
+            <td align="right">634 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publicgetauthorizationcode.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getauthorizationcode</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">8 
+                                        </td>
+            <td align="right">720 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publicgetclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclient</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">7 
+                                        </td>
+            <td align="right">498 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publicgetclientbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getclientbyid</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">6 
+                                        </td>
+            <td align="right">411 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publicgetrefreshtoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getrefreshtoken</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">7 
+                                        </td>
+            <td align="right">642 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publicgetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuser</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">13 
+                                        </td>
+            <td align="right">988 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publicgetuserbyexternalid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyexternalid</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">14 
+                                        </td>
+            <td align="right">1,061 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publicgetuserbyid.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserbyid</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">13 
+                                        </td>
+            <td align="right">957 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publicgetuserfromclient.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">getuserfromclient</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">12 
+                                        </td>
+            <td align="right">989 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publicsavetoken.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">savetoken</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">15 
+                                        </td>
+            <td align="right">2,663 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+          <tr valign="top">
+            <td>
+              <a href="udf_publicsetuser.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">setuser</a> 
+                                        </td>
+            <td>yes</td>
+            <td align="right">16 
+                                        </td>
+            <td align="right">2,678 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td align="right">0 
+                                        </td>
+            <td> 
+                                        </td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+      <br />
+      <center>
+        <img border="0" src="udfcomplexity.png" usemap="#Largestfunctionsbycodelength" alt="Largest functions by code length" />
+      </center>
+    </div>
+    <p style="page-break-after:always" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <br />
+      <br />
+      <div id="copy_url_div">
+        <center>
+          <a href="javascript:void(0)" onclick="copyToClipboard(document.URL)">copy URL to clipboard (IE only)</a>
+        </center>
+        <br />
+      </div>
+      <center>Documentation generated by <a target="_blank" href="http://elsasoft.com">SqlSpec</a></center>
+    </p>
+    <map name="Largesttablesbysizeondisk">
+      <area title="public.accesstokens (36%)" shape="rect" coords="690,503,880,521" href="table_publicaccesstokens.htm" />
+      <area title="public.accesstokens (36%)" shape="poly" coords="600,300,725,300,724,302,724,304,724,306,724,308,724,310,724,313,724,315,723,317,723,319,723,321,722,323,722,325,721,328,721,330,720,332,720,334,719,336,718,338,718,340,717,342,716,344,715,346,715,348,714,350,713,352,712,354,711,356,710,358,709,360,708,362,707,364,706,366,704,368,703,369,702,371,701,373,699,375,698,376,697,378,695,380,694,382,692,383,691,385,689,386,688,388,686,389,685,391,683,392,682,394,680,395,678,397,676,398,675,399,673,401,671,402,669,403,668,404,666,406,664,407,662,408,660,409,658,410,656,411,654,412,652,413,650,414,648,415,646,415,644,416,642,417,640,418,638,418,636,419,634,420,632,420,630,421,628,421,625,422,623,422,621,423,619,423,617,423,615,424,613,424,610,424,608,424,606,424,604,424,602,424,600,425,597,424,595,424,593,424,591,424,589,424,586,424,584,424,582,423,580,423,578,423,576,422,574,422,571,421,569,421,567,420,565,420,563,419,561,418,559,418,557,417,555,416,553,415,551,415,549,414,547,413,545,412,543,411,541,410,539,409,537,408,535,407,533,406,531,404,530,403,528,402,526,401,524,399,523,398,521,397,519,395,517,394,516,392,600,300" href="table_publicaccesstokens.htm" />
+      <area title="public.logtable (27%)" shape="rect" coords="270,283,425,300" href="table_publiclogtable.htm" />
+      <area title="public.logtable (27%)" shape="poly" coords="600,300,516,392,514,391,512,389,511,388,509,386,508,385,506,383,505,381,504,380,502,378,501,376,499,374,498,373,497,371,496,369,494,367,493,365,492,364,491,362,490,360,489,358,488,356,487,354,486,352,485,350,484,348,483,346,483,344,482,342,481,340,481,338,480,336,479,334,479,332,478,329,478,327,477,325,477,323,476,321,476,319,476,317,475,314,475,312,475,310,475,308,475,306,475,304,475,301,475,299,475,297,475,295,475,293,475,290,475,288,475,286,475,284,476,282,476,280,476,277,477,275,477,273,478,271,478,269,479,267,479,265,480,263,481,261,481,258,482,256,483,254,484,252,485,250,485,248,486,246,487,244,488,242,489,241,490,239,491,237,493,235,494,233,495,231,496,229,497,228,499,226,500,224,501,222,503,221,504,219,505,217,507,216,508,214,510,212,511,211,513,209,514,208,516,206,518,205,519,204,521,202,523,201,600,300" href="table_publiclogtable.htm" />
+      <area title="public.refreshtokens (26%)" shape="rect" coords="643,49,837,67" href="table_publicrefreshtokens.htm" />
+      <area title="public.refreshtokens (26%)" shape="poly" coords="600,300,523,200,525,199,527,198,529,197,530,195,532,194,534,193,536,192,538,191,540,190,542,189,544,188,545,187,547,186,549,185,551,184,553,183,556,182,558,182,560,181,562,180,564,180,566,179,568,179,570,178,572,178,574,177,577,177,579,176,581,176,583,176,585,175,587,175,589,175,592,175,594,175,596,175,598,175,600,175,603,175,605,175,607,175,609,175,611,175,613,175,616,176,618,176,620,176,622,177,624,177,626,177,628,178,631,178,633,179,635,180,637,180,639,181,641,182,643,182,645,183,647,184,649,185,651,186,653,187,655,188,657,189,659,190,661,191,663,192,665,193,666,194,668,195,670,196,672,198,674,199,675,200,677,202,679,203,681,204,682,206,684,207,685,209,687,210,689,212,690,213,692,215,693,217,694,218,696,220,697,222,699,223,700,225,701,227,702,229,704,230,705,232,600,300" href="table_publicrefreshtokens.htm" />
+      <area title="public.users (2%)" shape="rect" coords="762,205,890,223" href="table_publicusers.htm" />
+      <area title="public.users (2%)" shape="poly" coords="600,300,706,233,707,235,708,237,709,239,710,241,711,243,712,245,713,247,714,249,715,251,600,300" href="table_publicusers.htm" />
+      <area title="public.authorizationcodes (1%)" shape="rect" coords="768,227,989,244" href="table_publicauthorizationcodes.htm" />
+      <area title="public.authorizationcodes (1%)" shape="poly" coords="600,300,715,251,716,253,716,255,717,257,718,259,600,300" href="table_publicauthorizationcodes.htm" />
+      <area title="public.clients (1%)" shape="rect" coords="770,241,905,259" href="table_publicclients.htm" />
+      <area title="public.clients (1%)" shape="poly" coords="600,300,718,260,719,262,720,265,720,267,721,269,600,300" href="table_publicclients.htm" />
+      <area title="public.logstatus (1%)" shape="rect" coords="772,255,926,273" href="table_publiclogstatus.htm" />
+      <area title="public.logstatus (1%)" shape="poly" coords="600,300,721,270,721,272,722,274,722,276,723,279,600,300" href="table_publiclogstatus.htm" />
+      <area title="public.roles (1%)" shape="rect" coords="774,269,898,286" href="table_publicroles.htm" />
+      <area title="public.roles (1%)" shape="poly" coords="600,300,723,280,723,282,724,284,724,286,724,288,600,300" href="table_publicroles.htm" />
+      <area title="public.usersroles (1%)" shape="rect" coords="774,283,936,300" href="table_publicusersroles.htm" />
+      <area title="public.usersroles (1%)" shape="poly" coords="600,300,724,290,724,292,724,294,724,296,724,298,600,300" href="table_publicusersroles.htm" />
+    </map>
+    <map name="Largestindexesbysizeondisk">
+      <area title="public.accesstokens (38%)" shape="rect" coords="680,512,871,530" href="table_publicaccesstokens.htm" />
+      <area title="public.accesstokens (38%)" shape="poly" coords="600,300,725,300,724,302,724,304,724,306,724,308,724,310,724,313,724,315,723,317,723,319,723,321,722,323,722,325,721,328,721,330,720,332,720,334,719,336,718,338,718,340,717,342,716,344,715,346,715,348,714,350,713,352,712,354,711,356,710,358,709,360,708,362,707,364,706,366,704,368,703,369,702,371,701,373,699,375,698,376,697,378,695,380,694,382,692,383,691,385,689,386,688,388,686,389,685,391,683,392,682,394,680,395,678,397,676,398,675,399,673,401,671,402,669,403,668,404,666,406,664,407,662,408,660,409,658,410,656,411,654,412,652,413,650,414,648,415,646,415,644,416,642,417,640,418,638,418,636,419,634,420,632,420,630,421,628,421,625,422,623,422,621,423,619,423,617,423,615,424,613,424,610,424,608,424,606,424,604,424,602,424,600,425,597,424,595,424,593,424,591,424,589,424,586,424,584,424,582,423,580,423,578,423,576,422,574,422,571,421,569,421,567,420,565,420,563,419,561,418,559,418,557,417,555,416,553,415,551,415,549,414,547,413,545,412,543,411,541,410,539,409,537,408,535,407,533,406,531,404,530,403,528,402,526,401,524,399,523,398,521,397,519,395,517,394,516,392,514,391,513,389,511,388,510,386,508,385,507,383,600,300" href="table_publicaccesstokens.htm" />
+      <area title="public.refreshtokens (29%)" shape="rect" coords="232,254,427,272" href="table_publicrefreshtokens.htm" />
+      <area title="public.refreshtokens (29%)" shape="poly" coords="600,300,506,382,505,381,503,379,502,377,500,376,499,374,498,372,497,370,495,369,494,367,493,365,492,363,491,361,490,359,489,357,488,355,487,353,486,351,485,349,484,347,483,345,482,343,482,341,481,339,480,337,480,335,479,333,479,331,478,329,477,327,477,325,477,322,476,320,476,318,476,316,475,314,475,312,475,309,475,307,475,305,475,303,475,301,475,298,475,296,475,294,475,292,475,290,475,288,475,285,476,283,476,281,476,279,477,277,477,275,477,273,478,270,478,268,479,266,480,264,480,262,481,260,482,258,482,256,483,254,484,252,485,250,486,248,487,246,488,244,489,242,490,240,491,238,492,236,493,234,494,232,495,231,496,229,498,227,499,225,500,223,502,222,503,220,504,218,506,217,507,215,509,214,510,212,512,210,513,209,515,207,517,206,518,205,520,203,522,202,523,200,525,199,527,198,529,197,530,195,532,194,534,193,536,192,538,191,540,190,542,189,544,188,546,187,600,300" href="table_publicrefreshtokens.htm" />
+      <area title="public.logtable (6%)" shape="rect" coords="397,58,542,76" href="table_publiclogtable.htm" />
+      <area title="public.logtable (6%)" shape="poly" coords="600,300,546,187,548,186,550,185,552,184,554,183,556,182,558,182,560,181,562,180,564,180,566,179,568,178,571,178,573,177,575,177,577,177,579,176,581,176,583,176,586,175,588,175,590,175,592,175,594,175,600,300" href="table_publiclogtable.htm" />
+      <area title="public.authorizationcodes (5%)" shape="rect" coords="630,41,851,59" href="table_publicauthorizationcodes.htm" />
+      <area title="public.authorizationcodes (5%)" shape="poly" coords="600,300,594,175,597,175,599,175,601,175,603,175,605,175,608,175,610,175,612,175,614,175,616,176,618,176,621,176,623,177,625,177,627,178,629,178,631,179,633,179,600,300" href="table_publicauthorizationcodes.htm" />
+      <area title="public.roles (5%)" shape="rect" coords="694,90,818,108" href="table_publicroles.htm" />
+      <area title="public.roles (5%)" shape="poly" coords="600,300,634,179,636,180,638,181,641,181,643,182,645,183,647,184,649,185,651,185,653,186,655,187,657,188,658,189,660,190,662,191,664,193,666,194,668,195,670,196,600,300" href="table_publicroles.htm" />
+      <area title="public.users (5%)" shape="rect" coords="737,146,865,164" href="table_publicusers.htm" />
+      <area title="public.users (5%)" shape="poly" coords="600,300,671,197,672,198,674,199,676,200,678,202,679,203,681,205,683,206,684,208,686,209,687,211,689,212,690,214,692,215,693,217,695,219,696,220,697,222,699,224,600,300" href="table_publicusers.htm" />
+      <area title="public.clients (2%)" shape="rect" coords="757,190,892,208" href="table_publicclients.htm" />
+      <area title="public.clients (2%)" shape="poly" coords="600,300,699,224,701,226,702,228,703,230,704,232,706,233,707,235,708,237,709,239,710,241,600,300" href="table_publicclients.htm" />
+      <area title="public.logstatus (2%)" shape="rect" coords="766,219,919,236" href="table_publiclogstatus.htm" />
+      <area title="public.logstatus (2%)" shape="poly" coords="600,300,710,241,711,243,712,245,713,247,714,249,715,251,716,253,716,255,717,257,718,259,600,300" href="table_publiclogstatus.htm" />
+      <area title="public.scopes (2%)" shape="rect" coords="771,247,909,265" href="table_publicscopes.htm" />
+      <area title="public.scopes (2%)" shape="poly" coords="600,300,718,260,719,262,719,264,720,266,721,268,721,270,722,273,722,275,722,277,723,279,600,300" href="table_publicscopes.htm" />
+      <area title="public.usersroles (2%)" shape="rect" coords="774,275,935,293" href="table_publicusersroles.htm" />
+      <area title="public.usersroles (2%)" shape="poly" coords="600,300,723,279,723,282,724,284,724,286,724,288,724,290,724,292,724,295,724,297,724,299,600,300" href="table_publicusersroles.htm" />
+    </map>
+    <map name="Largesttablesbyrowcount">
+      <area title="public.accesstokens (45%)" shape="rect" coords="635,545,825,563" href="table_publicaccesstokens.htm" />
+      <area title="public.accesstokens (45%)" shape="poly" coords="600,300,725,300,724,302,724,304,724,306,724,308,724,310,724,313,724,315,723,317,723,319,723,321,722,323,722,325,721,328,721,330,720,332,720,334,719,336,718,338,718,340,717,342,716,344,715,346,715,348,714,350,713,352,712,354,711,356,710,358,709,360,708,362,707,364,706,366,704,368,703,369,702,371,701,373,699,375,698,376,697,378,695,380,694,382,692,383,691,385,689,386,688,388,686,389,685,391,683,392,682,394,680,395,678,397,676,398,675,399,673,401,671,402,669,403,668,404,666,406,664,407,662,408,660,409,658,410,656,411,654,412,652,413,650,414,648,415,646,415,644,416,642,417,640,418,638,418,636,419,634,420,632,420,630,421,628,421,625,422,623,422,621,423,619,423,617,423,615,424,613,424,610,424,608,424,606,424,604,424,602,424,600,425,597,424,595,424,593,424,591,424,589,424,586,424,584,424,582,423,580,423,578,423,576,422,574,422,571,421,569,421,567,420,565,420,563,419,561,418,559,418,557,417,555,416,553,415,551,415,549,414,547,413,545,412,543,411,541,410,539,409,537,408,535,407,533,406,531,404,530,403,528,402,526,401,524,399,523,398,521,397,519,395,517,394,516,392,514,391,513,389,511,388,510,386,508,385,507,383,505,382,504,380,502,378,501,376,500,375,498,373,497,371,496,369,495,368,493,366,492,364,491,362,490,360,489,358,488,356,487,354,486,352,485,350,484,348,484,346,483,344,482,342,481,340,481,338,480,336,600,300" href="table_publicaccesstokens.htm" />
+      <area title="public.refreshtokens (32%)" shape="rect" coords="262,157,456,175" href="table_publicrefreshtokens.htm" />
+      <area title="public.refreshtokens (32%)" shape="poly" coords="600,300,480,335,479,332,478,330,478,328,477,326,477,324,477,322,476,320,476,318,476,315,475,313,475,311,475,309,475,307,475,304,475,302,475,300,475,298,475,296,475,294,475,291,475,289,475,287,475,285,476,283,476,281,476,278,477,276,477,274,478,272,478,270,479,268,479,266,480,264,480,261,481,259,482,257,483,255,483,253,484,251,485,249,486,247,487,245,488,243,489,241,490,239,491,238,492,236,493,234,494,232,496,230,497,228,498,227,499,225,501,223,502,221,503,220,505,218,506,216,508,215,509,213,511,212,512,210,514,208,515,207,517,206,519,204,520,203,522,201,524,200,526,199,527,197,529,196,531,195,533,194,535,193,536,192,538,190,540,189,542,188,544,187,546,186,548,186,550,185,552,184,554,183,556,182,558,182,560,181,562,180,564,180,567,179,569,178,571,178,573,177,575,177,577,177,579,176,581,176,584,176,586,175,588,175,590,175,592,175,595,175,597,175,599,175,601,175,603,175,605,175,608,175,610,175,612,175,614,175,616,176,618,176,621,176,623,177,625,177,600,300" href="table_publicrefreshtokens.htm" />
+      <area title="public.logtable (18%)" shape="rect" coords="739,149,893,167" href="table_publiclogtable.htm" />
+      <area title="public.logtable (18%)" shape="poly" coords="600,300,625,177,627,178,629,178,632,179,634,179,636,180,638,181,640,181,642,182,644,183,646,183,648,184,650,185,652,186,654,187,656,188,658,189,660,190,662,191,664,192,666,193,667,195,669,196,671,197,673,198,675,200,676,201,678,202,680,204,681,205,683,206,685,208,686,209,688,211,689,212,691,214,692,216,694,217,695,219,696,221,698,222,699,224,700,226,702,228,703,229,704,231,705,233,707,235,708,237,709,239,710,241,711,243,712,244,713,246,714,248,714,250,715,252,716,254,717,256,718,259,718,261,719,263,720,265,720,267,721,269,721,271,600,300" href="table_publiclogtable.htm" />
+      <area title="public.users (1%)" shape="rect" coords="773,260,901,278" href="table_publicusers.htm" />
+      <area title="public.users (1%)" shape="poly" coords="600,300,722,273,722,275,723,277,723,279,723,282,724,284,600,300" href="table_publicusers.htm" />
+      <area title="public.usersroles (1%)" shape="rect" coords="774,277,935,295" href="table_publicusersroles.htm" />
+      <area title="public.usersroles (1%)" shape="poly" coords="600,300,724,285,724,287,724,289,724,291,724,293,724,296,600,300" href="table_publicusersroles.htm" />
+    </map>
+    <map name="Largestproceduresbycodelength">
+    </map>
+    <map name="Largestfunctionsbycodelength">
+      <area title="public.setuser (8%)" shape="rect" coords="771,346,912,364" href="udf_publicsetuser.htm" />
+      <area title="public.setuser (8%)" shape="poly" coords="600,300,725,300,724,302,724,304,724,306,724,308,724,310,724,313,724,315,723,317,723,319,723,321,722,323,722,325,721,328,721,330,720,332,720,334,719,336,718,338,718,340,717,342,716,344,715,346,715,348,714,350,713,352,712,354,711,356,710,358,709,360,708,362,600,300" href="udf_publicsetuser.htm" />
+      <area title="public.savetoken (8%)" shape="rect" coords="737,442,899,460" href="udf_publicsavetoken.htm" />
+      <area title="public.savetoken (8%)" shape="poly" coords="600,300,707,363,706,365,705,367,704,369,702,371,701,372,700,374,698,376,697,378,696,379,694,381,693,383,691,384,690,386,688,387,687,389,685,390,684,392,682,393,680,395,679,396,677,398,675,399,674,400,672,401,670,403,668,404,666,405,665,406,663,407,661,408,600,300" href="udf_publicsavetoken.htm" />
+      <area title="public.createauthorizationcode (7%)" shape="rect" coords="664,526,921,544" href="udf_publiccreateauthorizationcode.htm" />
+      <area title="public.createauthorizationcode (7%)" shape="poly" coords="600,300,660,409,658,410,656,411,654,412,652,413,650,414,648,415,646,415,644,416,642,417,640,418,638,418,636,419,634,420,632,420,630,421,627,421,625,422,623,422,621,423,619,423,617,423,614,424,612,424,610,424,608,424,600,300" href="udf_publiccreateauthorizationcode.htm" />
+      <area title="public.createclient (7%)" shape="rect" coords="386,541,557,559" href="udf_publiccreateclient.htm" />
+      <area title="public.createclient (7%)" shape="poly" coords="600,300,606,424,604,424,602,424,599,424,597,424,595,424,593,424,591,424,588,424,586,424,584,424,582,423,580,423,578,423,576,422,573,422,571,421,569,421,567,420,565,420,563,419,561,418,559,418,557,417,555,416,553,415,600,300" href="udf_publiccreateclient.htm" />
+      <area title="public.createrefreshtoken (7%)" shape="rect" coords="257,468,478,486" href="udf_publiccreaterefreshtoken.htm" />
+      <area title="public.createrefreshtoken (7%)" shape="poly" coords="600,300,551,415,549,414,547,413,545,412,543,411,541,410,539,409,537,408,535,407,533,406,532,404,530,403,528,402,526,401,524,399,523,398,521,397,519,395,518,394,516,392,514,391,513,389,511,388,510,386,508,385,507,383,600,300" href="udf_publiccreaterefreshtoken.htm" />
+      <area title="public.createuser (6%)" shape="rect" coords="275,391,439,408" href="udf_publiccreateuser.htm" />
+      <area title="public.createuser (6%)" shape="poly" coords="600,300,506,382,504,381,503,379,502,377,500,376,499,374,498,372,496,370,495,368,494,367,493,365,492,363,491,361,490,359,489,357,488,355,487,353,486,351,485,349,484,347,483,345,482,343,482,341,481,339,600,300" href="udf_publiccreateuser.htm" />
+      <area title="public.createuser (6%)" shape="rect" coords="261,317,425,335" href="udf_publiccreateuser.htm" />
+      <area title="public.createuser (6%)" shape="poly" coords="600,300,480,337,480,335,479,333,479,331,478,329,478,327,477,325,477,323,476,320,476,318,476,316,475,314,475,312,475,310,475,307,475,305,475,303,475,301,475,299,475,297,475,294,475,292,475,290,475,288,600,300" href="udf_publiccreateuser.htm" />
+      <area title="public.createscope (4%)" shape="rect" coords="255,243,428,261" href="udf_publiccreatescope.htm" />
+      <area title="public.createscope (4%)" shape="poly" coords="600,300,475,286,475,284,476,282,476,279,476,277,477,275,477,273,478,271,478,269,479,267,479,265,480,262,481,260,481,258,482,256,483,254,484,252,485,250,600,300" href="udf_publiccreatescope.htm" />
+      <area title="public.createrole (4%)" shape="rect" coords="282,191,442,209" href="udf_publiccreaterole.htm" />
+      <area title="public.createrole (4%)" shape="poly" coords="600,300,485,248,486,246,487,244,488,242,489,241,490,239,491,237,493,235,494,233,495,231,496,229,497,228,499,226,500,224,501,222,503,221,600,300" href="udf_publiccreaterole.htm" />
+      <area title="public.createlog (3%)" shape="rect" coords="308,145,463,163" href="udf_publiccreatelog.htm" />
+      <area title="public.createlog (3%)" shape="poly" coords="600,300,504,219,505,218,506,216,508,214,509,213,511,211,512,210,514,208,516,207,517,205,519,204,521,203,522,201,524,200,600,300" href="udf_publiccreatelog.htm" />
+      <area title="public.createscopesroles (3%)" shape="rect" coords="277,106,491,124" href="udf_publiccreatescopesroles.htm" />
+      <area title="public.createscopesroles (3%)" shape="poly" coords="600,300,524,200,526,198,528,197,530,196,532,195,533,193,535,192,537,191,539,190,541,189,543,188,545,187,547,186,600,300" href="udf_publiccreatescopesroles.htm" />
+      <area title="public.createusersroles (3%)" shape="rect" coords="323,70,527,88" href="udf_publiccreateusersroles.htm" />
+      <area title="public.createusersroles (3%)" shape="poly" coords="600,300,548,186,550,185,552,184,554,183,556,182,558,182,560,181,562,180,564,180,566,179,568,178,570,178,573,177,600,300" href="udf_publiccreateusersroles.htm" />
+      <area title="public.getuserbyexternalid (3%)" shape="rect" coords="344,39,573,57" href="udf_publicgetuserbyexternalid.htm" />
+      <area title="public.getuserbyexternalid (3%)" shape="poly" coords="600,300,573,177,575,177,577,176,579,176,582,176,584,175,586,175,588,175,590,175,592,175,595,175,597,175,599,175,600,300" href="udf_publicgetuserbyexternalid.htm" />
+      <area title="public.deleterefreshtoken (3%)" shape="rect" coords="625,38,846,56" href="udf_publicdeleterefreshtoken.htm" />
+      <area title="public.deleterefreshtoken (3%)" shape="poly" coords="600,300,599,175,602,175,604,175,606,175,608,175,610,175,612,175,615,175,617,176,619,176,621,176,623,177,600,300" href="udf_publicdeleterefreshtoken.htm" />
+      <area title="public.deleteauthorizationcode (3%)" shape="rect" coords="669,68,925,86" href="udf_publicdeleteauthorizationcode.htm" />
+      <area title="public.deleteauthorizationcode (3%)" shape="poly" coords="600,300,625,177,627,178,629,178,631,179,634,179,636,180,638,181,640,181,642,182,644,183,646,183,648,184,600,300" href="udf_publicdeleteauthorizationcode.htm" />
+      <area title="public.getuserfromclient (3%)" shape="rect" coords="704,100,916,118" href="udf_publicgetuserfromclient.htm" />
+      <area title="public.getuserfromclient (3%)" shape="poly" coords="600,300,649,185,651,185,653,186,655,187,657,188,659,189,660,190,662,191,664,193,666,194,668,195,670,196,600,300" href="udf_publicgetuserfromclient.htm" />
+      <area title="public.getuser (3%)" shape="rect" coords="730,135,873,153" href="udf_publicgetuser.htm" />
+      <area title="public.getuser (3%)" shape="poly" coords="600,300,670,196,672,198,674,199,676,200,677,202,679,203,681,204,682,206,684,207,686,209,687,210,689,212,600,300" href="udf_publicgetuser.htm" />
+      <area title="public.getuserbyid (3%)" shape="rect" coords="749,170,921,188" href="udf_publicgetuserbyid.htm" />
+      <area title="public.getuserbyid (3%)" shape="poly" coords="600,300,689,212,691,214,692,216,694,217,695,219,696,221,698,222,699,224,700,226,702,227,703,229,600,300" href="udf_publicgetuserbyid.htm" />
+      <area title="public.getauthorizationcode (2%)" shape="rect" coords="761,200,996,218" href="udf_publicgetauthorizationcode.htm" />
+      <area title="public.getauthorizationcode (2%)" shape="poly" coords="600,300,704,231,705,233,706,235,707,237,709,238,710,240,711,242,712,244,713,246,600,300" href="udf_publicgetauthorizationcode.htm" />
+      <area title="public.getrefreshtoken (2%)" shape="rect" coords="767,224,968,242" href="udf_publicgetrefreshtoken.htm" />
+      <area title="public.getrefreshtoken (2%)" shape="poly" coords="600,300,713,247,714,249,715,251,715,253,716,255,717,257,718,259,718,261,600,300" href="udf_publicgetrefreshtoken.htm" />
+      <area title="public.getaccesstoken (2%)" shape="rect" coords="771,247,968,264" href="udf_publicgetaccesstoken.htm" />
+      <area title="public.getaccesstoken (2%)" shape="poly" coords="600,300,719,262,719,264,720,266,720,268,721,270,721,272,722,274,722,276,600,300" href="udf_publicgetaccesstoken.htm" />
+      <area title="public.getclient (1%)" shape="rect" coords="774,266,923,284" href="udf_publicgetclient.htm" />
+      <area title="public.getclient (1%)" shape="poly" coords="600,300,722,277,723,279,723,281,723,283,724,286,724,288,600,300" href="udf_publicgetclient.htm" />
+      <area title="public.getclientbyid (1%)" shape="rect" coords="774,282,953,300" href="udf_publicgetclientbyid.htm" />
+      <area title="public.getclientbyid (1%)" shape="poly" coords="600,300,724,289,724,291,724,294,724,296,724,298,600,300" href="udf_publicgetclientbyid.htm" />
+    </map>
+    <map name="Largestviewsbycodelength">
+    </map>
+  </body>
+</html>

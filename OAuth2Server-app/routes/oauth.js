@@ -15,9 +15,9 @@ const validation_schema = require('../schema/oauth_schema');
 
 
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
+    if (req.isAuthenticated()) {
         return next();
-
+    }
     req.session.redirectTo = req.originalUrl;
     res.redirect('/login.html');
 }

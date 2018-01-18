@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie';
 
 // Custom includes
 import { AuthenticationService } from '../services/authentication.service';
@@ -10,9 +12,10 @@ import { AuthenticationService } from '../services/authentication.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  providers: [AuthenticationService]  
+  providers: [AuthenticationService]
 })
 export class LoginComponent implements OnInit {
+  cookieName = "iuno_login";
   loginForm: FormGroup;
   loginFailed = false;
   showIunoLogin = false;
@@ -25,30 +28,34 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private authenticationService: AuthenticationService
-  ) { }
-  
+    private http: HttpClient,
+    private formBuilder: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private cookieService: CookieService
+  ) {
+    this.createForm();
+  }
+
+  createForm() {
+    this.loginForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+    });
+  }
+
   ngOnInit() {
     let failure = this.route.snapshot.queryParams["failure"];
-    this.loginForm = new FormGroup({
-      'email': new FormControl(this.loginCredentials.email, [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-      'password': new FormControl(this.loginCredentials.password, [
-        Validators.required,
-        Validators.minLength(4)
-      ]),
-    });
-    this.loginForm.valueChanges.subscribe(form => {
-      this.loginCredentials.email = form.email;
-      this.loginCredentials.password = form.password;
-    });
     if (failure == 'true') {
       this.loginFailed = true;
       console.log("Failure!");
       this.showIunoLogin = true;
     }
+
+    let cookieData = this.getCookie();
+    if (cookieData) {
+      this.loginCredentials.email = cookieData['email'];
+    }
+    this.removeCookie();
   }
 
   register() {
@@ -56,15 +63,18 @@ export class LoginComponent implements OnInit {
   }
 
   loginTwitter() {
-    window.location.href="/passport/twitter";
+    this.cookieService.remove(this.cookieName);
+    window.location.href = "/passport/twitter";
   }
 
   loginFacebook() {
-    window.location.href="/passport/facebook";
+    this.cookieService.remove(this.cookieName);
+    window.location.href = "/passport/facebook";
   }
 
   loginGoogle() {
-    window.location.href="/passport/google";
+    this.cookieService.remove(this.cookieName);
+    window.location.href = "/passport/google";
   }
 
   openIunoLogin() {
@@ -72,21 +82,34 @@ export class LoginComponent implements OnInit {
   }
 
   closeIunoLogin() {
+    this.removeCookie();
     this.loginFailed = false;
     this.showIunoLogin = false;
   }
 
-  iunoLogin() {
-    this.loginRunning = true;
-    // this.loginForm.submit();
-    // this.authenticationService.login(this.loginCredentials.user, this.loginCredentials.password);
-        // .subscribe(
-        //     data => {
-        //         // this.router.navigate([this.returnUrl]);
-        //     },
-        //     error => {
-        //         // this.alertService.error(error);
-        //         this.loginRunning = false;
-        //     });
+  onSubmit() {
+    this.setCookie({
+      email: this.loginCredentials.email
+    });
+  }
+
+  setCookie(data: any) {
+    this.cookieService.put(
+      this.cookieName, 
+      JSON.stringify(data)
+    );
+  }
+
+  getCookie(): any {
+    let cookieString = this.cookieService.get(this.cookieName);
+    var cookieJSON = null;
+    if (cookieString) {
+      cookieJSON = JSON.parse(cookieString);
+    }
+    return cookieJSON;
+  }
+
+  removeCookie() {
+    this.cookieService.remove(this.cookieName);    
   }
 }

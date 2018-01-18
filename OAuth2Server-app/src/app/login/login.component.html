@@ -22,17 +22,17 @@
         <div *ngIf="showIunoLogin">
             <div *ngIf="loginFailed" class="alert-error">Login fehlgeschlagen. Benutzername oder Passwort falsch.</div>
             <div fxLayout="column" fxLayoutGap="5px">
-                <form #login (submit)="login.submit()" (ngSubmit)="login.submit()" name="login" action="/passport/login" method="POST">
+                <form #login action="/passport/login" method="POST" [formGroup]="loginForm" (ngSubmit)="onSubmit(); login.submit()" name="login" method="POST">
                     <div fxLayout="column" fxLayoutGap="5px">
                         <mat-form-field>
-                            <input matInput placeholder="E-Mail-Adresse" name="email">
+                            <input matInput [(ngModel)]="loginCredentials['email']" placeholder="E-Mail-Adresse" name="email" formControlName="email">
                         </mat-form-field>
                         <mat-form-field>
-                            <input matInput type="password" placeholder="Passwort" name="password">
+                            <input matInput type="password" placeholder="Passwort" name="password" formControlName="password">
                         </mat-form-field>
                         <div fxLayout="row" fxLayoutGap="15px" fxFlex="grow">
                             <button mat-button type='button' fxFlex="50" class="iuno-cancel-button" (click)="closeIunoLogin()">Zurück</button>
-                            <button mat-button type="submit" fxFlex="50" class="iuno-primary-button">Login</button>
+                            <button mat-button type="submit" [disabled]="loginForm.invalid" fxFlex="50" class="iuno-primary-button">Login</button>
                         </div>
                     </div>
                 </form>

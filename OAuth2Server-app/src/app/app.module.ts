@@ -19,6 +19,7 @@ import { MatMenuModule } from '@angular/material';
 import { MatCardModule } from '@angular/material';
 
 // Custom imports
+import { CookieModule } from 'ngx-cookie';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 import { FooterComponent } from './footer/footer.component';
@@ -51,8 +52,6 @@ export class MyInterceptor implements HttpInterceptor {
   }
 }
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,6 +77,7 @@ export class MyInterceptor implements HttpInterceptor {
     FlexLayoutModule,
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
+    CookieModule.forRoot(),
   ],
   providers: [
     MatIconRegistry,
