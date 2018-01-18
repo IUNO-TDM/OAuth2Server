@@ -1,0 +1,184 @@
+@import '~@angular/material/theming';
+@import '../iuno-theme';
+
+$config: mat-typography-config();
+
+.app {
+  height: 100vh;
+}
+
+.header-background {
+  background-color: #1976d2;
+  background: linear-gradient(95deg, #42a5f5, #0d47a1);
+  color: #fff;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  min-height: 480px;
+  height: 100vh;
+  // max-height: 560px;
+  overflow: visible;
+  transform: skewY(5deg);
+  transform-origin: 100%;
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 599px) {
+  .header-background {
+      background: linear-gradient(95deg, #42a5f5, #0d47a1);
+      transform: skewY(0deg);
+  }
+}
+
+.component-viewer {
+  height: 100%;
+  background-color: #f5f5f5;
+}
+
+:host ::ng-deep .container {
+  background-color: #f5f5f5;
+}
+
+:host ::ng-deep .iuno-card {
+  max-width: 480px;
+  background-color: #fff;
+  padding: 20px;
+  z-index: 1000;
+}
+
+:host ::ng-deep .iuno-logo {
+  width: 240px;
+  height: auto;
+  padding-bottom: 15px;
+}
+
+:host ::ng-deep .iuno-primary-button {
+  color: #fff !important;
+  background-color: mat-color($iuno-primary) !important;
+}
+
+:host ::ng-deep .iuno-secondary-button {
+  background-color: #ccc !important;
+}
+
+:host ::ng-deep .iuno-cancel-button {
+  background-color: #ccc !important;
+}
+
+// alert boxes
+:host ::ng-deep .alert-base {
+  border-radius: 3px;
+  margin: 10px 0px;
+  padding: 10px 15px;
+  font-size: mat-font-size($config, body-1);
+  font-weight: mat-font-weight($config, body-1);
+  font-family: mat-font-family($config);
+}
+
+:host ::ng-deep .alert-error {
+  @extend .alert-base;
+  background-color: #fcc;
+  border: 2px solid #d66;
+}
+
+:host ::ng-deep .alert-info {
+  @extend .alert-base;
+  background-color: #ffc;
+  border: 2px solid #dd6;
+}
+
+:host ::ng-deep .alert-success {
+  @extend .alert-base;
+  background-color: #cfc;
+  border: 2px solid #6d6;
+}
+
+
+
+.mat-sidenav {
+  width: 250px;
+}
+
+mat-sidenav {
+  width: 40vw;
+}
+
+mat-card {
+  margin: 12px;
+}
+
+
+.logo {
+  height: 70%;
+  padding: 10px
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+mat-sidenav-container {
+  background-color: white;
+}
+
+.nav-bar {
+  color: white;
+}
+
+.nav-buttons{
+  padding-left: 20px;
+}
+
+
+@media only screen and (max-width: 1100px){
+  .nav-buttons{
+    visibility: hidden;
+    width: 0px;
+  }
+}
+
+
+:host ::ng-deep .card-information {
+  /* font-weight: lighter; */
+  font-size: 34pt;
+  color: #AAC253;
+}
+
+/* :host ::ng-deep a {
+ color: #337ab7;
+ text-decoration: none;
+} */
+
+:host ::ng-deep .mat-card-header-text {
+ margin: 0px;
+}
+ 
+:host ::ng-deep .mat-card-header {
+ /* margin-top: 124px;
+ margin-left: -24px;
+ margin-right: -24px;
+ padding: 15px; */
+ /* background-color: #aac253; */
+}
+
+:host ::ng-deep .mat-header-cell {
+ padding: 0px 10px;
+}
+
+:host ::ng-deep .mat-cell {
+ padding: 0px 10px;
+}
+
+:host ::ng-deep .mat-card-title {
+ margin: 0px;
+ font-size: 12pt;
+ font-weight: bolder;
+}
+
+:host ::ng-deep .mat-card-content {
+ padding: 15px;
+}
+
+:host ::ng-deep .mat-card-actions {
+ padding: 15px;
+}

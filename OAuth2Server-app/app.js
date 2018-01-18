@@ -4,12 +4,16 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const queryParser = require('express-query-int');
 const tokenAuthentication = require('./oauth/token_authentication');
+const contentTypeValidation = require('./services/content_type_validation');
 const passport = require('passport');
 const session = require('cookie-session');
 const config = require('./config/config_loader');
 
 var app = express();
+
+app.use('/', contentTypeValidation);
 
 // basic setup
 app.use(logger('dev'));
@@ -18,10 +22,11 @@ app.use(logger('dev'));
 require('./passport/passport')(passport); // pass passport for configuration
 
 app.use(bodyParser.json());
+app.use(queryParser());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
     secret: config.SESSION_SECRET
@@ -35,9 +40,17 @@ app.use(passport.session()); // persistent login sessions
 app.use('/passport', require('./routes/passport')(passport));
 app.use('/oauth', require('./routes/oauth'));
 app.use('/users', tokenAuthentication, require('./routes/users'));
-app.use('/', function (req, res, next) {
-    res.redirect('/login.html')
+
+// Point static path to dist
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.use('*', function (req, res, next) {
+    res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
+
+// app.use('/', function (req, res, next) {
+//     res.redirect('/login.html')
+// });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -68,11 +81,27 @@ app.use(function (err, req, res, next) {
             validations: err.validations  // All of your validation information
         };
 
-        res.json(responseData);
-    } else {
-        // pass error to next error middleware handler
-        next(err);
+        return res.json(responseData);
     }
+
+    if (err.name === 'JsonSchemaValidationError') {
+        // Log the error however you please
+        console.log(JSON.stringify(err.validationErrors));
+
+        // Set a bad request http response status or whatever you want
+        res.status(400);
+
+        // Format the response body however you want
+        responseData = {
+            statusText: 'Bad Request',
+            jsonSchemaValidation: true,
+            validations: err.validationErrors  // All of your validation information
+        };
+
+        return res.json(responseData);
+    }
+
+    next(err);
 });
 
 if (app.get('env') !== 'development') {

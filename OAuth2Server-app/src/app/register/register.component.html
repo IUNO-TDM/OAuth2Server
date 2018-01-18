@@ -1,0 +1,52 @@
+<!-- <div class="login-background"></div> -->
+<div fxLayoutAlign="center center" class="container" style="width: 100%; height: 100%;">
+    <div class="iuno-card mat-elevation-z4" fxLayout="column" fxFlex="grow" fxLayoutGap="10px">
+        <img fxFlexAlign="center" class="iuno-logo" src="assets/images/iuno.svg" />
+        <div *ngIf="registrationFailed" class="alert-error">Registrierung fehlgeschlagen. Der Benutzer existiert bereits.</div>
+        <div fxLayout="column" fxLayoutGap="5px">
+            <form #registration action="/passport/signup" method="POST" [formGroup]="registrationForm" (ngSubmit)="onSubmit(); registration.submit()">
+                <div fxLayout="column" fxLayoutGap="5px">
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="registrationData['first_name']" placeholder="Vorname" name="first_name" formControlName="first_name">
+                        <mat-error *ngIf="registrationForm.get('first_name').hasError('required')">
+                            Bitte geben Sie Ihren Vorname ein.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="registrationData['last_name']" placeholder="Nachname" name="last_name" formControlName="last_name">
+                        <mat-error *ngIf="registrationForm.get('last_name').hasError('required')">
+                            Bitte geben Sie Ihren Nachnamen ein.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput [(ngModel)]="registrationData['email']" placeholder="E-Mail-Adresse" name="email" formControlName="email">
+                        <mat-error *ngIf="registrationForm.get('email').hasError('required') || registrationForm.get('email').hasError('email')">
+                            Bitte geben Sie eine gültige E-Mail-Adresse ein.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput type="password" placeholder="Passwort" name="password" formControlName="password">
+                        <mat-error *ngIf="registrationForm.get('password').hasError('required') || registrationForm.get('password').hasError('minlength')">
+                            Das Passwort muss mindestens 8 Zeichen lang sein.
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput type="password" placeholder="Passwort wiederholen" name="confirm_password" formControlName="confirm_password">
+                        <mat-error *ngIf="registrationForm.get('confirm_password').invalid">
+                                Die Passwörter stimmen nicht überein.
+                            </mat-error>
+                    </mat-form-field>
+                    <div fxLayoutAlign="center center">
+                        <re-captcha #captchaControl formControlName="recaptcha" siteKey="6LcFUDMUAAAAANHdh_RtQvy67IGG1hnKkbeqwHgj"
+                            required></re-captcha>
+                    </div>
+                    <div *ngIf="captchaFailed" class="alert-error">Captcha-Überprüfung fehlgeschlagen</div>
+                    <div fxLayout="row" fxLayoutGap="15px" fxFlex="grow">
+                        <button mat-button type='button' fxFlex="50" class="iuno-cancel-button" (click)="cancelRegistration()">Abbrechen</button>
+                        <button mat-button type="submit" [disabled]="registrationForm.invalid" fxFlex="50" class="iuno-primary-button">Registrieren</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

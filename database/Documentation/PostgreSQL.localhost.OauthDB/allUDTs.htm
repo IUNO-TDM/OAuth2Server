@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?><html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><head xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5" /><link rel="stylesheet" href="sqlspec.css" /><title>OauthDB - types</title><script language="JavaScript" src="resort_table.js"></script><script language="javascript">
+//
+// this hides the SVG if you are on IE, 
+// and hides the VML if you are NOT on IE.
+//
+function init()
+{
+  var isIE = navigator.userAgent.indexOf("MSIE") != -1;
+  showhideIfIE('FK_SVG', isIE, true);
+  showhideIfIE('DEPENDENCY_SVG', isIE, true);
+  showhideIfIE('MODEL_SVG', isIE, true); 
+  showhideIfIE('FK_VML', isIE, false);
+  showhideIfIE('DEPENDENCY_VML', isIE, false);
+  showhideIfIE('MODEL_VML', isIE, false);
+  
+  var node = document.getElementById('copy_url_div');
+  if (node != null)
+  {
+    var inChm = document.URL.indexOf('mk:@MSITStore') != -1;
+    node.style.display = inChm || !isIE ? 'none' : 'block';
+  }
+}   
+
+function showhideIfIE(elementName, isIE, hide)
+{
+  node = document.getElementById(elementName);
+  if (node != null) 
+  {
+    if (hide) 
+      node.style.display = isIE ? 'none' : 'block';
+    else
+      node.style.display = isIE ? 'block' : 'none';
+  }
+}
+
+function copyToClipboard(s)
+{
+  if(window.clipboardData)
+    if (clipboardData.setData)
+      clipboardData.setData('text', s);
+}
+</script></head><body onload="init()"><div id="nsbanner" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><div id="bannerrow1"><table class="bannerparthead" cellspacing="0" id="Table1"><tr id="hdr"><td class="runninghead">Database reference - OauthDB</td><td class="product" /></tr></table></div><div id="TitleRow"><h1 class="dtH1"><a href="default.htm">OauthDB</a> -         
+                    types</h1></div></div><div id="nstext"><h2 class="dtH2" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red">Evaluation</font></h2><p xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><font color="red"><b>This is an evaluation version of SqlSpec.  If you like SqlSpec, please consider upgrading to the full version.  Upgrade here:  <a target="_blank" href="http://elsasoft.com">Upgrade</a></b></font></p><h2 class="dtH2">type overview</h2><table class="dtTABLE"><thead><tr valign="top"><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">name</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)" sortType="number">attributes</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)" sortType="number">length</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">element type</th><th style="cursor:pointer;cursor:hand;" onclick="resortColumn(this)">nullable</th></tr></thead><tbody><tr valign="top"><td><a href="udt_public_accesstokens.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">_accesstokens</a></td><td align="right">0</td><td align="right"> 
+                    </td><td>public.accesstokens 
+                    </td><td>yes</td></tr><tr valign="top"><td><a href="udt_public_authorizationcodes.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">_authorizationcodes</a></td><td align="right">0</td><td align="right"> 
+                    </td><td>public.authorizationcodes 
+                    </td><td>yes</td></tr><tr valign="top"><td><a href="udt_public_clients.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">_clients</a></td><td align="right">0</td><td align="right"> 
+                    </td><td>public.clients 
+                    </td><td>yes</td></tr><tr valign="top"><td><a href="udt_public_dblink_pkey_results.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">_dblink_pkey_results</a></td><td align="right">0</td><td align="right"> 
+                    </td><td><a href="udt_publicdblink_pkey_results.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">dblink_pkey_results</a> 
+                    </td><td>yes</td></tr><tr valign="top"><td><a href="udt_public_logstatus.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">_logstatus</a></td><td align="right">0</td><td align="right"> 
+                    </td><td>public.logstatus 
+                    </td><td>yes</td></tr><tr valign="top"><td><a href="udt_public_logtable.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">_logtable</a></td><td align="right">0</td><td align="right"> 
+                    </td><td>public.logtable 
+                    </td><td>yes</td></tr><tr valign="top"><td><a href="udt_public_patches.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">_patches</a></td><td align="right">0</td><td align="right"> 
+                    </td><td>public.patches 
+                    </td><td>yes</td></tr><tr valign="top"><td><a href="udt_public_refreshtokens.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">_refreshtokens</a></td><td align="right">0</td><td align="right"> 
+                    </td><td>public.refreshtokens 
+                    </td><td>yes</td></tr><tr valign="top"><td><a href="udt_public_roles.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">_roles</a></td><td align="right">0</td><td align="right"> 
+                    </td><td>public.roles 
+                    </td><td>yes</td></tr><tr valign="top"><td><a href="udt_public_scopes.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">_scopes</a></td><td align="right">0</td><td align="right"> 
+                    </td><td>public.scopes 
+                    </td><td>yes</td></tr><tr valign="top"><td><a href="udt_public_scopesroles.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">_scopesroles</a></td><td align="right">0</td><td align="right"> 
+                    </td><td>public.scopesroles 
+                    </td><td>yes</td></tr><tr valign="top"><td><a href="udt_public_users.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">_users</a></td><td align="right">0</td><td align="right"> 
+                    </td><td>public.users 
+                    </td><td>yes</td></tr><tr valign="top"><td><a href="udt_public_usersroles.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">_usersroles</a></td><td align="right">0</td><td align="right"> 
+                    </td><td>public.usersroles 
+                    </td><td>yes</td></tr><tr valign="top"><td><a href="udt_publicdblink_pkey_results.htm" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">dblink_pkey_results</a></td><td align="right">2</td><td align="right"> 
+                    </td><td> 
+                    </td><td>yes</td></tr></tbody></table></div><p style="page-break-after:always" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><br /><br /><div id="copy_url_div"><center><a href="javascript:void(0)" onclick="copyToClipboard(document.URL)">copy URL to clipboard (IE only)</a></center><br /></div><center>Documentation generated by <a target="_blank" href="http://elsasoft.com">SqlSpec</a></center></p></body></html>

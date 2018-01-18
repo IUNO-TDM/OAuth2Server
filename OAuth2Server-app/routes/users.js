@@ -12,12 +12,19 @@
 const express = require('express');
 const router = express.Router();
 const logger = require('../global/logger');
-const validate = require('express-jsonschema').validate;
 const User = require('../database/model/user');
 const path = require('path');
 const fs = require('fs');
 
-router.get('/:id', validate({query: require('../schema/users_schema').GetSingle}), function (req, res, next) {
+const {Validator, ValidationError} = require('express-json-validator-middleware');
+const validator = new Validator({allErrors: true});
+const validate = validator.validate;
+const validation_schema = require('../schema/users_schema');
+
+router.get('/:id', validate({
+    query: validation_schema.Empty,
+    body: validation_schema.Empty
+}), function (req, res, next) {
 
     User.FindSingle(req.params['id'], function (err, user) {
         if (err) {
@@ -35,7 +42,10 @@ router.get('/:id', validate({query: require('../schema/users_schema').GetSingle}
     });
 });
 
-router.get('/:id/image', validate({query: require('../schema/users_schema').GetSingle}), function (req, res, next) {
+router.get('/:id/image', validate({
+    query: validation_schema.Empty,
+    body: validation_schema.Empty
+}), function (req, res, next) {
 
     User.FindSingle(req.params['id'], function (err, user) {
         if (err) {
@@ -49,7 +59,7 @@ router.get('/:id/image', validate({query: require('../schema/users_schema').GetS
                 return;
             }
 
-            var imgPath = user.imgpath;
+            let imgPath = user.imgpath;
             if (imgPath && imgPath.length) {
                 imgPath = path.resolve(imgPath);
                 logger.debug('[users] User img path: '+ imgPath);
