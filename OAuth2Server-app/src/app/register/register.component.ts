@@ -70,6 +70,8 @@ export class RegisterComponent implements OnInit {
     let failure = this.route.snapshot.queryParams["failure"];
     if (failure == 'true') {
       this.registrationFailed = true;
+    } else if (failure == 'captcha') {
+        this.captchaFailed = true;
     }
 
     let cookieData = this.getCookie();
