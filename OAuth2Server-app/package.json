@@ -14,7 +14,7 @@
     "@angular/common": "^5.0.0",
     "@angular/compiler": "^5.0.0",
     "@angular/core": "^5.0.0",
-    "@angular/flex-layout": "^2.0.0-beta.10-4905443",
+    "@angular/flex-layout": "2.0.0-beta.10-4905443",
     "@angular/forms": "^5.0.0",
     "@angular/http": "^5.0.0",
     "@angular/material": "^5.0.0-rc0",
@@ -53,7 +53,7 @@
     "winston": "^2.3.1"
   },
   "devDependencies": {
-    "@angular/cli": "^1.6.3",
+    "@angular/cli": "1.6.3",
     "@angular/compiler-cli": "^5.0.0",
     "@angular/language-service": "^5.0.0",
     "@types/c3": "^0.4.45",

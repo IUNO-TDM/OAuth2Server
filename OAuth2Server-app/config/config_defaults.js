@@ -66,4 +66,6 @@ self.OAUTH_CREDENTIALS = {
 
 self.SESSION_SECRET = 'lbfifiou23bgofr2g18fbo2lbfl2hbfdskb2o78gf324ougf232vksjhdvfakfviy3263972i';
 
+self.G_RE_CAPTCHA_SECRET = '';
+
 module.exports = self;
