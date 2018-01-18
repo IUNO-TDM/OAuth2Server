@@ -145,7 +145,7 @@ module.exports = function (passport) {
 
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
-                res.sendStatus(403);
+                res.redirect('/register?failure=captcha');
             } else { // captcha success
                 passport.authenticate('local-signup', {
                     successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
