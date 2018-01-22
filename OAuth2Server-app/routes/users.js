@@ -13,6 +13,7 @@ const express = require('express');
 const router = express.Router();
 const logger = require('../global/logger');
 const User = require('../database/model/user');
+const dbUser = require('../database/function/user');
 const path = require('path');
 const fs = require('fs');
 
@@ -74,4 +75,21 @@ router.get('/:id/image', validate({
     });
 
 });
+
+
+router.get('/:id/verify', validate({
+    query: validation_schema.Verify_Body,
+    body: validation_schema.Empty
+}), function (req, res, next) {
+
+    dbUser.VerifyUser(req.params['id'], req.query['registrationKey'], function(err, success) {
+        if (!success) {
+            return res.sendStatus(400);
+        }
+
+        return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud');
+    });
+});
+
+
 module.exports = router;

@@ -13,4 +13,15 @@ self.Empty = {
     additionalProperties: false
 };
 
+self.Verify_Body = {
+    type: 'object',
+    properties: {
+        registrationKey: {
+            type: 'string',
+            format: 'uuid'
+        }
+    },
+    additionalProperties: false
+};
+
 module.exports = self;

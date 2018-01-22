@@ -5,7 +5,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const logger = require('../../global/logger');
 const oauthWrapper = require('../oauth_wrapper');
-
+const emailService = require('../../services/email_service');
 const User = require('../../database/model/user');
 const CONFIG = require('../../config/config_loader');
 
@@ -69,6 +69,7 @@ module.exports = function (passport) {
                         return done(false, null, {message: 'Registration failed. Username maybe already used.'});
                     }
 
+                    emailService.sendVerificationMailForUser(user.id);
                     oauthWrapper.getToken(email, password, 'default', done);
                 });
             });

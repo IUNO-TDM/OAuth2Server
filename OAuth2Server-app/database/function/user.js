@@ -103,4 +103,42 @@ self.SetUser = function(externalid, username, firstname, lastname, useremail, oa
         });
 };
 
+self.CreateRegistrationKey = function (userUUID, callback) {
+    db.func('CreateRegistrationKey', [userUUID])
+        .then(function (data) {
+            if (data && data.length) {
+                data = data[0];
+            }
+            else {
+                data = null;
+            }
+
+            logger.debug('CreateRegistrationKey result: ' + JSON.stringify(data));
+            callback(null, data);
+        })
+        .catch(function (error) {
+            logger.crit(error);
+            callback(error);
+        });
+};
+
+self.VerifyUser = function (userUUID, registrationKey, callback) {
+    db.func('VerifyUser', [userUUID, registrationKey])
+        .then(function (data) {
+            if (data && data.length) {
+                data = data[0];
+            }
+            else {
+                data = null;
+            }
+
+            logger.debug('VerifyUser result: ' + JSON.stringify(data));
+            callback(null, data);
+        })
+        .catch(function (error) {
+            logger.crit(error);
+            callback(error);
+        });
+};
+
 module.exports = self;

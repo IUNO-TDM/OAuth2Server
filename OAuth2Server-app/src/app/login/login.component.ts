@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   cookieName = "iuno_login";
   loginForm: FormGroup;
   loginFailed = false;
+  notVerified = false;
   showIunoLogin = false;
   loginRunning = false;
   loginCredentials = {
@@ -45,12 +46,21 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     let failure = this.route.snapshot.queryParams["failure"];
-    if (failure == 'true') {
-      this.loginFailed = true;
-      console.log("Failure!");
-      this.showIunoLogin = true;
-    }
+    switch (failure) {
+        case 'true':
+          this.loginFailed = true;
+          console.log("Failure!");
+          this.showIunoLogin = true;
+          break;
 
+        case 'NOT_VERIFIED':
+          this.notVerified = true;
+          console.log("Failure!");
+          this.showIunoLogin = true;
+          break;
+        default:
+          break;
+    }
     let cookieData = this.getCookie();
     if (cookieData) {
       this.loginCredentials.email = cookieData['email'];
@@ -85,6 +95,7 @@ export class LoginComponent implements OnInit {
     this.removeCookie();
     this.loginFailed = false;
     this.showIunoLogin = false;
+    this.notVerified = false;
   }
 
   onSubmit() {

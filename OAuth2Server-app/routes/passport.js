@@ -5,7 +5,7 @@ var express = require('express');
 var logger = require('../global/logger');
 const captchaAdapter = require('../adapter/recaptcha_adapter');
 
-const { Validator, ValidationError } = require('express-json-validator-middleware');
+const {Validator, ValidationError} = require('express-json-validator-middleware');
 const validator = new Validator({ allErrors: true });
 const validate = validator.validate;
 const validation_schema = require('../schema/passport_schema');
@@ -129,10 +129,19 @@ module.exports = function (passport) {
     }), function (req, res, next) {
         logger.info('iuno login');
 
-        passport.authenticate('local-login', {
-            successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-            failureRedirect: '/login?failure=true'
+        passport.authenticate('local-login', function(err, user, info) {
+
+            if (!err && user) {
+                return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud')
+            }
+            else {
+                return res.redirect('/login?failure=' + info.message || 'true');
+            }
         })(req, res, next);
+        // passport.authenticate('local-login', {
+        //     successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
+        //     failureRedirect: '/login?failure=true'
+        // })(req, res, next);
     });
 
     router.post('/signup', validate({
