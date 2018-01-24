@@ -5,6 +5,7 @@ const express = require('express');
 const logger = require('../global/logger');
 
 const dbUser = require('../database/function/user');
+const User = require('../database/model/user');
 const captchaAdapter = require('../adapter/recaptcha_adapter');
 const emailService = require('../services/email_service');
 
@@ -191,7 +192,7 @@ module.exports = function (passport) {
             } else { // captcha success
 
                 const userId = req.body['user'];
-                dbUser.getUserByID(userId, function (err, user) {
+                User.FindSingle(userId, function (err, user) {
                     if (!user) {
                         logger.warn('[routes/users] Registration email for unknown user (' +  userId + ') requested.');
                         return res.sendStatus(400);
