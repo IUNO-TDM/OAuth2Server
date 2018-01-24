@@ -208,7 +208,7 @@ $$
 	----------------------------------------------------------------------------------------------------------------------------------------
 
 	CREATE OR REPLACE FUNCTION public.createregistrationkey(
-        	vuseruuid character varying)
+        	vuseruuid uuid)
             RETURNS TABLE(registrationkey uuid, expires timestamp with time zone)
 
         AS $BODY$
@@ -237,8 +237,8 @@ $$
 	----------------------------------------------------------------------------------------------------------------------------------------
 
 	CREATE OR REPLACE FUNCTION public.verifyuser(
-            	vuseruuid character varying,
-            	vregistrationkey character varying
+            	vuseruuid uuid,
+            	vregistrationkey uuid
             	)
                 RETURNS boolean
 

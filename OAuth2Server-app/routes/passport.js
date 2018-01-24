@@ -9,7 +9,7 @@ const captchaAdapter = require('../adapter/recaptcha_adapter');
 const emailService = require('../services/email_service');
 
 const {Validator, ValidationError} = require('express-json-validator-middleware');
-const validator = new Validator({ allErrors: true });
+const validator = new Validator({allErrors: true});
 const validate = validator.validate;
 const validation_schema = require('../schema/passport_schema');
 
@@ -132,14 +132,22 @@ module.exports = function (passport) {
     }), function (req, res, next) {
         logger.info('iuno login');
 
-        passport.authenticate('local-login', function(err, user, info) {
+        passport.authenticate('local-login', function (err, user, info) {
+
+            if (err && info && info.code) {
+                return res.redirect('/login?failure=' + info.code || 'true');
+            }
 
             if (!err && user) {
                 return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud')
             }
-            else {
-                return res.redirect('/login?failure=' + info.message || 'true');
+
+            if (info) {
+                return res.redirect('/login?failure=' + info.code || 'true');
             }
+
+            return res.redirect('/login?failure=true');
+
         })(req, res, next);
     });
 
@@ -155,9 +163,18 @@ module.exports = function (passport) {
             if (err || !success) {
                 res.redirect('/register?failure=captcha');
             } else { // captcha success
-                passport.authenticate('local-signup', {
-                    successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-                    failureRedirect: '/register?failure=true'
+                passport.authenticate('local-signup', function (err, user, info) {
+
+                    if (err && info && info.code) {
+                        return res.redirect('/register?failure=' + info.code || 'true');
+                    }
+
+                    if (!err && !user && info && info.code === 'VERIFICATION_REQUIRED') {
+                        return res.redirect('/register?success');
+                    }
+
+                    return res.redirect('/register?failure=true');
+
                 })(req, res, next);
             }
         });
@@ -190,19 +207,20 @@ module.exports = function (passport) {
                 res.sendStatus(400);
             } else { // captcha success
 
-                const userId = req.body['user'];
-                dbUser.getUserByID(userId, function (err, user) {
+                const email = req.body['email'];
+                const password = req.body['password'];
+                dbUser.getUser(email, password, function (err, user) {
                     if (!user) {
-                        logger.warn('[routes/users] Registration email for unknown user (' +  userId + ') requested.');
+                        logger.warn('[routes/users] Registration email for unknown user (' + email + ') requested.');
                         return res.sendStatus(400);
                     }
 
                     if (user.isVerified) {
-                        logger.warn('[routes/users] User (' + userId + ') already verified.');
+                        logger.warn('[routes/users] User (' + email + ') already verified.');
                         return res.sendStatus(400);
                     }
 
-                    emailService.sendVerificationMailForUser(userId);
+                    emailService.sendVerificationMailForUser(user.id);
 
                     return res.sendStatus(200);
                 });
@@ -210,7 +228,6 @@ module.exports = function (passport) {
             }
         });
     });
-
 
 
     return router;

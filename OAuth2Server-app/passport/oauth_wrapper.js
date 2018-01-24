@@ -11,13 +11,19 @@ const self = {};
 self.getToken = function (email, password, strategy, done) {
 
     dbUser.getUser(email, password, function (err, user) {
-        if (err) {
-            return done(false);
+        if (err || !user) {
+            return done(err, null, {
+                code: 'INVALID_CREDENTIALS',
+                message: 'No user found for given credentials'
+            });
         }
 
         if (!user.isVerified) {
             //Notify user that his account is not verified
-            return done(false, null, {message: 'NOT_VERIFIED'});
+            return done(false, null, {
+                code: 'NOT_VERIFIED',
+                message: 'Email address not verified.'
+            });
         }
 
         const contentLength = helper.xwwwfurlenc({
@@ -57,7 +63,10 @@ self.getToken = function (email, password, strategy, done) {
 
             logger.warn(err);
 
-            return done(false);
+            return done(err, null, {
+                message: 'Could not retrieve token for user',
+                code: 'LOGIN_FAILED'
+            });
         })
     });
 
