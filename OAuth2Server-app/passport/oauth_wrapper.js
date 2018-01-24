@@ -12,7 +12,10 @@ self.getToken = function (email, password, strategy, done) {
 
     dbUser.getUser(email, password, function (err, user) {
         if (err || !user) {
-            return done(false);
+            return done(err, null, {
+                code: 'INVALID_CREDENTIALS',
+                message: 'No user found for given credentials'
+            });
         }
 
         if (!user.isVerified) {
