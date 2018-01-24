@@ -185,12 +185,18 @@ module.exports = function (passport) {
         body: validation_schema.Empty
     }), function (req, res, next) {
 
-        dbUser.VerifyUser(req.query['user'], req.query['key'], function (err, success) {
-            if (!success) {
+        dbUser.getUserByID(req.query['user'], function (err, user) {
+            if (err || !user || user.isVerified) {
                 return res.sendStatus(400);
             }
 
-            return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud');
+            dbUser.VerifyUser(req.query['user'], req.query['key'], function (err, success) {
+                if (!success) {
+                    return res.sendStatus(400);
+                }
+
+                return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud');
+            });
         });
     });
 

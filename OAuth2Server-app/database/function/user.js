@@ -125,6 +125,13 @@ self.CreateRegistrationKey = function (userUUID, callback) {
 self.VerifyUser = function (userUUID, registrationKey, callback) {
     db.func('VerifyUser', [userUUID, registrationKey])
         .then(function (data) {
+            if (data && data.length) {
+                data = data[0];
+            }
+            else {
+                data = null;
+            }
+
             logger.debug('VerifyUser result: ' + JSON.stringify(data));
 
             callback(null, data ? data['verifyuser'] : false);

@@ -82,7 +82,7 @@ $$
     CREATE OR REPLACE FUNCTION public.getuser(
         vuseremail character varying,
         vuserpwd character varying)
-        RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, isVerified boolean, createdat timestamp with time zone, updatedat timestamp with time zone)
+        RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, "isVerified" boolean, createdat timestamp with time zone, updatedat timestamp with time zone)
     AS $BODY$
 
         SELECT  useruuid,
@@ -122,7 +122,7 @@ $$
 
     CREATE OR REPLACE FUNCTION public.getuserbyid(
     	vuseruuid uuid)
-        RETURNS TABLE(id uuid, externalid character varying, username character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, isVerified boolean, createdat timestamp with time zone, updatedat timestamp with time zone)
+        RETURNS TABLE(id uuid, externalid character varying, username character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, "isVerified" boolean, createdat timestamp with time zone, updatedat timestamp with time zone)
 
     AS $BODY$
 
@@ -167,7 +167,7 @@ $$
 
     CREATE OR REPLACE FUNCTION public.getuserfromclient(
     	vclientuuid character varying)
-        RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, isVerified boolean, createdat timestamp with time zone, updatedat timestamp with time zone)
+        RETURNS TABLE(id uuid, externalid character varying, firstname character varying, lastname character varying, useremail character varying, roles text[], oauth2provider character varying, thumbnail bytea, imgpath character varying, "isVerified" boolean, createdat timestamp with time zone, updatedat timestamp with time zone)
 
     AS $BODY$
 
