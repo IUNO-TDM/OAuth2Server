@@ -186,7 +186,8 @@ module.exports = function (passport) {
 
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
-                res.redirect('/register?failure=captcha');
+                logger.warn('[routes/users] Invalid google captcha response');
+                res.sendStatus(400);
             } else { // captcha success
 
                 const userId = req.body['user'];
