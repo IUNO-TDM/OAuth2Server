@@ -136,5 +136,36 @@ self.PassportSignup_Body = {
     additionalProperties: false
 };
 
+self.Verify_Query = {
+    type: 'object',
+    properties: {
+        user: {
+          type: 'string',
+          format: 'uuid'
+        },
+        registrationKey: {
+            type: 'string',
+            format: 'uuid'
+        }
+    },
+    additionalProperties: false
+};
+
+self.Resend_Email_Body = {
+    type: 'object',
+    properties: {
+        'user': {
+            type: 'string',
+            format: 'uuid'
+        },
+        'g-recaptcha-response': {
+            type: 'string',
+            pattern: '[A-Za-z0-9_-]+'
+        }
+    },
+    required: ['user', 'g-recaptcha-response'],
+    additionalProperties: false
+};
+
 
 module.exports = self;

@@ -1,9 +1,12 @@
 /**
  * Created by beuttlerma on 02.06.17.
  */
-var express = require('express');
-var logger = require('../global/logger');
+const express = require('express');
+const logger = require('../global/logger');
+
+const dbUser = require('../database/function/user');
 const captchaAdapter = require('../adapter/recaptcha_adapter');
+const emailService = require('../services/email_service');
 
 const {Validator, ValidationError} = require('express-json-validator-middleware');
 const validator = new Validator({ allErrors: true });
@@ -159,5 +162,55 @@ module.exports = function (passport) {
             }
         });
     });
+
+    router.get('/verify', validate({
+        query: validation_schema.Verify_Query,
+        body: validation_schema.Empty
+    }), function (req, res, next) {
+
+        dbUser.VerifyUser(req.query['id'], req.query['registrationKey'], function (err, success) {
+            if (!success) {
+                return res.sendStatus(400);
+            }
+
+            return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud');
+        });
+    });
+
+    router.post('/resend_registration_email', validate({
+        query: validation_schema.Empty,
+        body: validation_schema.Resend_Email_Body
+    }), function (req, res, next) {
+
+        const captchaResponse = req.body['g-recaptcha-response'];
+
+        captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
+            if (err || !success) {
+                res.redirect('/register?failure=captcha');
+            } else { // captcha success
+
+                const userId = req.body['user'];
+                dbUser.getUserByID(userId, function (err, user) {
+                    if (!user) {
+                        logger.warn('[routes/users] Registration email for unknown user (' +  userId + ') requested.');
+                        return res.sendStatus(400);
+                    }
+
+                    if (user.isVerified) {
+                        logger.warn('[routes/users] User (' + userId + ') already verified.');
+                        return res.sendStatus(400);
+                    }
+
+                    emailService.sendVerificationMailForUser(userId);
+
+                    return res.sendStatus(200);
+                });
+
+            }
+        });
+    });
+
+
+
     return router;
 };
