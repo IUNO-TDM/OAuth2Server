@@ -19,6 +19,8 @@ export class ResendEmailVerificationComponent implements OnInit {
   cookieName = "iuno_login";
   resendForm: FormGroup;
   resendFailed = false;
+  resendFailedUnknownUser = false;
+  resendFailedAlreadyVerified = false;
   resendRunning = false;
   captchaFailed = false;
   loginCredentials = {
@@ -55,6 +57,10 @@ export class ResendEmailVerificationComponent implements OnInit {
    let failure = this.route.snapshot.queryParams["failure"];
     if (failure == 'true') {
       this.resendFailed = true;
+    } else if (failure == 'unknown_user') {
+      this.resendFailedUnknownUser = true;
+    } else if (failure == 'already_verified') {
+      this.resendFailedAlreadyVerified = true;
     } else if (failure == 'captcha') {
         this.captchaFailed = true;
     }
