@@ -212,12 +212,14 @@ module.exports = function (passport) {
                 dbUser.getUser(email, password, function (err, user) {
                     if (!user) {
                         logger.warn('[routes/users] Registration email for unknown user (' + email + ') requested.');
-                        return res.sendStatus(400);
+                        return res.redirect('/resend-email-verification?failure=unknown_user');
+                        // return res.sendStatus(400);
                     }
 
                     if (user.isVerified) {
                         logger.warn('[routes/users] User (' + email + ') already verified.');
-                        return res.sendStatus(400);
+                        return res.redirect('/resend-email-verification?failure=already_verified');
+                        // return res.sendStatus(400);
                     }
 
                     emailService.sendVerificationMailForUser(user.id);
