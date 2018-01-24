@@ -66,11 +66,18 @@ module.exports = function (passport) {
 
                 user.Create(function (err) {
                     if (err) {
-                        return done(false, null, {message: 'Registration failed. Username maybe already used.'});
+                        return done(err, null, {
+                            code: 'CREATE_USER_ERR',
+                            message: 'Registration failed. Username maybe already used.'
+                        });
                     }
 
                     emailService.sendVerificationMailForUser(user.id);
-                    oauthWrapper.getToken(email, password, 'default', done);
+
+                    return done(false, null, {
+                        code: 'VERIFICATION_REQUIRED',
+                        message: 'Email Verification Required'
+                    });
                 });
             });
 

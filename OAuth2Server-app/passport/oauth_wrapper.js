@@ -17,7 +17,10 @@ self.getToken = function (email, password, strategy, done) {
 
         if (!user.isVerified) {
             //Notify user that his account is not verified
-            return done(false, null, {message: 'NOT_VERIFIED'});
+            return done(false, null, {
+                code: 'NOT_VERIFIED',
+                message: 'Email address not verified.'
+            });
         }
 
         const contentLength = helper.xwwwfurlenc({
@@ -57,7 +60,10 @@ self.getToken = function (email, password, strategy, done) {
 
             logger.warn(err);
 
-            return done(false);
+            return done(err, null, {
+                message: 'Could not retrieve token for user',
+                code: 'LOGIN_FAILED'
+            });
         })
     });
 
