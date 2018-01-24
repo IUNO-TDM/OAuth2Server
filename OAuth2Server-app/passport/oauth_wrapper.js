@@ -11,7 +11,7 @@ const self = {};
 self.getToken = function (email, password, strategy, done) {
 
     dbUser.getUser(email, password, function (err, user) {
-        if (err) {
+        if (err || !user) {
             return done(false);
         }
 
