@@ -185,7 +185,7 @@ module.exports = function (passport) {
         body: validation_schema.Empty
     }), function (req, res, next) {
 
-        dbUser.VerifyUser(req.query['id'], req.query['registrationKey'], function (err, success) {
+        dbUser.VerifyUser(req.query['user'], req.query['key'], function (err, success) {
             if (!success) {
                 return res.sendStatus(400);
             }
