@@ -1,0 +1,14 @@
+
+.title {
+    font-weight: 500;
+    font-size: 14pt;
+    text-align: center;
+    /* padding-bottom: 10px; */
+}
+
+.message {
+    /* font-weight: 500;
+    font-size: 14pt; */
+    /* text-align: center; */
+    padding-bottom: 10px;
+}
