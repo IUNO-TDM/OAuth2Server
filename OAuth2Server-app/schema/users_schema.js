@@ -13,7 +13,7 @@ self.Empty = {
     additionalProperties: false
 };
 
-self.Verify_Body = {
+self.Verify_Query = {
     type: 'object',
     properties: {
         registrationKey: {
@@ -21,6 +21,18 @@ self.Verify_Body = {
             format: 'uuid'
         }
     },
+    additionalProperties: false
+};
+
+self.Resend_Email_Body = {
+    type: 'object',
+    properties: {
+        'g-recaptcha-response': {
+            type: 'string',
+            pattern: '[A-Za-z0-9_-]+'
+        }
+    },
+    required: ['g-recaptcha-response'],
     additionalProperties: false
 };
 

@@ -138,10 +138,6 @@ module.exports = function (passport) {
                 return res.redirect('/login?failure=' + info.message || 'true');
             }
         })(req, res, next);
-        // passport.authenticate('local-login', {
-        //     successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-        //     failureRedirect: '/login?failure=true'
-        // })(req, res, next);
     });
 
     router.post('/signup', validate({

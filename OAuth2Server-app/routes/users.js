@@ -16,6 +16,8 @@ const User = require('../database/model/user');
 const dbUser = require('../database/function/user');
 const path = require('path');
 const fs = require('fs');
+const captchaAdapter = require('../adapter/recaptcha_adapter');
+const emailService = require('../services/email_service');
 
 const {Validator, ValidationError} = require('express-json-validator-middleware');
 const validator = new Validator({allErrors: true});
@@ -63,7 +65,7 @@ router.get('/:id/image', validate({
             let imgPath = user.imgpath;
             if (imgPath && imgPath.length) {
                 imgPath = path.resolve(imgPath);
-                logger.debug('[users] User img path: '+ imgPath);
+                logger.debug('[users] User img path: ' + imgPath);
                 if (fs.existsSync(imgPath)) {
                     return res.sendFile(imgPath);
                 }
@@ -78,11 +80,11 @@ router.get('/:id/image', validate({
 
 
 router.get('/:id/verify', validate({
-    query: validation_schema.Verify_Body,
+    query: validation_schema.Verify_Query,
     body: validation_schema.Empty
 }), function (req, res, next) {
 
-    dbUser.VerifyUser(req.params['id'], req.query['registrationKey'], function(err, success) {
+    dbUser.VerifyUser(req.params['id'], req.query['registrationKey'], function (err, success) {
         if (!success) {
             return res.sendStatus(400);
         }
@@ -91,5 +93,37 @@ router.get('/:id/verify', validate({
     });
 });
 
+router.post('/:id/resend_registration_email', validate({
+    query: validation_schema.Empty,
+    body: validation_schema.Resend_Email_Body
+}), function (req, res, next) {
+
+    const captchaResponse = req.body['g-recaptcha-response'];
+
+    captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
+        if (err || !success) {
+            res.redirect('/register?failure=captcha');
+        } else { // captcha success
+
+            const userId = req.params['id'];
+            dbUser.getUserByID(userId, function (err, user) {
+               if (!user) {
+                   logger.warn('[routes/users] Registration email for unknown user (' +  userId + ') requested.');
+                   return res.sendStatus(400);
+               }
+
+               if (user.isVerified) {
+                   logger.warn('[routes/users] User (' + userId + ') already verified.');
+                   return res.sendStatus(400);
+               }
+
+                emailService.sendVerificationMailForUser(userId);
+
+               return res.sendStatus(200);
+            });
+
+        }
+    });
+});
 
 module.exports = router;
