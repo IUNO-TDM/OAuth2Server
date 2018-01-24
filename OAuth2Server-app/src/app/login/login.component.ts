@@ -47,6 +47,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     let failure = this.route.snapshot.queryParams["failure"];
     switch (failure) {
+        case 'INVALID_CREDENTIALS':
         case 'true':
           this.loginFailed = true;
           console.log("Failure!");
@@ -58,6 +59,7 @@ export class LoginComponent implements OnInit {
           console.log("Failure!");
           this.showIunoLogin = true;
           break;
+
         default:
           break;
     }
