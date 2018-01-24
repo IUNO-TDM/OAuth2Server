@@ -7,7 +7,7 @@ var db = require('../db_connection');
 var self = {};
 
 
-self.getUser = function(userEmail, password, callback) {
+self.getUser = function (userEmail, password, callback) {
     db.func('getUser', [userEmail, password])
         .then(function (data) {
             if (data && data.length) {
@@ -26,7 +26,7 @@ self.getUser = function(userEmail, password, callback) {
         });
 };
 
-self.getUserByExternalID = function(userid, oAuthProvider, callback) {
+self.getUserByExternalID = function (userid, oAuthProvider, callback) {
     db.func('getUserByExternalID', [userid, oAuthProvider])
         .then(function (data) {
             if (data && data.length) {
@@ -45,7 +45,7 @@ self.getUserByExternalID = function(userid, oAuthProvider, callback) {
         });
 };
 
-self.getUserFromClient = function(clientId, callback) {
+self.getUserFromClient = function (clientId, callback) {
     db.func('getUserFromClient', [clientId])
         .then(function (data) {
             if (data && data.length) {
@@ -64,7 +64,7 @@ self.getUserFromClient = function(clientId, callback) {
         });
 };
 
-self.getUserByID = function(userid, callback) {
+self.getUserByID = function (userid, callback) {
     db.func('getUserByID', [userid])
         .then(function (data) {
             if (data && data.length) {
@@ -84,7 +84,7 @@ self.getUserByID = function(userid, callback) {
 };
 
 
-self.SetUser = function(externalid, username, firstname, lastname, useremail, oauth2provider, imgpath, thumbnail, roles, pwd, callback) {
+self.SetUser = function (externalid, username, firstname, lastname, useremail, oauth2provider, imgpath, thumbnail, roles, pwd, callback) {
     db.func('SetUser', [externalid, username, firstname, lastname, useremail, oauth2provider, imgpath, thumbnail, roles, pwd])
         .then(function (data) {
             if (data && data.length) {
@@ -95,9 +95,9 @@ self.SetUser = function(externalid, username, firstname, lastname, useremail, oa
             }
 
             logger.debug('SetUser result: ' + JSON.stringify(data));
-            callback(null,data);
+            callback(null, data);
         })
-        .catch(function (error){
+        .catch(function (error) {
             logger.crit(error);
             callback(error);
         });
@@ -133,7 +133,8 @@ self.VerifyUser = function (userUUID, registrationKey, callback) {
             }
 
             logger.debug('VerifyUser result: ' + JSON.stringify(data));
-            callback(null, data);
+
+            callback(null, data ? data['verifyuser'] : false);
         })
         .catch(function (error) {
             logger.crit(error);

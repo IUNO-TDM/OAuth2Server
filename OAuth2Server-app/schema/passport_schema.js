@@ -143,7 +143,7 @@ self.Verify_Query = {
           type: 'string',
           format: 'uuid'
         },
-        registrationKey: {
+        key: {
             type: 'string',
             format: 'uuid'
         }

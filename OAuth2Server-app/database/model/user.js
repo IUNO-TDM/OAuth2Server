@@ -76,6 +76,14 @@ User.prototype.FindSingle = User.FindSingle = function (id, callback) {
     })
 };
 
+User.prototype.Login = User.Login = function (email, password, callback) {
+    dbUser.getUser(email, password, function (err, userData) {
+        const user = new User();
+        user.SetProperties(userData);
+        callback(err, user);
+    })
+};
+
 User.prototype.Create = function (callback) {
     const self = this;
     dbUser.SetUser(this.externalid, this.username, this.firstname, this.lastname,
