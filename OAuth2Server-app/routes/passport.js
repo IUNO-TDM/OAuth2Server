@@ -142,6 +142,10 @@ module.exports = function (passport) {
                 return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud')
             }
 
+            if (info) {
+                return res.redirect('/login?failure=' + info.code || 'true');
+            }
+
             return res.redirect('/login?failure=true');
 
         })(req, res, next);
