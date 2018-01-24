@@ -12,6 +12,7 @@
         <button mat-button type='button' class="iuno-primary-button" routerLink="/resend-email-verification">Bestätigungs-E-Mail erneut senden</button>
       </div>
     </div> -->
+    <p class="title">Aktivierungsmail erneut zusenden</p>
     <div fxLayout="column" fxLayoutGap="5px">
       <form #resend action="/passport/resend_registration_email" method="POST" [formGroup]="resendForm" (ngSubmit)="onSubmit(); resend.submit()"
         name="resend">
@@ -29,7 +30,7 @@
           <div *ngIf="captchaFailed" class="alert-error">Captcha-Überprüfung fehlgeschlagen</div>
           <div fxLayout="row" fxLayoutGap="15px" fxFlex="grow">
             <button mat-button type='button' fxFlex="50" class="iuno-cancel-button" routerLink="/login">Zurück</button>
-            <button mat-button type="submit" [disabled]="resendForm.invalid" fxFlex="50" class="iuno-primary-button">Aktivierungsmail senden</button>
+            <button mat-button type="submit" [disabled]="resendForm.invalid" fxFlex="50" class="iuno-primary-button">Abschicken</button>
           </div>
         </div>
       </form>

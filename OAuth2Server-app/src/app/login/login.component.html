@@ -23,7 +23,7 @@
             <div *ngIf="loginFailed" class="alert-error">Login fehlgeschlagen. Benutzername oder Passwort falsch.</div>
             <div *ngIf="notVerified" class="alert-error" fxLayout="column" fxLayoutGap="15px">
                 <div>Login fehlgeschlagen. Die E-Mail-Adresse wurde noch nicht bestätigt.</div>
-                <div><a [routerLink]="['/resend-email-verification', loginCredentials.email]">Aktivierungs-E-Mail erneut senden</a></div>
+                <div><a [routerLink]="['/resend-email-verification', loginCredentials.email]">Aktivierungsmail erneut senden</a></div>
             </div>
             <div fxLayout="column" fxLayoutGap="5px">
                 <form #login action="/passport/login" method="POST" [formGroup]="loginForm" (ngSubmit)="onSubmit(); login.submit()" name="login" method="POST">
