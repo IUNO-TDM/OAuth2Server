@@ -139,7 +139,13 @@ module.exports = function (passport) {
             }
 
             if (!err && user) {
-                return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud')
+                req.logIn(user, function(err) {
+                    if (err) {
+                        return res.redirect('/login?failure=true');
+                    }
+
+                    return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud')
+                });
             }
 
             if (info) {
@@ -195,7 +201,7 @@ module.exports = function (passport) {
                     return res.sendStatus(400);
                 }
 
-                return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud');
+                return res.redirect('login.html');
             });
         });
     });
