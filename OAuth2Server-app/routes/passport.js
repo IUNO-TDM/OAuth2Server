@@ -234,7 +234,7 @@ module.exports = function (passport) {
                         // return res.sendStatus(400);
                     }
 
-                    emailService.sendVerificationMailForUser(user.id);
+                    emailService.sendVerificationMailForUser(user);
 
                     return res.sendStatus(200);
                 });

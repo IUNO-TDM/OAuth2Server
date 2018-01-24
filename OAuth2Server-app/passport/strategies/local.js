@@ -72,7 +72,7 @@ module.exports = function (passport) {
                         });
                     }
 
-                    emailService.sendVerificationMailForUser(user.id);
+                    emailService.sendVerificationMailForUser(user);
 
                     return done(false, null, {
                         code: 'VERIFICATION_REQUIRED',
