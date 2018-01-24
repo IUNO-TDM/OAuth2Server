@@ -23,6 +23,16 @@ $config: mat-typography-config();
   box-sizing: border-box;
 }
 
+:host ::ng-deep .title {
+  font-weight: 500;
+  font-size: 14pt;
+  text-align: center;
+}
+
+:host ::ng-deep .message {
+  padding-bottom: 10px;
+}
+
 @media only screen and (max-width: 599px) {
   .header-background {
       background: linear-gradient(95deg, #42a5f5, #0d47a1);

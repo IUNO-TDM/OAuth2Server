@@ -5,14 +5,16 @@
     <div *ngIf="resendFailed" class="alert-error">Die Aktivierungsmail konnte nicht gesendet werden.</div>
     <div *ngIf="resendFailedUnknownUser" class="alert-error">Die Aktivierungsmail konnte nicht gesendet werden. Die E-Mail-Adresse ist nicht bekannt oder das Passwort ist falsch.</div>
     <div *ngIf="resendFailedAlreadyVerified" class="alert-error">Die E-Mail-Adresse wurde bereits bestätigt.</div>
-      <!--
+    <!--
     <div *ngIf="notVerified" class="alert-error" fxLayout="column" fxLayoutGap="15px">
       <div>Login fehlgeschlagen. Die E-Mail-Adresse wurde noch nicht bestätigt.</div>
       <div fxLayoutAlign="center center" fxFill>
         <button mat-button type='button' class="iuno-primary-button" routerLink="/resend-email-verification">Bestätigungs-E-Mail erneut senden</button>
       </div>
     </div> -->
-    <p class="title">Aktivierungsmail erneut zusenden</p>
+    <div>
+      <p class="title">Aktivierungsmail erneut zusenden</p>
+    </div>
     <div fxLayout="column" fxLayoutGap="5px">
       <form #resend action="/passport/resend_registration_email" method="POST" [formGroup]="resendForm" (ngSubmit)="onSubmit(); resend.submit()"
         name="resend">
@@ -24,8 +26,7 @@
             <input matInput type="password" placeholder="Passwort" name="password" formControlName="password">
           </mat-form-field>
           <div fxLayoutAlign="center center">
-              <re-captcha #captchaControl formControlName="recaptcha" siteKey="6LcFUDMUAAAAANHdh_RtQvy67IGG1hnKkbeqwHgj"
-                  required></re-captcha>
+            <re-captcha #captchaControl formControlName="recaptcha" siteKey="6LcFUDMUAAAAANHdh_RtQvy67IGG1hnKkbeqwHgj" required></re-captcha>
           </div>
           <div *ngIf="captchaFailed" class="alert-error">Captcha-Überprüfung fehlgeschlagen</div>
           <div fxLayout="row" fxLayoutGap="15px" fxFlex="grow">
