@@ -5,7 +5,6 @@ const express = require('express');
 const logger = require('../global/logger');
 
 const dbUser = require('../database/function/user');
-const User = require('../database/model/user');
 const captchaAdapter = require('../adapter/recaptcha_adapter');
 const emailService = require('../services/email_service');
 
@@ -191,19 +190,20 @@ module.exports = function (passport) {
                 res.sendStatus(400);
             } else { // captcha success
 
-                const userId = req.body['user'];
-                User.FindSingle(userId, function (err, user) {
+                const email = req.body['email'];
+                const password = req.body['password'];
+                dbUser.getUser(email, password, function (err, user) {
                     if (!user) {
-                        logger.warn('[routes/users] Registration email for unknown user (' +  userId + ') requested.');
+                        logger.warn('[routes/users] Registration email for unknown user (' +  email + ') requested.');
                         return res.sendStatus(400);
                     }
 
                     if (user.isVerified) {
-                        logger.warn('[routes/users] User (' + userId + ') already verified.');
+                        logger.warn('[routes/users] User (' + email + ') already verified.');
                         return res.sendStatus(400);
                     }
 
-                    emailService.sendVerificationMailForUser(userId);
+                    emailService.sendVerificationMailForUser(user.id);
 
                     return res.sendStatus(200);
                 });
