@@ -154,16 +154,21 @@ self.Verify_Query = {
 self.Resend_Email_Body = {
     type: 'object',
     properties: {
-        'user': {
+        email: {
             type: 'string',
-            format: 'uuid'
+            format: 'email'
+        },
+        password: {
+            type: 'string',
+            minLength: 8,
+            maxLength: 250
         },
         'g-recaptcha-response': {
             type: 'string',
             pattern: '[A-Za-z0-9_-]+'
         }
     },
-    required: ['user', 'g-recaptcha-response'],
+    required: ['email', 'password', 'g-recaptcha-response'],
     additionalProperties: false
 };
 
