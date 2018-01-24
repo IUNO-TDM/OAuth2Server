@@ -19,6 +19,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loginFailed = false;
   notVerified = false;
+  verified = false;
   showIunoLogin = false;
   loginRunning = false;
   loginCredentials = {
@@ -45,6 +46,12 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    let verified = this.route.snapshot.queryParams["verified"];
+    if (verified != undefined) {
+      this.verified = verified;
+      this.loginCredentials.email = verified;
+      this.showIunoLogin = true;
+    }
     let failure = this.route.snapshot.queryParams["failure"];
     switch (failure) {
         case 'INVALID_CREDENTIALS':
@@ -95,6 +102,7 @@ export class LoginComponent implements OnInit {
 
   closeIunoLogin() {
     this.removeCookie();
+    this.verified = false;
     this.loginFailed = false;
     this.showIunoLogin = false;
     this.notVerified = false;
