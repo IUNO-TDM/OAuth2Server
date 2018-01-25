@@ -243,7 +243,7 @@ module.exports = function (passport) {
         });
     });
 
-    router.post('/reset_password/email', validate({
+    router.post('/password/email', validate({
         query: validation_schema.Empty,
         body: validation_schema.SendPasswordEmail_Body
     }), function (req, res, next) {
@@ -268,7 +268,7 @@ module.exports = function (passport) {
     });
 
 
-    router.post('/reset_password', validate({
+    router.post('/password/reset', validate({
         query: validation_schema.Empty,
         body: validation_schema.ResetPassword_Body
     }), function (req, res, next) {
