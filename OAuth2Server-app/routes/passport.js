@@ -139,7 +139,7 @@ module.exports = function (passport) {
             }
 
             if (!err && user) {
-                req.logIn(user, function(err) {
+                req.logIn(user, function (err) {
                     if (err) {
                         return res.redirect('/login?failure=true');
                     }
@@ -243,6 +243,61 @@ module.exports = function (passport) {
         });
     });
 
+    router.post('/reset_password/email', validate({
+        query: validation_schema.Empty,
+        body: validation_schema.SendPasswordEmail_Body
+    }), function (req, res, next) {
+
+        const captchaResponse = req.body['g-recaptcha-response'];
+
+        captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
+            if (err || !success) {
+                logger.warn('[routes/users] Invalid google captcha response');
+                return res.redirect('/reset-password?failure=captcha');
+            } else { // captcha success
+
+                const email = req.body['email'];
+
+                emailService.sendResetPasswordMail(email, function (err) {
+                    if (err) {
+                        return res.redirect('/reset-password?failure=captcha');
+                    }
+
+                    return res.redirect('/reset-password?failure=captcha');
+                });
+            }
+        });
+    });
+
+
+    router.post('/reset_password', validate({
+        query: validation_schema.Empty,
+        body: validation_schema.ResetPassword_Body
+    }), function (req, res, next) {
+
+        const captchaResponse = req.body['g-recaptcha-response'];
+
+        captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
+            if (err || !success) {
+                logger.warn('[routes/users] Invalid google captcha response');
+                return res.redirect('/reset-password?failure=captcha');
+            } else { // captcha success
+
+                const email = req.body['email'];
+                const password = req.body['password'];
+                const passwordKey = req.body['key'];
+
+                dbUser.ResetPassword(email, passwordKey, password, function(err, success) {
+
+                    if (err || !success) {
+                        return res.redirect('/reset-password?failure=captcha');
+                    }
+
+                    return res.redirect('/login');
+                });
+            }
+        });
+    });
 
     return router;
 };

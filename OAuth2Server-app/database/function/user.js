@@ -142,4 +142,45 @@ self.VerifyUser = function (userUUID, registrationKey, callback) {
         });
 };
 
+
+self.CreatePasswordKey = function (userEmail, callback) {
+    db.func('CreatePasswordKey', [userEmail])
+        .then(function (data) {
+            if (data && data.length) {
+                data = data[0];
+            }
+            else {
+                data = null;
+            }
+
+            logger.debug('CreatePasswordKey result: ' + JSON.stringify(data));
+            callback(null, data);
+        })
+        .catch(function (error) {
+            logger.crit(error);
+            callback(error);
+        });
+};
+
+
+self.ResetPassword = function (userEmail, passwordKey, password, callback) {
+    db.func('ResetPassword', [userEmail, passwordKey, password])
+        .then(function (data) {
+            if (data && data.length) {
+                data = data[0];
+            }
+            else {
+                data = null;
+            }
+
+            logger.debug('ResetPassword result: ' + JSON.stringify(data));
+
+            callback(null, data ? data['resetpassword'] : false);
+        })
+        .catch(function (error) {
+            logger.crit(error);
+            callback(error);
+        });
+};
+
 module.exports = self;
