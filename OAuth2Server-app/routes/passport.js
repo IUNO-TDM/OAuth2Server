@@ -216,7 +216,7 @@ module.exports = function (passport) {
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
                 logger.warn('[routes/users] Invalid google captcha response');
-                res.sendStatus(400);
+                return res.redirect('/resend-email-verification?failure=captcha');
             } else { // captcha success
 
                 const email = req.body['email'];
@@ -236,7 +236,7 @@ module.exports = function (passport) {
 
                     emailService.sendVerificationMailForUser(user);
 
-                    return res.sendStatus(200);
+                    return res.redirect('/resend-email-verification?success=true');
                 });
 
             }
