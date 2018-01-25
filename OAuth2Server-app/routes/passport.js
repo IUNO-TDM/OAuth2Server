@@ -253,18 +253,16 @@ module.exports = function (passport) {
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
                 logger.warn('[routes/users] Invalid google captcha response');
+                //TODO: Adjust redirect route in case of a wrong captcha response
                 return res.redirect('/reset-password?failure=captcha');
             } else { // captcha success
 
                 const email = req.body['email'];
 
-                emailService.sendResetPasswordMail(email, function (err) {
-                    if (err) {
-                        return res.redirect('/reset-password?failure=captcha');
-                    }
+                emailService.sendResetPasswordMail(email);
 
-                    return res.redirect('/reset-password?failure=captcha');
-                });
+                //TODO: Adjust redirect route in case of success
+                return res.redirect('/reset-password?failure=captcha');
             }
         });
     });
@@ -280,6 +278,8 @@ module.exports = function (passport) {
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
                 logger.warn('[routes/users] Invalid google captcha response');
+
+                //TODO: Adjust redirect route in case of a wrong captcha response
                 return res.redirect('/reset-password?failure=captcha');
             } else { // captcha success
 
@@ -290,9 +290,12 @@ module.exports = function (passport) {
                 dbUser.ResetPassword(email, passwordKey, password, function(err, success) {
 
                     if (err || !success) {
-                        return res.redirect('/reset-password?failure=captcha');
+                        //TODO: Adjust redirect route in case of an failure
+                        return res.redirect('/reset-password?failure=true');
                     }
 
+
+                    //TODO: Adjust redirect route in case of success
                     return res.redirect('/login');
                 });
             }
