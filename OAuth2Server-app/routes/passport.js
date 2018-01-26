@@ -58,8 +58,7 @@ module.exports = function (passport) {
 
         passport.authenticate('google', {
             successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-            failureRedirect: '/login.html?failure=true',
-            failureFlash: true
+            failureRedirect: '/login.html'
         })(req, res, next);
     });
 
@@ -87,8 +86,7 @@ module.exports = function (passport) {
 
         passport.authenticate('twitter', {
             successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-            failureRedirect: '/login.html?failure=true',
-            failureFlash: true
+            failureRedirect: '/login.html'
         })(req, res, next);
     });
 
@@ -116,8 +114,7 @@ module.exports = function (passport) {
 
         passport.authenticate('facebook', {
             successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-            failureRedirect: '/login.html?failure=true',
-            failureFlash: true
+            failureRedirect: '/login.html'
         })(req, res, next);
     });
 

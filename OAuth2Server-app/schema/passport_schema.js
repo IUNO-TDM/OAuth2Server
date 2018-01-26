@@ -41,34 +41,79 @@ self.GoogleCallback_Query = {
 };
 
 self.TwitterCallback_Query = {
-    type: 'object',
-    properties: {
-        oauth_token: {
-            type: 'string',
-            minLength: 20,
-            maxLength: 1000
+    oneOf: [
+        {
+            type: 'object',
+            properties: {
+                oauth_token: {
+                    type: 'string',
+                    minLength: 20,
+                    maxLength: 1000
+                },
+                oauth_verifier: {
+                    type: 'string',
+                    minLength: 20,
+                    maxLength: 1000
+                }
+            },
+            required: ['oauth_token', 'oauth_verifier'],
+            additionalProperties: false
         },
-        oauth_verifier: {
-            type: 'string',
-            minLength: 20,
-            maxLength: 1000
-        }
-    },
-    required: ['oauth_token', 'oauth_verifier'],
-    additionalProperties: false
+        {
+            type: 'object',
+            properties: {
+                denied: {
+                    type: 'string',
+                    minLength: 20,
+                    maxLength: 40
+                }
+            },
+            required: ['denied'],
+            additionalProperties: false
+        }]
 };
 
 self.FacebookCallback_Query = {
-    type: 'object',
-    properties: {
-        code: {
-            type: 'string',
-            minLength: 20,
-            maxLength: 1000
-        }
-    },
-    required: ['code'],
-    additionalProperties: false
+    oneOf: [
+        {
+            type: 'object',
+            properties: {
+                code: {
+                    type: 'string',
+                    minLength: 20,
+                    maxLength: 1000
+                }
+            },
+            required: ['code'],
+            additionalProperties: false
+        },
+        {
+            type: 'object',
+            properties: {
+                error: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 20
+                },
+                error_code: {
+                    type: 'integer',
+                    maximum: 1000
+                },
+                error_description: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 1000
+                },
+                error_reason: {
+                    type: 'string',
+                    minLength: 1,
+                    maxLength: 1000
+                }
+            },
+            required: ['error', 'error_code', 'error_description', 'error_reason'],
+            additionalProperties: false
+        }]
+
 };
 
 self.PassportLogin_Query = {
