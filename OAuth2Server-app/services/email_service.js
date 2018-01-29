@@ -30,7 +30,7 @@ self.sendResetPasswordMail = function (email) {
         var transporter = nodemailer.createTransport(CONFIG.SMTP_CONFIG);
 
         const template = 'assets/mail_templates/reset_password.html';
-        const resetPasswordUrl = '{0}://{1}{2}/passport/reset_password?email={3}&key={4}'.format(
+        const resetPasswordUrl = '{0}://{1}:{2}/reset-password?email={3}&key={4}'.format(
             CONFIG.HOST_SETTINGS.PROTOCOL,
             CONFIG.HOST_SETTINGS.HOST,
             CONFIG.HOST_SETTINGS.PORT,

@@ -278,8 +278,6 @@ module.exports = function (passport) {
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
                 logger.warn('[routes/users] Invalid google captcha response');
-
-                //TODO: Adjust redirect route in case of a wrong captcha response
                 return res.redirect('/reset-password?failure=captcha');
             } else { // captcha success
 
@@ -290,13 +288,10 @@ module.exports = function (passport) {
                 dbUser.ResetPassword(email, passwordKey, password, function(err, success) {
 
                     if (err || !success) {
-                        //TODO: Adjust redirect route in case of an failure
                         return res.redirect('/reset-password?failure=true');
                     }
 
-
-                    //TODO: Adjust redirect route in case of success
-                    return res.redirect('/login');
+                    return res.redirect('/reset-password/'+email+'?success');
                 });
             }
         });

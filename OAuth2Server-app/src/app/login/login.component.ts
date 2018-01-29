@@ -49,7 +49,12 @@ export class LoginComponent implements OnInit {
     // update email field depending on email parameter.
     // the field might be overwritten by cookie
     this.route.params.subscribe(params => {
-      this.loginCredentials.email = params['email'];
+      if (params['email']) {
+        this.loginCredentials.email = params['email'];
+        this.showIunoLogin = true;
+      } else {
+        this.loginCredentials.email = '';
+      }
     });
 
     // update email field depending on cookie

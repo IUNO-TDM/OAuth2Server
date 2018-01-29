@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ResendEmailVerificationComponent } from './resend-email-verification/resend-email-verification.component';
 import { ResetPasswordMailComponent } from './reset-password-mail/reset-password-mail.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 const routes: Routes = [
@@ -11,6 +12,8 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'login/:email', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
+  {path: 'reset-password', component: ResetPasswordComponent},
+  {path: 'reset-password/:email', component: ResetPasswordComponent},
   {path: 'reset-password-mail', component: ResetPasswordMailComponent},
   {path: 'reset-password-mail/:email', component: ResetPasswordMailComponent},
   {path: 'resend-email-verification', component: ResendEmailVerificationComponent},

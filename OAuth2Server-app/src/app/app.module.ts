@@ -37,6 +37,7 @@ import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpResponse }
   from '@angular/common/http';
 import { ResendEmailVerificationComponent } from './resend-email-verification/resend-email-verification.component';
 import { ResetPasswordMailComponent } from './reset-password-mail/reset-password-mail.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 @Injectable()
 export class MyInterceptor implements HttpInterceptor {
   intercept(
@@ -62,6 +63,7 @@ export class MyInterceptor implements HttpInterceptor {
     FooterComponent,
     ResendEmailVerificationComponent,
     ResetPasswordMailComponent,
+    ResetPasswordComponent,
     // AccountComponent
   ],
   imports: [
