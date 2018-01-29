@@ -262,7 +262,7 @@ module.exports = function (passport) {
                 emailService.sendResetPasswordMail(email);
 
                 //TODO: Adjust redirect route in case of success
-                return res.redirect('/reset-password?failure=captcha');
+                return res.redirect('/reset-password?success');
             }
         });
     });

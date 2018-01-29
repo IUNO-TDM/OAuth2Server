@@ -185,7 +185,7 @@ self.SendPasswordEmail_Body = {
             pattern: '[A-Za-z0-9_-]+'
         }
     },
-    required: ['email', 'password', 'g-recaptcha-response'],
+    required: ['email', 'g-recaptcha-response'],
     additionalProperties: false
 };
 
