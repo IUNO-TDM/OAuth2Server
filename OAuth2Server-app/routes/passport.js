@@ -193,15 +193,17 @@ module.exports = function (passport) {
 
         dbUser.getUserByID(req.query['user'], function (err, user) {
             if (err || !user || user.isVerified) {
-                return res.sendStatus(400);
+                return res.redirect('/login?failure=verification_user_unknown');
+                // return res.sendStatus(400);
             }
 
             dbUser.VerifyUser(req.query['user'], req.query['key'], function (err, success) {
                 if (!success) {
-                    return res.sendStatus(400);
+                    return res.redirect('/login?failure=verification');
+                    // return res.sendStatus(400);
                 }
 
-                return res.redirect('login.html');
+                return res.redirect('/login/'+user.useremail+"?verified");
             });
         });
     });

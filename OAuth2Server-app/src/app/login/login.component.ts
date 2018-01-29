@@ -46,35 +46,44 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    let verified = this.route.snapshot.queryParams["verified"];
-    if (verified != undefined) {
-      this.verified = verified;
-      this.loginCredentials.email = verified;
-      this.showIunoLogin = true;
-    }
-    let failure = this.route.snapshot.queryParams["failure"];
-    switch (failure) {
-        case 'INVALID_CREDENTIALS':
-        case 'true':
-          this.loginFailed = true;
-          console.log("Failure!");
-          this.showIunoLogin = true;
-          break;
+    // update email field depending on email parameter.
+    // the field might be overwritten by cookie
+    this.route.params.subscribe(params => {
+      this.loginCredentials.email = params['email'];
+    });
 
-        case 'NOT_VERIFIED':
-          this.notVerified = true;
-          console.log("Failure!");
-          this.showIunoLogin = true;
-          break;
-
-        default:
-          break;
-    }
+    // update email field depending on cookie
     let cookieData = this.getCookie();
     if (cookieData) {
       this.loginCredentials.email = cookieData['email'];
     }
     this.removeCookie();
+
+    // check if email was verified
+    let verified = this.route.snapshot.queryParams["verified"];
+    if (verified != undefined) {
+      this.verified = true;
+      this.showIunoLogin = true;
+    }
+
+    // check failure reasons
+    let failure = this.route.snapshot.queryParams["failure"];
+    switch (failure) {
+      case 'INVALID_CREDENTIALS':
+      case 'true':
+        this.loginFailed = true;
+        this.showIunoLogin = true;
+        break;
+
+      case 'NOT_VERIFIED':
+        this.notVerified = true;
+        this.showIunoLogin = true;
+        break;
+
+      default:
+        break;
+    }
+
   }
 
   register() {
@@ -116,7 +125,7 @@ export class LoginComponent implements OnInit {
 
   setCookie(data: any) {
     this.cookieService.put(
-      this.cookieName, 
+      this.cookieName,
       JSON.stringify(data)
     );
   }
@@ -131,6 +140,6 @@ export class LoginComponent implements OnInit {
   }
 
   removeCookie() {
-    this.cookieService.remove(this.cookieName);    
+    this.cookieService.remove(this.cookieName);
   }
 }
