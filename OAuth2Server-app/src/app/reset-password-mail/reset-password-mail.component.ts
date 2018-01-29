@@ -7,11 +7,11 @@ import {CookieService} from 'ngx-cookie';
 import {RecaptchaComponent} from 'ng-recaptcha/recaptcha/recaptcha.component';
 
 @Component({
-  selector: 'app-reset-password',
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss']
+  selector: 'app-reset-password-mail',
+  templateUrl: './reset-password-mail.component.html',
+  styleUrls: ['./reset-password-mail.component.scss']
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordMailComponent implements OnInit {
   form: FormGroup;
   resetSuccess = false;
   resetFailedCaptcha = false;

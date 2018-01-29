@@ -255,16 +255,14 @@ module.exports = function (passport) {
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
                 logger.warn('[routes/users] Invalid google captcha response');
-                //TODO: Adjust redirect route in case of a wrong captcha response
-                return res.redirect('/reset-password?failure=captcha');
+                return res.redirect('/reset-password-mail?failure=captcha');
             } else { // captcha success
 
                 const email = req.body['email'];
 
                 emailService.sendResetPasswordMail(email);
 
-                //TODO: Adjust redirect route in case of success
-                return res.redirect('/reset-password?success');
+                return res.redirect('/reset-password-mail?success');
             }
         });
     });
