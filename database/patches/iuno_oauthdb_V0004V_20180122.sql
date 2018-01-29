@@ -227,7 +227,7 @@ $$
 
 
                 exception when others then
-                RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at CreateUser';
+                RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at CreateRegistrationKey';
               END;
 
 

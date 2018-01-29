@@ -218,4 +218,47 @@ self.Resend_Email_Body = {
 };
 
 
+self.SendPasswordEmail_Body = {
+    type: 'object',
+    properties: {
+        email: {
+            type: 'string',
+            format: 'email'
+        },
+        'g-recaptcha-response': {
+            type: 'string',
+            pattern: '[A-Za-z0-9_-]+'
+        }
+    },
+    required: ['email', 'g-recaptcha-response'],
+    additionalProperties: false
+};
+
+
+self.ResetPassword_Body = {
+    type: 'object',
+    properties: {
+        email: {
+            type: 'string',
+            format: 'email'
+        },
+        password: {
+            type: 'string',
+            minLength: 8,
+            maxLength: 250
+        },
+        'g-recaptcha-response': {
+            type: 'string',
+            pattern: '[A-Za-z0-9_-]+'
+        },
+        key:{
+            type: 'string',
+            format: 'uuid'
+        }
+    },
+    required: ['email', 'password', 'g-recaptcha-response', 'key'],
+    additionalProperties: false
+};
+
+
 module.exports = self;

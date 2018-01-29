@@ -136,7 +136,7 @@ module.exports = function (passport) {
             }
 
             if (!err && user) {
-                req.logIn(user, function(err) {
+                req.logIn(user, function (err) {
                     if (err) {
                         return res.redirect('/login?failure=true');
                     }
@@ -203,7 +203,7 @@ module.exports = function (passport) {
         });
     });
 
-    router.post('/resend_registration_email', validate({
+    router.post('/verify/send_email', validate({
         query: validation_schema.Empty,
         body: validation_schema.Resend_Email_Body
     }), function (req, res, next) {
@@ -240,6 +240,64 @@ module.exports = function (passport) {
         });
     });
 
+    router.post('/password/email', validate({
+        query: validation_schema.Empty,
+        body: validation_schema.SendPasswordEmail_Body
+    }), function (req, res, next) {
+
+        const captchaResponse = req.body['g-recaptcha-response'];
+
+        captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
+            if (err || !success) {
+                logger.warn('[routes/users] Invalid google captcha response');
+                //TODO: Adjust redirect route in case of a wrong captcha response
+                return res.redirect('/reset-password?failure=captcha');
+            } else { // captcha success
+
+                const email = req.body['email'];
+
+                emailService.sendResetPasswordMail(email);
+
+                //TODO: Adjust redirect route in case of success
+                return res.redirect('/reset-password?success');
+            }
+        });
+    });
+
+
+    router.post('/password/reset', validate({
+        query: validation_schema.Empty,
+        body: validation_schema.ResetPassword_Body
+    }), function (req, res, next) {
+
+        const captchaResponse = req.body['g-recaptcha-response'];
+
+        captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
+            if (err || !success) {
+                logger.warn('[routes/users] Invalid google captcha response');
+
+                //TODO: Adjust redirect route in case of a wrong captcha response
+                return res.redirect('/reset-password?failure=captcha');
+            } else { // captcha success
+
+                const email = req.body['email'];
+                const password = req.body['password'];
+                const passwordKey = req.body['key'];
+
+                dbUser.ResetPassword(email, passwordKey, password, function(err, success) {
+
+                    if (err || !success) {
+                        //TODO: Adjust redirect route in case of an failure
+                        return res.redirect('/reset-password?failure=true');
+                    }
+
+
+                    //TODO: Adjust redirect route in case of success
+                    return res.redirect('/login');
+                });
+            }
+        });
+    });
 
     return router;
 };

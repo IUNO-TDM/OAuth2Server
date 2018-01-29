@@ -64,7 +64,7 @@ $$
         Used                boolean,
         UserID              INTEGER NOT NULL ,
         CreatedAt           timestamp without time zone NOT NULL,
-        UpdatedAt           timestamp without time zone NOT NULL
+        UpdatedAt           timestamp without time zone
     );
     ALTER TABLE PasswordKeys ADD CONSTRAINT PasswordKeys_PK PRIMARY KEY (PasswordKeyID );
     ALTER TABLE PasswordKeys ADD CONSTRAINT PasswordKeys__UN UNIQUE ( PasswordKey );
@@ -95,7 +95,7 @@ $$
 
 
                 exception when others then
-                RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at CreateUser';
+                RAISE EXCEPTION '%', 'ERROR: ' || SQLERRM || ' ' || SQLSTATE || ' at CreatePasswordKey';
               END;
 
 
@@ -114,8 +114,8 @@ $$
         AS $BODY$
 
             DECLARE vUserID integer := (select userid from users where useremail = vuseremail);
-                    vExpirationDate timestamp with time zone := (select expires from registrationkeys
-                                                                where registrationkey = vRegistrationKey
+                    vExpirationDate timestamp with time zone := (select expires from passwordkeys
+                                                                where passwordkey = vPasswordKey
                                                                 AND userid = vUserID
                                                                 AND used = false);
                     vPassword varchar := (select crypt(vPassword, gen_salt('bf')));
@@ -123,7 +123,7 @@ $$
 
             IF(vExpirationDate is not null AND vExpirationDate >= now()) THEN
                 UPDATE users SET userpwd = vPassword, updatedat = now() WHERE UserID = vUserID;
-                UPDATE registrationkeys SET used = true, updatedat = now() WHERE registrationkey = vRegistrationKey;
+                UPDATE passwordkeys SET used = true, updatedat = now() WHERE passwordkey = vPasswordKey;
                 RETURN true;
             ELSE RETURN false;
             END IF;
