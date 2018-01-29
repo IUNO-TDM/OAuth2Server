@@ -91,7 +91,7 @@ self.sendVerificationMailForUser = function (user) {
 
 
         const template = 'assets/mail_templates/email_verification.html';
-        const verificationUrl = '{0}://{1}{2}/passport/verify?user={3}&key={4}'.format(
+        const verificationUrl = '{0}://{1}:{2}/passport/verify?user={3}&key={4}'.format(
             CONFIG.HOST_SETTINGS.PROTOCOL,
             CONFIG.HOST_SETTINGS.HOST,
             CONFIG.HOST_SETTINGS.PORT,

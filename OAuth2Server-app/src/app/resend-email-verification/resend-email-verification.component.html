@@ -38,7 +38,7 @@
                 <p class="title">Aktivierungsmail erneut zusenden</p>
             </div>
             <div fxLayout="column" fxLayoutGap="5px">
-                <form #resend action="/passport/resend_registration_email" method="POST" [formGroup]="resendForm"
+                <form #resend action="/passport/verify/send_email" method="POST" [formGroup]="resendForm"
                       (ngSubmit)="onSubmit(); resend.submit()"
                       name="resend">
                     <div fxLayout="column" fxLayoutGap="5px">

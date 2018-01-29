@@ -208,7 +208,7 @@ module.exports = function (passport) {
         });
     });
 
-    router.post('/resend_registration_email', validate({
+    router.post('/verify/send_email', validate({
         query: validation_schema.Empty,
         body: validation_schema.Resend_Email_Body
     }), function (req, res, next) {
