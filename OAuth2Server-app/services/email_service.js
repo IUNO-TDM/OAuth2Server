@@ -31,7 +31,7 @@ self.sendResetPasswordMail = function (email) {
 
         const PROTOCOL = CONFIG.HOST_SETTINGS.PROTOCOL ? CONFIG.HOST_SETTINGS.PROTOCOL : 'https';
         const HOST = CONFIG.HOST_SETTINGS.HOST ? CONFIG.HOST_SETTINGS.HOST : 'tdm-jmw.axoom.cloud';
-        const PORT = CONFIG.HOST_SETTINGS.PROTOCOL ? ':' + CONFIG.HOST_SETTINGS.PROTOCOL : '';
+        const PORT = CONFIG.HOST_SETTINGS.PORT ? ':' + CONFIG.HOST_SETTINGS.PORT : '';
 
         const template = 'assets/mail_templates/reset_password.html';
         const resetPasswordUrl = '{0}://{1}{2}/reset-password?email={3}&key={4}'.format(
@@ -98,7 +98,7 @@ self.sendVerificationMailForUser = function (user) {
 
         const PROTOCOL = CONFIG.HOST_SETTINGS.PROTOCOL ? CONFIG.HOST_SETTINGS.PROTOCOL : 'https';
         const HOST = CONFIG.HOST_SETTINGS.HOST ? CONFIG.HOST_SETTINGS.HOST : 'tdm-jmw.axoom.cloud';
-        const PORT = CONFIG.HOST_SETTINGS.PROTOCOL ? ':' + CONFIG.HOST_SETTINGS.PROTOCOL : '';
+        const PORT = CONFIG.HOST_SETTINGS.PORT ? ':' + CONFIG.HOST_SETTINGS.PORT : '';
 
 
         const verificationUrl = '{0}://{1}{2}/passport/verify?user={3}&key={4}'.format(
