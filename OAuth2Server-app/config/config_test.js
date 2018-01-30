@@ -52,4 +52,21 @@ self.OAUTH_CREDENTIALS = {
     CALLBACK_URL: 'http://localhost:3004/auth/iuno/callback'
 };
 
+self.SMTP_CONFIG = {
+    email: 'a@b.c',
+    host: 'smtp.1und1.de',
+    port: 587,
+    secure: true,
+    auth: {
+        user: 'username',
+        pass: 'password'
+    }
+};
+
+self.HOST_SETTINGS = {
+    PROTOCOL: 'https',
+    HOST: 'localhost',
+    PORT: 3005
+};
+
 module.exports = self;

@@ -1,14 +1,15 @@
-
 const oauthServer = require('oauth2-server');
 const Request = oauthServer.Request;
 const Response = oauthServer.Response;
 const CONFIG = require('../config/config_loader');
 const helper = require('../services/helper_service');
 const logger = require('../global/logger');
+const dbUser = require('../database/function/user');
 
 const self = {};
 
-self.getToken = function (email, password, strategy, done) {
+
+function getToken(email, password, strategy, done) {
 
     const contentLength = helper.xwwwfurlenc({
         grant_type: 'password',
@@ -47,8 +48,39 @@ self.getToken = function (email, password, strategy, done) {
 
         logger.warn(err);
 
-        return done(false);
+        return done(err, null, {
+            message: 'Could not retrieve token for user',
+            code: 'LOGIN_FAILED'
+        });
     })
+}
+
+self.getToken = function (email, password, strategy, done) {
+
+    if (strategy === 'default') {
+        dbUser.getUser(email, password, function (err, user) {
+            if (err || !user) {
+                return done(err, null, {
+                    code: 'INVALID_CREDENTIALS',
+                    message: 'No user found for given credentials'
+                });
+            }
+
+            if (!user.isVerified) {
+                //Notify user that his account is not verified
+                return done(false, null, {
+                    code: 'NOT_VERIFIED',
+                    message: 'Email address not verified.'
+                });
+            }
+
+            getToken(email, password, strategy, done)
+        });
+    }
+    else {
+        getToken(email, password, strategy, done)
+    }
+
 };
 
 module.exports = self;
