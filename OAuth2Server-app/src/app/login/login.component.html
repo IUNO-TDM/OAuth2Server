@@ -23,7 +23,7 @@
             <div *ngIf="loginFailed" class="alert-error" fxLayout="column" fxLayoutGap="15px">
                 <div>Login fehlgeschlagen. Benutzername oder Passwort falsch.</div>
                 <div>
-                    <a [routerLink]="['/reset-password', loginCredentials.email]">Ich habe mein Passwort vergessen</a>
+                    <a [routerLink]="['/reset-password-mail', loginCredentials.email]">Ich habe mein Passwort vergessen</a>
                 </div>
             </div>
             <div *ngIf="notVerified" class="alert-error" fxLayout="column" fxLayoutGap="15px">

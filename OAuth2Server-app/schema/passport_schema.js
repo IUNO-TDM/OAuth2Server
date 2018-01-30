@@ -247,6 +247,11 @@ self.ResetPassword_Body = {
             minLength: 8,
             maxLength: 250
         },
+        confirm_password: {
+            type: 'string',
+            minLength: 1,
+            maxLength: 250
+        },
         'g-recaptcha-response': {
             type: 'string',
             pattern: '[A-Za-z0-9_-]+'
@@ -256,7 +261,7 @@ self.ResetPassword_Body = {
             format: 'uuid'
         }
     },
-    required: ['email', 'password', 'g-recaptcha-response', 'key'],
+    required: ['email', 'password', 'confirm_password', 'g-recaptcha-response', 'key'],
     additionalProperties: false
 };
 

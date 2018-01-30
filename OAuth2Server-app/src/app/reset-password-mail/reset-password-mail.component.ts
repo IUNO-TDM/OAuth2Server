@@ -6,20 +6,18 @@ import {HttpClient} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie';
 import {RecaptchaComponent} from 'ng-recaptcha/recaptcha/recaptcha.component';
 
-
 @Component({
-  selector: 'app-reset-password',
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss']
+  selector: 'app-reset-password-mail',
+  templateUrl: './reset-password-mail.component.html',
+  styleUrls: ['./reset-password-mail.component.scss']
 })
-export class ResetPasswordComponent implements OnInit {
+export class ResetPasswordMailComponent implements OnInit {
   form: FormGroup;
   resetSuccess = false;
   resetFailedCaptcha = false;
   resetFailed = false;
   resetFailedUnknownUser = false;
   email = "";
-  key = "";
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -29,49 +27,35 @@ export class ResetPasswordComponent implements OnInit {
     this.createForm();
   }
 
-  checkPasswordMatch(passwordFieldName: string, passwordConfirmFieldName: string) {
-    return (group: FormGroup) => {
-      let password = group.controls[passwordFieldName];
-      let passwordConfirm = group.controls[passwordConfirmFieldName];
-      if (password.value !== passwordConfirm.value) {
-        return passwordConfirm.setErrors({notEquivalent: true})
-      } else {
-          return passwordConfirm.setErrors(null);
-      }
-    }
-  }
-
   createForm() {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      key: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirm_password: ['', Validators.required],
       recaptcha: [null, Validators.required],
-    }, {
-        validator: this.checkPasswordMatch('password', 'confirm_password')
-      });
+    });
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      this.email = params['email'];
-      this.key = params['key'];
-    });
     this.route.params.subscribe(params => {
-      if (params['email']) {
-        this.email = params['email'];
-      }
+      this.email = params['email'];
     });
 
+    let failure = this.route.snapshot.queryParams["failure"];
+    if (failure == 'true') {
+      this.resetFailed = true;
+    } else if (failure == 'unknown_user') {
+      this.resetFailedUnknownUser = true;
+    } else if (failure == 'captcha') {
+      this.resetFailedCaptcha = true;
+    }
+
     let success = this.route.snapshot.queryParams["success"];
+
     if (success != undefined) {
       this.resetSuccess = true;
     }
   }
 
   onSubmit() {
-
   }
 
 }

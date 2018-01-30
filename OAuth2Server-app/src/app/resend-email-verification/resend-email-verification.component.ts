@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {ActivatedRoute} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
-import {CookieService} from 'ngx-cookie';
-import {RecaptchaComponent} from 'ng-recaptcha/recaptcha/recaptcha.component';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie';
+import { RecaptchaComponent } from 'ng-recaptcha/recaptcha/recaptcha.component';
 
 // Custom includes
-import {AuthenticationService} from '../services/authentication.service';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
     selector: 'app-resend',
@@ -30,11 +30,11 @@ export class ResendEmailVerificationComponent implements OnInit {
     };
 
     constructor(private router: Router,
-                private route: ActivatedRoute,
-                private http: HttpClient,
-                private formBuilder: FormBuilder,
-                private authenticationService: AuthenticationService,
-                private cookieService: CookieService) {
+        private route: ActivatedRoute,
+        private http: HttpClient,
+        private formBuilder: FormBuilder,
+        private authenticationService: AuthenticationService,
+        private cookieService: CookieService) {
         this.createForm();
     }
 
@@ -47,12 +47,19 @@ export class ResendEmailVerificationComponent implements OnInit {
     }
 
     ngOnInit() {
+        // update email field depending on email parameter.
+        // the field might be overwritten by cookie
         this.route.params.subscribe(params => {
-            this.loginCredentials.email = params['email']; // (+) converts string 'id' to a number
-
-            // In a real app: dispatch action to load the details here.
+            this.loginCredentials.email = params['email'];
         });
 
+        // update email field depending on cookie
+        let cookieData = this.getCookie();
+        if (cookieData) {
+            this.loginCredentials.email = cookieData['email'];
+        }
+
+        // check failure reasons
         let failure = this.route.snapshot.queryParams["failure"];
         if (failure == 'true') {
             this.resendFailed = true;
@@ -64,19 +71,12 @@ export class ResendEmailVerificationComponent implements OnInit {
             this.captchaFailed = true;
         }
 
+        // check success
         let success = this.route.snapshot.queryParams["success"];
-
-        console.log(success);
-
         if (success) {
             this.resendSuccess = true;
         }
 
-        let cookieData = this.getCookie();
-        if (cookieData) {
-            this.loginCredentials.email = cookieData['email'];
-        }
-        this.removeCookie();
     }
 
     onSubmit() {
