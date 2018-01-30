@@ -80,7 +80,7 @@ self.SMTP_CONFIG = {
 };
 
 self.HOST_SETTINGS = {
-    PROTOCOL: 'https',
+    PROTOCOL: 'http',
     HOST: 'localhost',
     PORT: 3005
 };

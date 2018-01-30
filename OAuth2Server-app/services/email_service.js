@@ -18,7 +18,7 @@ self.sendResetPasswordMail = function (email) {
         return;
     }
 
-    dbUser.CreatePasswordKey(email, function(err, data) {
+    dbUser.CreatePasswordKey(email, function (err, data) {
         if (err) {
             logger.crit('[email_service] Could not send reset email');
 
@@ -29,11 +29,15 @@ self.sendResetPasswordMail = function (email) {
 
         var transporter = nodemailer.createTransport(CONFIG.SMTP_CONFIG);
 
+        const PROTOCOL = CONFIG.HOST_SETTINGS.PROTOCOL ? CONFIG.HOST_SETTINGS.PROTOCOL : 'https';
+        const HOST = CONFIG.HOST_SETTINGS.HOST ? CONFIG.HOST_SETTINGS.HOST : 'tdm-jmw.axoom.cloud';
+        const PORT = CONFIG.HOST_SETTINGS.PROTOCOL ? ':' + CONFIG.HOST_SETTINGS.PROTOCOL : '';
+
         const template = 'assets/mail_templates/reset_password.html';
-        const resetPasswordUrl = '{0}://{1}:{2}/reset-password?email={3}&key={4}'.format(
-            CONFIG.HOST_SETTINGS.PROTOCOL,
-            CONFIG.HOST_SETTINGS.HOST,
-            CONFIG.HOST_SETTINGS.PORT,
+        const resetPasswordUrl = '{0}://{1}{2}/reset-password?email={3}&key={4}'.format(
+            PROTOCOL,
+            HOST,
+            PORT,
             email,
             key
         );
@@ -91,10 +95,16 @@ self.sendVerificationMailForUser = function (user) {
 
 
         const template = 'assets/mail_templates/email_verification.html';
-        const verificationUrl = '{0}://{1}:{2}/passport/verify?user={3}&key={4}'.format(
-            CONFIG.HOST_SETTINGS.PROTOCOL,
-            CONFIG.HOST_SETTINGS.HOST,
-            CONFIG.HOST_SETTINGS.PORT,
+
+        const PROTOCOL = CONFIG.HOST_SETTINGS.PROTOCOL ? CONFIG.HOST_SETTINGS.PROTOCOL : 'https';
+        const HOST = CONFIG.HOST_SETTINGS.HOST ? CONFIG.HOST_SETTINGS.HOST : 'tdm-jmw.axoom.cloud';
+        const PORT = CONFIG.HOST_SETTINGS.PROTOCOL ? ':' + CONFIG.HOST_SETTINGS.PROTOCOL : '';
+
+
+        const verificationUrl = '{0}://{1}{2}/passport/verify?user={3}&key={4}'.format(
+            PROTOCOL,
+            HOST,
+            PORT,
             user.id,
             key
         );
