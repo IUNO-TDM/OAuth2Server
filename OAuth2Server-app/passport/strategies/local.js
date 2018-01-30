@@ -5,7 +5,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 const logger = require('../../global/logger');
 const oauthWrapper = require('../oauth_wrapper');
-
+const emailService = require('../../services/email_service');
 const User = require('../../database/model/user');
 const CONFIG = require('../../config/config_loader');
 
@@ -66,10 +66,18 @@ module.exports = function (passport) {
 
                 user.Create(function (err) {
                     if (err) {
-                        return done(false, null, {message: 'Registration failed. Username maybe already used.'});
+                        return done(err, null, {
+                            code: 'CREATE_USER_ERR',
+                            message: 'Registration failed. Username maybe already used.'
+                        });
                     }
 
-                    oauthWrapper.getToken(email, password, 'default', done);
+                    emailService.sendVerificationMailForUser(user);
+
+                    return done(false, null, {
+                        code: 'VERIFICATION_REQUIRED',
+                        message: 'Email Verification Required'
+                    });
                 });
             });
 

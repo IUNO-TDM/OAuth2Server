@@ -68,4 +68,21 @@ self.SESSION_SECRET = 'lbfifiou23bgofr2g18fbo2lbfl2hbfdskb2o78gf324ougf232vksjhd
 
 self.G_RE_CAPTCHA_SECRET = '';
 
+self.SMTP_CONFIG = {
+    email: 'a@b.c',
+    host: 'smtp.1und1.de',
+    port: 587,
+    secure: true,
+    auth: {
+        user: 'username',
+        pass: 'password'
+    }
+};
+
+self.HOST_SETTINGS = {
+    PROTOCOL: 'http',
+    HOST: 'localhost',
+    PORT: 3005
+};
+
 module.exports = self;
