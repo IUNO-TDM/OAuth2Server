@@ -26,7 +26,7 @@ var _ = require('lodash');
  *
  * @constructor
  */
-function User(id, username, externalid, firstname, lastname, useremail, oauth2provider, imgpath, createdat, updatedat, password, userRoles) {
+function User(id, username, externalid, firstname, lastname, useremail, oauth2provider, imgpath, createdat, updatedat, password, userRoles, isVerified) {
     this.id = id;
     this.username = username;
     this.externalid = externalid;
@@ -39,6 +39,7 @@ function User(id, username, externalid, firstname, lastname, useremail, oauth2pr
     this.updatedat = updatedat;
     this.password = password;
     this.userRoles = userRoles;
+    this.isVerified = isVerified;
 }
 
 User.prototype.SetProperties = function (data) {
@@ -54,6 +55,7 @@ User.prototype.SetProperties = function (data) {
         this.createdat = data.createdat ? data.createdat : this.createdat;
         this.updatedat = data.updatedat ? data.updatedat : this.updatedat;
         this.userRoles = data.userRoles ? data.userRoles : this.userRoles;
+        this.isVerified = data.isVerified ? data.isVerified : this.isVerified;
     }
 };
 
@@ -68,6 +70,14 @@ User.prototype.FindAll = User.FindAll = function () {
  */
 User.prototype.FindSingle = User.FindSingle = function (id, callback) {
     dbUser.getUserByID(id, function (err, userData) {
+        const user = new User();
+        user.SetProperties(userData);
+        callback(err, user);
+    })
+};
+
+User.prototype.Login = User.Login = function (email, password, callback) {
+    dbUser.getUser(email, password, function (err, userData) {
         const user = new User();
         user.SetProperties(userData);
         callback(err, user);
@@ -99,7 +109,7 @@ User.prototype.Delete = function () {
 
 User.prototype.getPrivateData = function () {
     return _.pick(this, [
-        'id', 'username', 'externalid', 'firstname', 'lastname', 'useremail', 'oauth2provider'
+        'id', 'username', 'externalid', 'firstname', 'lastname', 'useremail', 'oauth2provider', 'isVerified'
     ]);
 };
 

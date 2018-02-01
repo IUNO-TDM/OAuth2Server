@@ -1,6 +1,12 @@
 FROM node:carbon-alpine
 RUN npm install pm2 -g
 
+# Configure log rotate
+
+RUN pm2 install pm2-logrotate
+RUN pm2 set pm2-logrotate:retain 10
+
+
 # Create app directory
 
 RUN mkdir -p /usr/src/app

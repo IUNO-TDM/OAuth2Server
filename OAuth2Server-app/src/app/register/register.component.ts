@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
   cookieName = "iuno_register";
   registrationRunning = false;
   registrationFailed = false;
+  registrationSuccessful = false;
   captchaFailed = false;
   registrationForm: FormGroup;
   recaptcha = new FormControl(false);
@@ -67,6 +68,10 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+    let success = this.route.snapshot.queryParams["success"];
+    if (success != undefined) {
+      this.registrationSuccessful = true;
+    }
     let failure = this.route.snapshot.queryParams["failure"];
     if (failure == 'true') {
       this.registrationFailed = true;

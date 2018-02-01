@@ -1,12 +1,15 @@
 /**
  * Created by beuttlerma on 02.06.17.
  */
-var express = require('express');
-var logger = require('../global/logger');
-const captchaAdapter = require('../adapter/recaptcha_adapter');
+const express = require('express');
+const logger = require('../global/logger');
 
-const { Validator, ValidationError } = require('express-json-validator-middleware');
-const validator = new Validator({ allErrors: true });
+const dbUser = require('../database/function/user');
+const captchaAdapter = require('../adapter/recaptcha_adapter');
+const emailService = require('../services/email_service');
+
+const {Validator, ValidationError} = require('express-json-validator-middleware');
+const validator = new Validator({allErrors: true});
 const validate = validator.validate;
 const validation_schema = require('../schema/passport_schema');
 
@@ -55,8 +58,7 @@ module.exports = function (passport) {
 
         passport.authenticate('google', {
             successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-            failureRedirect: '/login.html?failure=true',
-            failureFlash: true
+            failureRedirect: '/login.html'
         })(req, res, next);
     });
 
@@ -84,8 +86,7 @@ module.exports = function (passport) {
 
         passport.authenticate('twitter', {
             successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-            failureRedirect: '/login.html?failure=true',
-            failureFlash: true
+            failureRedirect: '/login.html'
         })(req, res, next);
     });
 
@@ -113,8 +114,7 @@ module.exports = function (passport) {
 
         passport.authenticate('facebook', {
             successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-            failureRedirect: '/login.html?failure=true',
-            failureFlash: true
+            failureRedirect: '/login.html'
         })(req, res, next);
     });
 
@@ -129,9 +129,28 @@ module.exports = function (passport) {
     }), function (req, res, next) {
         logger.info('iuno login');
 
-        passport.authenticate('local-login', {
-            successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-            failureRedirect: '/login?failure=true'
+        passport.authenticate('local-login', function (err, user, info) {
+
+            if (err && info && info.code) {
+                return res.redirect('/login?failure=' + info.code || 'true');
+            }
+
+            if (!err && user) {
+                req.logIn(user, function (err) {
+                    if (err) {
+                        return res.redirect('/login?failure=true');
+                    }
+
+                    return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud')
+                });
+            }
+
+            if (info) {
+                return res.redirect('/login?failure=' + info.code || 'true');
+            }
+
+            return res.redirect('/login?failure=true');
+
         })(req, res, next);
     });
 
@@ -147,12 +166,133 @@ module.exports = function (passport) {
             if (err || !success) {
                 res.redirect('/register?failure=captcha');
             } else { // captcha success
-                passport.authenticate('local-signup', {
-                    successRedirect: req.session.redirectTo || 'https://iuno.axoom.cloud',
-                    failureRedirect: '/register?failure=true'
+                passport.authenticate('local-signup', function (err, user, info) {
+
+                    if (err && info && info.code) {
+                        return res.redirect('/register?failure=' + info.code || 'true');
+                    }
+
+                    if (!err && !user && info && info.code === 'VERIFICATION_REQUIRED') {
+                        return res.redirect('/register?success');
+                    }
+
+                    return res.redirect('/register?failure=true');
+
                 })(req, res, next);
             }
         });
     });
+
+    router.get('/verify', validate({
+        query: validation_schema.Verify_Query,
+        body: validation_schema.Empty
+    }), function (req, res, next) {
+
+        dbUser.getUserByID(req.query['user'], function (err, user) {
+            if (err || !user || user.isVerified) {
+                return res.redirect('/login?failure=verification_user_unknown');
+                // return res.sendStatus(400);
+            }
+
+            dbUser.VerifyUser(req.query['user'], req.query['key'], function (err, success) {
+                if (!success) {
+                    return res.redirect('/login?failure=verification');
+                    // return res.sendStatus(400);
+                }
+
+                return res.redirect('/login/'+user.useremail+"?verified");
+            });
+        });
+    });
+
+    router.post('/verify/send_email', validate({
+        query: validation_schema.Empty,
+        body: validation_schema.Resend_Email_Body
+    }), function (req, res, next) {
+
+        const captchaResponse = req.body['g-recaptcha-response'];
+
+        captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
+            if (err || !success) {
+                logger.warn('[routes/users] Invalid google captcha response');
+                return res.redirect('/resend-email-verification?failure=captcha');
+            } else { // captcha success
+
+                const email = req.body['email'];
+                const password = req.body['password'];
+                dbUser.getUser(email, password, function (err, user) {
+                    if (!user) {
+                        logger.warn('[routes/users] Registration email for unknown user (' + email + ') requested.');
+                        return res.redirect('/resend-email-verification?failure=unknown_user');
+                        // return res.sendStatus(400);
+                    }
+
+                    if (user.isVerified) {
+                        logger.warn('[routes/users] User (' + email + ') already verified.');
+                        return res.redirect('/resend-email-verification?failure=already_verified');
+                        // return res.sendStatus(400);
+                    }
+
+                    emailService.sendVerificationMailForUser(user);
+
+                    return res.redirect('/resend-email-verification?success=true');
+                });
+
+            }
+        });
+    });
+
+    router.post('/password/email', validate({
+        query: validation_schema.Empty,
+        body: validation_schema.SendPasswordEmail_Body
+    }), function (req, res, next) {
+
+        const captchaResponse = req.body['g-recaptcha-response'];
+
+        captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
+            if (err || !success) {
+                logger.warn('[routes/users] Invalid google captcha response');
+                return res.redirect('/reset-password-mail?failure=captcha');
+            } else { // captcha success
+
+                const email = req.body['email'];
+
+                emailService.sendResetPasswordMail(email);
+
+                return res.redirect('/reset-password-mail?success');
+            }
+        });
+    });
+
+
+    router.post('/password/reset', validate({
+        query: validation_schema.Empty,
+        body: validation_schema.ResetPassword_Body
+    }), function (req, res, next) {
+
+        const captchaResponse = req.body['g-recaptcha-response'];
+
+        captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
+            if (err || !success) {
+                logger.warn('[routes/users] Invalid google captcha response');
+                return res.redirect('/reset-password?failure=captcha');
+            } else { // captcha success
+
+                const email = req.body['email'];
+                const password = req.body['password'];
+                const passwordKey = req.body['key'];
+
+                dbUser.ResetPassword(email, passwordKey, password, function(err, success) {
+
+                    if (err || !success) {
+                        return res.redirect('/reset-password?failure=true');
+                    }
+
+                    return res.redirect('/reset-password/'+email+'?success');
+                });
+            }
+        });
+    });
+
     return router;
 };

@@ -62,7 +62,7 @@ router.get('/:id/image', validate({
             let imgPath = user.imgpath;
             if (imgPath && imgPath.length) {
                 imgPath = path.resolve(imgPath);
-                logger.debug('[users] User img path: '+ imgPath);
+                logger.debug('[users] User img path: ' + imgPath);
                 if (fs.existsSync(imgPath)) {
                     return res.sendFile(imgPath);
                 }

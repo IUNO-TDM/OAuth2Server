@@ -10,8 +10,8 @@
                     <i class="social-button-icon fa fa-facebook fa-2x" aria-hidden="true"></i>&nbsp; Facebook</button>
                 <button mat-button class="social-button social-google" (click)="loginGoogle()">
                     <i class="social-button-icon fa fa-google fa-2x" aria-hidden="true"></i>&nbsp; Google</button>
-                    <button mat-button class="social-button social-iuno" (click)="openIunoLogin()">Mit IUNO anmelden</button>
-                </div>
+                <button mat-button class="social-button social-iuno" (click)="openIunoLogin()">Mit IUNO anmelden</button>
+            </div>
             <!-- <div class="or-container" fxLayoutAlign="center center">
                 <span class="or">oder</span>
             </div>
@@ -20,9 +20,24 @@
             </div> -->
         </div>
         <div *ngIf="showIunoLogin">
-            <div *ngIf="loginFailed" class="alert-error">Login fehlgeschlagen. Benutzername oder Passwort falsch.</div>
+            <div *ngIf="loginFailed" class="alert-error" fxLayout="column" fxLayoutGap="15px">
+                <div>Login fehlgeschlagen. Benutzername oder Passwort falsch.</div>
+                <div>
+                    <a [routerLink]="['/reset-password-mail', loginCredentials.email]">Ich habe mein Passwort vergessen</a>
+                </div>
+            </div>
+            <div *ngIf="notVerified" class="alert-error" fxLayout="column" fxLayoutGap="15px">
+                <div>Login fehlgeschlagen. Die E-Mail-Adresse wurde noch nicht bestätigt.</div>
+                <div>
+                    <a [routerLink]="['/resend-email-verification', loginCredentials.email]">Aktivierungsmail erneut senden</a>
+                </div>
+            </div>
+            <div *ngIf="verified">
+                <p class="title">Aktivierung erfolgreich!</p>
+            </div>
             <div fxLayout="column" fxLayoutGap="5px">
-                <form #login action="/passport/login" method="POST" [formGroup]="loginForm" (ngSubmit)="onSubmit(); login.submit()" name="login" method="POST">
+                <form #login action="/passport/login" method="POST" [formGroup]="loginForm" (ngSubmit)="onSubmit(); login.submit()" name="login"
+                    method="POST">
                     <div fxLayout="column" fxLayoutGap="5px">
                         <mat-form-field>
                             <input matInput [(ngModel)]="loginCredentials['email']" placeholder="E-Mail-Adresse" name="email" formControlName="email">
@@ -36,10 +51,12 @@
                         </div>
                     </div>
                 </form>
-                <div class="or-container" fxLayoutAlign="center center">
-                    <span class="or">Noch keinen Login?</span>
+                <div *ngIf="!verified" fxLayout="column">
+                    <div class="or-container" fxLayoutAlign="center center">
+                        <span class="or">Noch keinen Login?</span>
+                    </div>
+                    <button mat-button class="iuno-secondary-button" (click)="register()">Jetzt registrieren</button>
                 </div>
-                <button mat-button class="iuno-secondary-button" (click)="register()">Jetzt registrieren</button>
             </div>
         </div>
     </div>
