@@ -124,35 +124,38 @@ module.exports = function (passport) {
 
     // process the login form
     router.post('/login', validate({
-        query: validation_schema.PassportLogin_Query,
-        body: validation_schema.PassportLogin_Body
-    }), function (req, res, next) {
-        logger.info('iuno login');
+            query: validation_schema.PassportLogin_Query,
+            body: validation_schema.PassportLogin_Body
+        }),
+        function (req, res, next) {
+            logger.info('iuno login');
 
-        passport.authenticate('local-login', function (err, user, info) {
+            passport.authenticate('local-login', function (err, user, info) {
 
-            if (err && info && info.code) {
-                return res.redirect('/login?failure=' + info.code || 'true');
-            }
+                if (err && info && info.code) {
+                    return res.redirect('/login?failure=' + info.code || 'true');
+                }
 
-            if (!err && user) {
-                req.logIn(user, function (err) {
-                    if (err) {
-                        return res.redirect('/login?failure=true');
-                    }
+                if (!err && user) {
+                    req.logIn(user, function (err) {
+                        if (err) {
+                            return res.redirect('/login?failure=true');
+                        }
 
-                    return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud')
-                });
-            }
+                        req.brute.reset(function () {
+                            return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud')
+                        });
+                    });
+                }
 
-            if (info) {
-                return res.redirect('/login?failure=' + info.code || 'true');
-            }
+                if (info) {
+                    return res.redirect('/login?failure=' + info.code || 'true');
+                }
 
-            return res.redirect('/login?failure=true');
+                return res.redirect('/login?failure=true');
 
-        })(req, res, next);
-    });
+            })(req, res, next);
+        });
 
     router.post('/signup', validate({
         query: validation_schema.PassportSignup_Query,
@@ -200,7 +203,7 @@ module.exports = function (passport) {
                     // return res.sendStatus(400);
                 }
 
-                return res.redirect('/login/'+user.useremail+"?verified");
+                return res.redirect('/login/' + user.useremail + "?verified");
             });
         });
     });
@@ -282,13 +285,15 @@ module.exports = function (passport) {
                 const password = req.body['password'];
                 const passwordKey = req.body['key'];
 
-                dbUser.ResetPassword(email, passwordKey, password, function(err, success) {
+                dbUser.ResetPassword(email, passwordKey, password, function (err, success) {
 
                     if (err || !success) {
                         return res.redirect('/reset-password?failure=true');
                     }
 
-                    return res.redirect('/reset-password/'+email+'?success');
+                    req.brute.reset(function () {
+                        return res.redirect('/reset-password/' + email + '?success');
+                    });
                 });
             }
         });

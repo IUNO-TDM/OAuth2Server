@@ -1,3 +1,8 @@
+/***
+ This app configuration is for the private / internal api server.
+ Only known hosts (core, jms, jmw) should access this API
+ ***/
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');

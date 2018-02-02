@@ -11,7 +11,19 @@ const passport = require('passport');
 const session = require('cookie-session');
 const config = require('./config/config_loader');
 
-var app = express();
+const ExpressBrute = require('express-brute');
+const BruteStore = require('./database/brute_pg/store');
+const store = new BruteStore({db: require('./database/db_connection')});
+
+const passportBruteForce = new ExpressBrute(store, {
+    freeRetries: 3,
+    minWait: 1000, // 1 second
+    maxWait: 5 * 60 * 1000, // 5 Minutes
+});
+
+
+
+const app = express();
 
 app.use('/', contentTypeValidation);
 
@@ -35,7 +47,7 @@ app.use(passport.session()); // persistent login sessions
 
 // Load all routes
 
-app.use('/passport', require('./routes/passport')(passport));
+app.use('/passport', passportBruteForce.prevent, require('./routes/passport')(passport));
 app.use('/oauth', require('./routes/oauth'));
 app.use('/users', tokenAuthentication, require('./routes/users'));
 
