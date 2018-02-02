@@ -142,9 +142,9 @@ module.exports = function (passport) {
                             return res.redirect('/login?failure=true');
                         }
 
-                        req.brute.reset(function () {
-                            return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud')
-                        });
+                        req.brute.reset();
+
+                        return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud')
                     });
                 }
 
@@ -291,9 +291,9 @@ module.exports = function (passport) {
                         return res.redirect('/reset-password?failure=true');
                     }
 
-                    req.brute.reset(function () {
-                        return res.redirect('/reset-password/' + email + '?success');
-                    });
+                    req.brute.reset();
+
+                    return res.redirect('/reset-password/' + email + '?success');
                 });
             }
         });
