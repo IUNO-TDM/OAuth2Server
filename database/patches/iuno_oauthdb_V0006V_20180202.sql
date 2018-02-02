@@ -31,8 +31,8 @@
 DO
 $$
 	DECLARE
-		PatchName varchar		 	 := 'iuno_oauthdb_V0004V_20180125';
-		PatchNumber int 		 	 := 0004;
+		PatchName varchar		 	 := 'iuno_oauthdb_V0006V_20180202';
+		PatchNumber int 		 	 := 0006;
 		PatchDescription varchar 	 := 'Update usersroles table';
 		CurrentPatch int 			 := (select max(p.patchnumber) from patches p);
 
@@ -52,21 +52,18 @@ $$;
 DO
 $$
 		DECLARE
-			vPatchNumber int := 0004;
-		BEGIN
+			vPatchNumber int := 0006;
+
 	----------------------------------------------------------------------------------------------------------------------------------------
 
-        DO
-        $$
-            DECLARE vMixerControlUser int := (select userid from users where username = 'MixerControl');
+         vMixerControlUser int := (select userid from users where username = 'MixerControlUser');
                 vMarketplaceCoreUser int := (select userid from users where username = 'MarketplaceCoreUser');
                 vMachineOperator int := (select roleid from roles where rolename = 'MachineOperator');
                 vMarketplaceCore int := (select roleid from roles where rolename = 'MarketplaceCore');
             BEGIN
                 update usersroles set roleid = vMachineOperator where userid = vMixerControlUser;
                 update usersroles set roleid = vMarketplaceCore where userid = vMarketplaceCoreUser;
-            END;
-        $$;
+
 			
 	----------------------------------------------------------------------------------------------------------------------------------------
 		-- UPDATE patch table status value
