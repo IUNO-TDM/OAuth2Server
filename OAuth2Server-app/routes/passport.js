@@ -13,6 +13,12 @@ const validator = new Validator({allErrors: true});
 const validate = validator.validate;
 const validation_schema = require('../schema/passport_schema');
 
+const ExpressBrute = require('express-brute');
+const BruteStore = require('../database/brute_pg/store');
+const store = new BruteStore({db: require('../database/db_connection')});
+
+
+
 module.exports = function (passport) {
     const router = express.Router();
 
@@ -122,8 +128,20 @@ module.exports = function (passport) {
     // AUTHENTICATE (LOCAL) ==================================================
     // =============================================================================
 
+    const failCallback = function (req, res, next, nextValidRequestDate) {
+        return res.redirect('/login?failure=INVALID_CREDENTIALS&next-valid-request-time=' + nextValidRequestDate.getTime());
+    };
+
+    const loginBrute = new ExpressBrute(store, {
+        freeRetries: 3,
+        minWait: 1000, // 1 second
+        maxWait: 5 * 60 * 1000, // 5 Minutes
+        failCallback: failCallback
+    });
+
+
     // process the login form
-    router.post('/login', validate({
+    router.post('/login', loginBrute.prevent, validate({
             query: validation_schema.PassportLogin_Query,
             body: validation_schema.PassportLogin_Body
         }),

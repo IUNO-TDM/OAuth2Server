@@ -67,6 +67,10 @@ $config: mat-typography-config();
   background-color: mat-color($iuno-primary) !important;
 }
 
+:host ::ng-deep .iuno-blocked {
+  background-color: #be5238 !important;
+}
+
 :host ::ng-deep .iuno-secondary-button {
   background-color: #ccc !important;
 }
