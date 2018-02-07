@@ -133,8 +133,8 @@ module.exports = function (passport) {
     };
 
     const loginBrute = new ExpressBrute(store, {
-        freeRetries: 3,
-        minWait: 1000, // 1 second
+        freeRetries: 1,
+        minWait: 5000, // 1 second
         maxWait: 5 * 60 * 1000, // 5 Minutes
         failCallback: failCallback
     });
