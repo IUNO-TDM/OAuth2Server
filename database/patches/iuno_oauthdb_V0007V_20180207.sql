@@ -31,8 +31,8 @@
 DO
 $$
 	DECLARE
-		PatchName varchar		 	 := 'iuno_oauthdb_V0006V_20180207';
-		PatchNumber int 		 	 := 0006;
+		PatchName varchar		 	 := 'iuno_oauthdb_V0007V_20180207';
+		PatchNumber int 		 	 := 0007;
 		PatchDescription varchar 	 := 'New table for login brute force protection.';
 		CurrentPatch int 			 := (select max(p.patchnumber) from patches p);
 
@@ -52,7 +52,7 @@ $$;
 DO
 $$
 		DECLARE
-			vPatchNumber int := 0006;
+			vPatchNumber int := 0007;
 		BEGIN
 	----------------------------------------------------------------------------------------------------------------------------------------
     CREATE
