@@ -12,6 +12,7 @@
 | iuno_oauthdb_V0003V_20180111.sql                          | 0003              | Correct Column name on select return value in function CreateAuthorizationCode                                |  [#43][i43]       | [@gomarcel][igomarcel]      |
 | iuno_oauthdb_V0004V_20180122.sql                          | 0004              | Added tables and functions for email verification                                                             |  [#26][i26]       | [@mbeuttler][imbeuttler]      |
 | iuno_oauthdb_V0005V_20180125.sql                          | 0005              | Added tables and functions for password reset                                                                 |  [#53][i53]       | [@mbeuttler][imbeuttler]      |
+| iuno_oauthdb_V0006V_20180202.sql                          | 0006              | Update usersroles table                                                                                       |                   | [@gomarcel][igomarcel]        |
 | iuno_oauthdb_V0007V_20180207.sql                          | 0007              | Added new table to store login brute force attempts                                                           |  [#46][i46]       | [@mbeuttler][imbeuttler]      |
 
 [i37]: https://github.com/IUNO-TDM/OAuth2Server/issues/37
