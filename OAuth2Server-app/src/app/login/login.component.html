@@ -47,7 +47,7 @@
                         </mat-form-field>
                         <div fxLayout="row" fxLayoutGap="15px" fxFlex="grow">
                             <button mat-button type='button' fxFlex="50" class="iuno-cancel-button" (click)="closeIunoLogin()">Zurück</button>
-                            <button mat-button type="submit" [disabled]="loginForm.invalid" fxFlex="50" class="iuno-primary-button">Login</button>
+                                <button [class.iuno-blocked]="isLocked()" mat-button type="submit" [disabled]="loginForm.invalid || isLocked()" fxFlex="50" class="iuno-primary-button">Login{{loginCountDown > 0 ? (' (' + loginCountDown + ')') : ''}}</button>
                         </div>
                     </div>
                 </form>

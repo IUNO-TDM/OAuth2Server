@@ -32,13 +32,15 @@ server.on('listening', onListening);
 
 /**
  * Setup a different server on a different port for our resource api
+ * This server should only be accessible by internal hosts. (core, jms, jmw,...)
+ * You must not make this port accessible from unknown public hosts!!!
  */
-var app_secure = require('../app_secure');
-var port_secure = normalizePort(process.env.PORT_SECURE || '3006');
-var server_secure = http.createServer(app_secure);
-server_secure.listen(port_secure);
-server_secure.on('error', onError);
-server_secure.on('listening', onListening);
+var app_internal = require('../app_internal');
+var port_internal = normalizePort(process.env.PORT_SECURE || '3006');
+var server_internal = http.createServer(app_internal);
+server_internal.listen(port_internal);
+server_internal.on('error', onError);
+server_internal.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.

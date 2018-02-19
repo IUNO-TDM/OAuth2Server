@@ -20,7 +20,7 @@ COPY OAuth2Server-app /usr/src/app
 RUN npm install
 RUN npm install -g @angular/cli
 
-RUN ng build
+RUN ng build --prod
 
 VOLUME /usr/src/app/images
 

@@ -11,7 +11,8 @@ const passport = require('passport');
 const session = require('cookie-session');
 const config = require('./config/config_loader');
 
-var app = express();
+
+const app = express();
 
 app.use('/', contentTypeValidation);
 

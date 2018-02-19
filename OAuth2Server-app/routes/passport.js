@@ -13,6 +13,12 @@ const validator = new Validator({allErrors: true});
 const validate = validator.validate;
 const validation_schema = require('../schema/passport_schema');
 
+const ExpressBrute = require('express-brute');
+const BruteStore = require('../database/brute_pg/store');
+const store = new BruteStore({db: require('../database/db_connection')});
+
+
+
 module.exports = function (passport) {
     const router = express.Router();
 
@@ -122,37 +128,52 @@ module.exports = function (passport) {
     // AUTHENTICATE (LOCAL) ==================================================
     // =============================================================================
 
-    // process the login form
-    router.post('/login', validate({
-        query: validation_schema.PassportLogin_Query,
-        body: validation_schema.PassportLogin_Body
-    }), function (req, res, next) {
-        logger.info('iuno login');
+    const failCallback = function (req, res, next, nextValidRequestDate) {
+        return res.redirect('/login?failure=INVALID_CREDENTIALS&next-valid-request-time=' + nextValidRequestDate.getTime());
+    };
 
-        passport.authenticate('local-login', function (err, user, info) {
-
-            if (err && info && info.code) {
-                return res.redirect('/login?failure=' + info.code || 'true');
-            }
-
-            if (!err && user) {
-                req.logIn(user, function (err) {
-                    if (err) {
-                        return res.redirect('/login?failure=true');
-                    }
-
-                    return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud')
-                });
-            }
-
-            if (info) {
-                return res.redirect('/login?failure=' + info.code || 'true');
-            }
-
-            return res.redirect('/login?failure=true');
-
-        })(req, res, next);
+    const loginBrute = new ExpressBrute(store, {
+        freeRetries: 1,
+        minWait: 5000, // 1 second
+        maxWait: 5 * 60 * 1000, // 5 Minutes
+        failCallback: failCallback
     });
+
+
+    // process the login form
+    router.post('/login', loginBrute.prevent, validate({
+            query: validation_schema.PassportLogin_Query,
+            body: validation_schema.PassportLogin_Body
+        }),
+        function (req, res, next) {
+            logger.info('iuno login');
+
+            passport.authenticate('local-login', function (err, user, info) {
+
+                if (err && info && info.code) {
+                    return res.redirect('/login?failure=' + info.code || 'true');
+                }
+
+                if (!err && user) {
+                    req.logIn(user, function (err) {
+                        if (err) {
+                            return res.redirect('/login?failure=true');
+                        }
+
+                        req.brute.reset();
+
+                        return res.redirect(req.session.redirectTo || 'https://iuno.axoom.cloud')
+                    });
+                }
+
+                if (info) {
+                    return res.redirect('/login?failure=' + info.code || 'true');
+                }
+
+                return res.redirect('/login?failure=true');
+
+            })(req, res, next);
+        });
 
     router.post('/signup', validate({
         query: validation_schema.PassportSignup_Query,
@@ -200,7 +221,7 @@ module.exports = function (passport) {
                     // return res.sendStatus(400);
                 }
 
-                return res.redirect('/login/'+user.useremail+"?verified");
+                return res.redirect('/login/' + user.useremail + "?verified");
             });
         });
     });
@@ -282,13 +303,15 @@ module.exports = function (passport) {
                 const password = req.body['password'];
                 const passwordKey = req.body['key'];
 
-                dbUser.ResetPassword(email, passwordKey, password, function(err, success) {
+                dbUser.ResetPassword(email, passwordKey, password, function (err, success) {
 
                     if (err || !success) {
                         return res.redirect('/reset-password?failure=true');
                     }
 
-                    return res.redirect('/reset-password/'+email+'?success');
+                    req.brute.reset();
+
+                    return res.redirect('/reset-password/' + email + '?success');
                 });
             }
         });
