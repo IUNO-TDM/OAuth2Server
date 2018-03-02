@@ -38,7 +38,6 @@ app.use(passport.session()); // persistent login sessions
 
 app.use('/passport', require('./routes/passport')(passport));
 app.use('/oauth', require('./routes/oauth'));
-app.use('/users', tokenAuthentication, require('./routes/users'));
 
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
@@ -46,10 +45,6 @@ app.use(express.static(path.join(__dirname, 'dist')));
 app.use('*', function (req, res, next) {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
 });
-
-// app.use('/', function (req, res, next) {
-//     res.redirect('/login.html')
-// });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -64,24 +59,6 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
 
     var responseData;
-
-    if (err.name === 'JsonSchemaValidation') {
-        // Log the error however you please
-        console.log(err.message);
-        // logs "express-jsonschema: Invalid data found"
-
-        // Set a bad request http response status or whatever you want
-        res.status(400);
-
-        // Format the response body however you want
-        responseData = {
-            statusText: 'Bad Request',
-            jsonSchemaValidation: true,
-            validations: err.validations  // All of your validation information
-        };
-
-        return res.json(responseData);
-    }
 
     if (err.name === 'JsonSchemaValidationError') {
         // Log the error however you please
