@@ -1269,7 +1269,7 @@ $$
 		--JuiceMachineServiceUser
 		vUserUUID := (select useruuid from users where username = 'JuiceMachineServiceUser');
 		vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
-		perform createclient('JuiceMachineService','IsSecret','{client_credentials}', vGrants, vRedirectUris,null);
+		perform createclient('JuiceMachineService','IsSecret',vuseruuid, '{client_credentials}', vRedirectUris,null);
 
 		-- Set fixes UUIDs for the clients
 		update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41744' where clientname = 'JuiceWebSite';
