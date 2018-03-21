@@ -1214,7 +1214,6 @@ $$
 	Declare
 		vUserUUID uuid;
 		vRoleUUID uuid;
-		vGrants text[] := '{authorization_code, password, refresh_token, client_credentials}';
 		vRedirectUris text[] := '{http://localhost:3004/auth/iuno/callback, http://tdm990101.fritz.box:3004/auth/iuno/callback}';
 
 	Begin
@@ -1258,19 +1257,19 @@ $$
 		--JuiceWebSiteUser
 		vUserUUID := (select useruuid from users where username = 'JuiceWebSiteUser');
 		vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
-		perform createclient('JuiceWebSite','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+		perform createclient('JuiceWebSite','IsSecret',vuseruuid, '{authorization_code, password, refresh_token}', vRedirectUris,null);
 		--MarketplaceCoreUser
 		vUserUUID := (select useruuid from users where username = 'MarketplaceCoreUser');
 		vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceCore');
-		perform createclient('MarketplaceCore','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+		perform createclient('MarketplaceCore','IsSecret',vuseruuid, '{}', vRedirectUris,null);
 		--MixerControlUser
 		vUserUUID := (select useruuid from users where username = 'MixerControlUser');
 		vRoleUUID := (select roleuuid from roles where rolename = 'MachineOperator');
-		perform createclient('MixerControl','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+		perform createclient('MixerControl','IsSecret',vuseruuid, '{client_credentials}', vRedirectUris,null);
 		--JuiceMachineServiceUser
 		vUserUUID := (select useruuid from users where username = 'JuiceMachineServiceUser');
 		vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
-		perform createclient('JuiceMachineService','IsSecret',vuseruuid, vGrants, vRedirectUris,null);
+		perform createclient('JuiceMachineService','IsSecret',vuseruuid, '{client_credentials}', vRedirectUris,null);
 
 		-- Set fixes UUIDs for the clients
 		update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41744' where clientname = 'JuiceWebSite';
