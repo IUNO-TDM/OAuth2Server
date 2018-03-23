@@ -27,6 +27,7 @@ app.use('/oauth', require('./routes/oauth'));
 app.use('/tokeninfo', clientAuthentication, require('./routes/tokeninfo'));
 app.use('/userinfo', clientAuthentication, require('./routes/userinfo'));
 app.use('/users', tokenAuthentication, require('./routes/users'));
+app.use('/clients', tokenAuthentication, require('./routes/clients'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
