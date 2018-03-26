@@ -54,7 +54,7 @@ User.prototype.SetProperties = function (data) {
         this.imgpath = data.imgpath ? data.imgpath : this.imgpath;
         this.createdat = data.createdat ? data.createdat : this.createdat;
         this.updatedat = data.updatedat ? data.updatedat : this.updatedat;
-        this.userRoles = data.userRoles ? data.userRoles : this.userRoles;
+        this.roles = data.roles ? data.roles : this.roles;
         this.isVerified = data.isVerified ? data.isVerified : this.isVerified;
     }
 };
@@ -109,7 +109,7 @@ User.prototype.Delete = function () {
 
 User.prototype.getPrivateData = function () {
     return _.pick(this, [
-        'id', 'username', 'externalid', 'firstname', 'lastname', 'useremail', 'oauth2provider', 'isVerified'
+        'id', 'username', 'externalid', 'firstname', 'lastname', 'useremail', 'oauth2provider', 'isVerified', 'roles'
     ]);
 };
 
