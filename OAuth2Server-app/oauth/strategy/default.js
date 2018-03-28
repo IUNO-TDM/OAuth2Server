@@ -23,18 +23,36 @@ function getAccessToken(bearerToken) {
                 return fulfill(false);
             }
 
-            dbUser.getUserByID(token.user, function (err, user) {
-                if (err) {
-                    logger.warn(err);
-                }
+            Promise.all([
+                new Promise(function (fulfill, reject) {
+                    dbUser.getUserByID(token.user, function (err, user) {
+                        if (err) {
+                            return reject(err);
+                        }
 
-                token.user = user;
-                token.client = {
-                    id: token.client
-                };
+                        return fulfill(user);
+                    })
+                }),
+                new Promise(function (fulfill, reject) {
+                    dbClient.getClientById(token.client, function (err, client) {
+                        if (err) {
+                            return reject(err);
+                        }
+
+                        return fulfill(client);
+                    })
+                })
+            ]).then(values => {
+                token.user = values[0];
+                token.client = values[1];
 
                 fulfill(token);
+            }).catch(err => {
+                logger.warn(err);
+
+                return reject(err);
             });
+
 
         });
     });
@@ -70,7 +88,7 @@ function getUser(username, password) {
         dbUser.getUser(username, password, function (err, data) {
             if (err) {
                 logger.warn(err);
-                
+
             }
             return fulfill(data);
         });
@@ -188,7 +206,7 @@ function getUserFromClient(client) {
 function getRefreshToken(refreshToken) {
     logger.info('GetRefreshToken ', refreshToken);
 
-    return new Promise(function(fulfill, reject) {
+    return new Promise(function (fulfill, reject) {
         dbToken.getRefreshToken(refreshToken, function (err, token) {
             if (err) {
                 logger.warn(err);
