@@ -281,7 +281,6 @@ BEGIN
 
 END;
 $$;
-COMMIT;
 -- ##########################################################################
 -- Author: Marcel Ely Gomes
 -- Company: Trumpf Werkzeugmaschine GmbH & Co KG
@@ -1260,4 +1259,3 @@ Begin
     update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41747' where clientname = 'JuiceMachineService';
 END;
 $$;
-COMMIT;
