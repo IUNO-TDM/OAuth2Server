@@ -114,9 +114,13 @@ User.prototype.getPrivateData = function () {
 };
 
 User.prototype.getPublicData = function () {
-    return _.pick(this, [
-        'id', 'username', 'firstname', 'lastname'
+    const user = _.pick(this, [
+        'id', 'firstname', 'lastname'
     ]);
+
+    user.lastname = user.lastname ? `${user.lastname.charAt(0)}.` : undefined;
+
+    return user;
 };
 
 

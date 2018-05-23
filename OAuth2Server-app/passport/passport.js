@@ -38,7 +38,7 @@ function configurePassportForStragiesInPath(dirPath, passport) {
     // Loop through all the files in the temp directory
     fs.readdir(dirPath, function (err, files) {
         if (err) {
-            console.error("Could not list the directory.", err);
+            console.error("[passport] Could not list the directory.", err);
             process.exit(1);
         }
 
@@ -47,7 +47,7 @@ function configurePassportForStragiesInPath(dirPath, passport) {
 
             fs.stat(filePath, function (error, stat) {
                 if (error) {
-                    console.error("Error stating file.", error);
+                    console.error("[passport] Error stating file.", error);
                     return;
                 }
 
@@ -56,7 +56,7 @@ function configurePassportForStragiesInPath(dirPath, passport) {
                         return;
                     }
 
-                    logger.info('Configure OAUTH Strategy: ' + file);
+                    logger.info('[passport] Configure OAUTH Strategy: ' + file);
                     require(filePath)(passport);
                 }
 
@@ -75,7 +75,7 @@ module.exports = function (passport) {
     // passport needs ability to serialize and unserialize users out of session
     // used to serialize the user for the session
     passport.serializeUser(function (user, done) {
-        logger.debug('Serialize User: ' + JSON.stringify(user));
+        logger.debug('[passport] Serialize User: ' + JSON.stringify(user));
         userStore[user.token.user] = user;
 
         done(null, user.token.user);
@@ -83,8 +83,12 @@ module.exports = function (passport) {
 
     // used to deserialize the user
     passport.deserializeUser(function (id, done) {
-        logger.debug('Deserialize User: ' + JSON.stringify(id));
-        var user = userStore[id];
+        logger.debug('[passport] Deserialize User: ' + JSON.stringify(id));
+        const user = userStore[id];
+
+        if (!user) {
+            logger.info(`[passport] no session for user: ${id} found.`)
+        }
 
         done(null, user);
 
