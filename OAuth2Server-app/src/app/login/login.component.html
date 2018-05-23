@@ -10,7 +10,7 @@
                     <i class="social-button-icon fa fa-facebook fa-2x" aria-hidden="true"></i>&nbsp; Facebook</button>
                 <button mat-button class="social-button social-google" (click)="loginGoogle()">
                     <i class="social-button-icon fa fa-google fa-2x" aria-hidden="true"></i>&nbsp; Google</button>
-                <button mat-button class="social-button social-iuno" (click)="openIunoLogin()">Mit IUNO anmelden</button>
+                <button mat-button class="social-button social-iuno" (click)="openIunoLogin()" i18n="login|login with iuno button">Mit IUNO anmelden</button>
             </div>
             <!-- <div class="or-container" fxLayoutAlign="center center">
                 <span class="or">oder</span>
@@ -21,41 +21,41 @@
         </div>
         <div *ngIf="showIunoLogin">
             <div *ngIf="loginFailed" class="alert-error" fxLayout="column" fxLayoutGap="15px">
-                <div>Login fehlgeschlagen. Benutzername oder Passwort falsch.</div>
+                <div i18n="login|error - username / password wrong">Login fehlgeschlagen. Benutzername oder Passwort falsch.</div>
                 <div>
-                    <a [routerLink]="['/reset-password-mail', loginCredentials.email]">Ich habe mein Passwort vergessen</a>
+                    <a [routerLink]="['/reset-password-mail', loginCredentials.email]" i18n="login|error - password forgotten">Ich habe mein Passwort vergessen</a>
                 </div>
             </div>
             <div *ngIf="notVerified" class="alert-error" fxLayout="column" fxLayoutGap="15px">
-                <div>Login fehlgeschlagen. Die E-Mail-Adresse wurde noch nicht bestätigt.</div>
+                <div i18n="login|error - email not confirmed yet">Login fehlgeschlagen. Die E-Mail-Adresse wurde noch nicht bestätigt.</div>
                 <div>
-                    <a [routerLink]="['/resend-email-verification', loginCredentials.email]">Aktivierungsmail erneut senden</a>
+                    <a [routerLink]="['/resend-email-verification', loginCredentials.email]" i18n="login|link resend activation mail">Aktivierungsmail erneut senden</a>
                 </div>
             </div>
             <div *ngIf="verified">
-                <p class="title">Aktivierung erfolgreich!</p>
+                <p class="title" i18n="login|message - activation successful">Aktivierung erfolgreich!</p>
             </div>
             <div fxLayout="column" fxLayoutGap="5px">
                 <form #login action="/passport/login" method="POST" [formGroup]="loginForm" (ngSubmit)="onSubmit(); login.submit()" name="login"
                     method="POST">
                     <div fxLayout="column" fxLayoutGap="5px">
                         <mat-form-field>
-                            <input matInput [(ngModel)]="loginCredentials['email']" placeholder="E-Mail-Adresse" name="email" formControlName="email">
+                            <input matInput [(ngModel)]="loginCredentials['email']" placeholder="E-Mail-Adresse" name="email" formControlName="email" i18n-placeholder="login|input field placeholder">
                         </mat-form-field>
                         <mat-form-field>
-                            <input matInput type="password" placeholder="Passwort" name="password" formControlName="password">
+                            <input matInput type="password" placeholder="Passwort" name="password" formControlName="password" i18n-placeholder="login|input field placeholder">
                         </mat-form-field>
                         <div fxLayout="row" fxLayoutGap="15px" fxFlex="grow">
-                            <button mat-button type='button' fxFlex="50" class="iuno-cancel-button" (click)="closeIunoLogin()">Zurück</button>
+                            <button mat-button type='button' fxFlex="50" class="iuno-cancel-button" (click)="closeIunoLogin()" i18n="login|back button">Zurück</button>
                                 <button [class.iuno-blocked]="isLocked()" mat-button type="submit" [disabled]="loginForm.invalid || isLocked()" fxFlex="50" class="iuno-primary-button">Login{{loginCountDown > 0 ? (' (' + loginCountDown + ')') : ''}}</button>
                         </div>
                     </div>
                 </form>
                 <div *ngIf="!verified" fxLayout="column">
                     <div class="or-container" fxLayoutAlign="center center">
-                        <span class="or">Noch keinen Login?</span>
+                        <span class="or" i18n="login|question - no login yet?">Noch keinen Login?</span>
                     </div>
-                    <button mat-button class="iuno-secondary-button" (click)="register()">Jetzt registrieren</button>
+                    <button mat-button class="iuno-secondary-button" (click)="register()" i18n="login|signup button">Jetzt registrieren</button>
                 </div>
             </div>
         </div>

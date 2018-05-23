@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="de" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="8ab80e918d1586cbe571cb87836374effb2e52fd" datatype="html">
+        <source>Mit IUNO anmelden</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/login/login.component.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <note priority="1" from="description">login with iuno button</note>
+        <note priority="1" from="meaning">login</note>
+      </trans-unit>
+      <trans-unit id="c5835e82cdde76e95902dbac6cab378419107428" datatype="html">
+        <source>Login fehlgeschlagen. Benutzername oder Passwort falsch.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/login/login.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <note priority="1" from="description">error - username / password wrong</note>
+        <note priority="1" from="meaning">login</note>
+      </trans-unit>
+      <trans-unit id="73a71a4a9b652f04842fc25dec103c88c1efed23" datatype="html">
+        <source>Ich habe mein Passwort vergessen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/login/login.component.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <note priority="1" from="description">error - password forgotten</note>
+        <note priority="1" from="meaning">login</note>
+      </trans-unit>
+      <trans-unit id="e3ff020c0b575bf3a19739d3c946e9654b146297" datatype="html">
+        <source>Login fehlgeschlagen. Die E-Mail-Adresse wurde noch nicht bestätigt.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/login/login.component.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <note priority="1" from="description">error - email not confirmed yet</note>
+        <note priority="1" from="meaning">login</note>
+      </trans-unit>
+      <trans-unit id="aba6f17c66dfb27787525e576f8b47d79fe1f5ba" datatype="html">
+        <source>Aktivierungsmail erneut senden</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/login/login.component.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <note priority="1" from="description">link resend activation mail</note>
+        <note priority="1" from="meaning">login</note>
+      </trans-unit>
+      <trans-unit id="083931d89cd81dbf1c3d9e58e9dab323f67d1f05" datatype="html">
+        <source>Aktivierung erfolgreich!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/login/login.component.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <note priority="1" from="description">message - activation successful</note>
+        <note priority="1" from="meaning">login</note>
+      </trans-unit>
+      <trans-unit id="e63362df790da1daf6c831afbc87a578ff8c01c4" datatype="html">
+        <source>E-Mail-Adresse</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/login/login.component.ts</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <note priority="1" from="description">input field placeholder</note>
+        <note priority="1" from="meaning">login</note>
+      </trans-unit>
+      <trans-unit id="5149937654176bcc2f19eccb83aabd6af792362a" datatype="html">
+        <source>Passwort</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/login/login.component.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+        <note priority="1" from="description">input field placeholder</note>
+        <note priority="1" from="meaning">login</note>
+      </trans-unit>
+      <trans-unit id="773d78a83a68876b9680e0a25464fc54207a57f0" datatype="html">
+        <source>Zurück</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/login/login.component.ts</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+        <note priority="1" from="description">back button</note>
+        <note priority="1" from="meaning">login</note>
+      </trans-unit>
+      <trans-unit id="8c04d54632d949700fa542c38cfb7ad3d128f3a5" datatype="html">
+        <source>Noch keinen Login?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/login/login.component.ts</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+        <note priority="1" from="description">question - no login yet?</note>
+        <note priority="1" from="meaning">login</note>
+      </trans-unit>
+      <trans-unit id="4dda01a30abef2530e32db9ae9711936c66197af" datatype="html">
+        <source>Jetzt registrieren</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/login/login.component.ts</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <note priority="1" from="description">signup button</note>
+        <note priority="1" from="meaning">login</note>
+      </trans-unit>
+      <trans-unit id="6c8c11bb3eb97099d555e97933b8f38429e49bf1" datatype="html">
+        <source>Ihre Registrierung war erfolgreich!</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <note priority="1" from="description">registration successful</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="7534f3fb2caeaf60872dfc7ad89bc26fe8de91d0" datatype="html">
+        <source>Bitte aktivieren Sie Ihren Account über die Aktivierungsmail, die Sie in Kürze über die angegebene E-Mail-Adresse erhalten sollten.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <note priority="1" from="description">error - please activate account</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="8c5b6b4d8d049a417cb2bd1cc4682ed8ebc1207f" datatype="html">
+        <source>Zurück zur Login Seite</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <note priority="1" from="description">back to login</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="a9a79e35b35931f2553b100580dbac37e05160a7" datatype="html">
+        <source>Registrierung fehlgeschlagen. Der Benutzer existiert bereits.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <note priority="1" from="description">error - user already exists</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="7b4f49ddb380d496d255395d2c108b07d144393c" datatype="html">
+        <source>Vorname</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <note priority="1" from="description">input field placeholder</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="b117f0ebc91f95268019327bc05bfba3144004d6" datatype="html">
+        <source>
+                                Bitte geben Sie Ihren Vorname ein.
+                            </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <note priority="1" from="description">error - enter firstname</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="c61f65f6a825217c925ec9a690a82a41fcc48573" datatype="html">
+        <source>Nachname</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <note priority="1" from="description">input field placeholder</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="12f4ab0fb6e334a5fd08ba457171079f30c86957" datatype="html">
+        <source>
+                                Bitte geben Sie Ihren Nachnamen ein.
+                            </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+        <note priority="1" from="description">error - enter lastname</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="35b3fdeb70c448b325efe01c27bb0c29966744f1" datatype="html">
+        <source>E-Mail-Adresse</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <note priority="1" from="description">input field placeholder</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="4683c0eaa3f86d7d42624712059247bb9df498c4" datatype="html">
+        <source>
+                                Bitte geben Sie eine gültige E-Mail-Adresse ein.
+                            </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <note priority="1" from="description">error - enter valid email</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="96846e870c839788b41ce379007b0db31f3ff9df" datatype="html">
+        <source>Passwort</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <note priority="1" from="description">input field placeholder</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="c3f1e5c68f2a133129d4080c60e1b607c8530750" datatype="html">
+        <source>
+                                Das Passwort muss mindestens 8 Zeichen lang sein.
+                            </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <note priority="1" from="description">error - password length</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="04d01e1b363ff0faa6436eb02565437ea4662d27" datatype="html">
+        <source>Passwort wiederholen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+        <note priority="1" from="description">input field placeholder</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="97f2dcb35a11395e4479750c319358e35d4f027a" datatype="html">
+        <source>
+                                Die Passwörter stimmen nicht überein.
+                            </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <note priority="1" from="description">error - passwords do not match</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="8e3b7507bfe3697dc123f789197e9e819fa66519" datatype="html">
+        <source>Captcha-Überprüfung fehlgeschlagen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+        <note priority="1" from="description">error - captcha failed</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="38729085d4e6f81e0375826742024b65c33a3ddb" datatype="html">
+        <source>Abbrechen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+        <note priority="1" from="description">button - cancel</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="2b922a661e4952da5011afdf4ae957c73f02f10f" datatype="html">
+        <source>Registrieren</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/register/register.component.ts</context>
+          <context context-type="linenumber">58</context>
+        </context-group>
+        <note priority="1" from="description">button register</note>
+        <note priority="1" from="meaning">register</note>
+      </trans-unit>
+      <trans-unit id="c47b6066a02b6434f0cd861e792d9ceebbe59235" datatype="html">
+        <source>Datenschutz</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/footer/footer.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="140d9a7d0795beace6491c45566f6dd295e94999" datatype="html">
+        <source>Impressum</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/footer/footer.component.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
