@@ -1,12 +1,11 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.0.0",
+    "version": "1.0.1",
     "title": "OAuth2Server"
   },
-  "host": "localhost:3006",
+  "host": "tdm-jmw.axoom.cloud",
   "schemes": [
-    "http",
     "https"
   ],
   "consumes": [
@@ -19,19 +18,10 @@
     "TDM_Auth": {
       "type": "oauth2",
       "flow": "accessCode",
-      "authorizationUrl": "http://localhost:3006/oauth/authorise",
-      "tokenUrl": "http://localhost:3006/oauth/token",
+      "authorizationUrl": "https://tdm-jmw.axoom.cloud/oauth/authorise",
+      "tokenUrl": "https://tdm-jmw.axoom.cloud/oauth/token",
       "scopes": {
-        "default": "Undefined",
-        "dashboard": "view dashboard",
-        "createRecipe": "create a recipe",
-        "viewRecipe": "view a recipe",
-        "viewSecureRecipe": "view a secure recipe",
-        "editRecipe": "edit a recipe",
-        "editSecureRecipe": "edit a secure recipe",
-        "viewUserProfile": "view the user profile",
-        "editUserProfile": "edit user profile",
-        "admin": "admin ui"
+        "default": "Undefined"
       }
     },
     "Client_Auth": {
@@ -62,10 +52,7 @@
           "200": {
             "description": "Successful response",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Token"
-              }
+              "$ref": "#/definitions/Token"
             }
           },
           "400": {
@@ -122,16 +109,7 @@
             "type": "string",
             "default": "default",
             "enum": [
-              "default",
-              "dashboard",
-              "createRecipe",
-              "viewRecipe",
-              "viewSecureRecipe",
-              "editRecipe",
-              "editSecureRecipe",
-              "viewUserProfile",
-              "editUserProfile",
-              "admin"
+              "default"
             ],
             "required": true
           }
@@ -140,10 +118,7 @@
           "200": {
             "description": "Successful response",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Token"
-              }
+              "$ref": "#/definitions/Token"
             }
           },
           "400": {
@@ -177,10 +152,7 @@
           "200": {
             "description": "Successful response",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Token"
-              }
+              "$ref": "#/definitions/Token"
             }
           },
           "400": {
@@ -214,10 +186,7 @@
           "200": {
             "description": "Successful response",
             "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/User"
-              }
+              "$ref": "#/definitions/User"
             }
           },
           "400": {
@@ -342,6 +311,13 @@
         "redirect_uri": {
           "type": "string",
           "description": "Required for grant type authorization_code"
+        },
+        "client_id": {
+          "type": "string"
+        },
+        "client_secret": {
+          "type": "string",
+          "format": "password"
         }
       }
     },
@@ -378,6 +354,7 @@
       }
     },
     "User": {
+      "description": "Depending on the scope and access level only a subset of the properties will be filled",
       "type": "object",
       "properties": {
         "id": {
