@@ -278,6 +278,153 @@
           <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="0152078e49377f7f7ae81dcbb75cce20aee40c53" datatype="html">
+        <source>Aktivierungsmail erneut versendet.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f71cc24b1ca3cec0c3afbd90c9c13ce6a5389d16" datatype="html">
+        <source>Die Aktivierungsmail wurde Ihnen erneut zugesendet. Bitte übrprüfen Sie im Zweifelsfall Ihren Spam-Ordner.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1929a952b012ffe8252466f672aed6a6481b8817" datatype="html">
+        <source>Zurück zur Login Seite</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="517d15ca6c01635dd24822928f55026da2fd8daa" datatype="html">
+        <source>Die Aktivierungsmail konnte nicht gesendet werden.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0fb4e77a873050a7284c3e750a507f2f22ed16b3" datatype="html">
+        <source>Die Aktivierungsmail konnte nicht gesendet werden. Die E-Mail-Adresse ist nicht bekannt oder das Passwort ist falsch.
+            </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="455e3dc29a6c8c1e5c8620c75548780a18799894" datatype="html">
+        <source>Die E-Mail-Adresse wurde bereits bestätigt.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="809d887789eeed30865fd3a8765720f8723bd505" datatype="html">
+        <source>Die Aktivierungsmail wurde Ihnen erneut zugesendet. Bitte überprüfen Sie im Zweifelsfall Ihren Spam-Ordner.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a1fcd77c46fe0a36cfe0a9a0d5526e92deec00a8" datatype="html">
+        <source>Aktivierungsmail erneut zusenden</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="769bfe5bc759a2824cb12933a24122fcf63d7b8f" datatype="html">
+        <source>E-Mail-Adresse</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2070ebb54f893c60114f49f46d7e1a6f27b66610" datatype="html">
+        <source>Passwort</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="20bc51d183c7088e7e404d664deb03b062ba2752" datatype="html">
+        <source>Captcha-Überprüfung fehlgeschlagen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c47252d6cffe14a672e7ef04b2cc30e761f240ae" datatype="html">
+        <source>Zurück</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context>
+          <context context-type="linenumber">50</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7bcc33990d85b0a9bc1590bb8c7bd772b28ed782" datatype="html">
+        <source>Abschicken</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="257c058d23f79021e1a2c6b966e89a3c32143864" datatype="html">
+        <source>Passwort zurücksetzen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8c2414393d95e19b461679cb58abeb3d5283860e" datatype="html">
+        <source>Der Link um das Passwort zurückzusetzen wurde Ihnen per E-Mail zugesendet. Bitte übrprüfen Sie im Zweifelsfall Ihren Spam-Ordner.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b04e780e5708a0f7607574d45c6d642792f7321c" datatype="html">
+        <source>Der Link um das Passwort zurückzusetzen konnte nicht gesendet werden.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="32c1e663660515b8118b0dd7bb89ca6b9e95180c" datatype="html">
+        <source>Der Link um das Passwort zurückzusetzen konnte nicht gesendet werden. Die E-Mail-Adresse ist nicht bekannt.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="105f7878b6dde12a833d5e20475593cfc77f0b17" datatype="html">
+        <source>Der Link um das Passwort zurückzusetzen wird Ihnen an die folgende E-Mail-Adresse zugesendet:</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
