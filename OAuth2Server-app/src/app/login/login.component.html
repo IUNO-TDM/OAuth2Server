@@ -38,6 +38,7 @@
             <div fxLayout="column" fxLayoutGap="5px">
                 <form #login action="/passport/login" method="POST" [formGroup]="loginForm" (ngSubmit)="onSubmit(); login.submit()" name="login"
                     method="POST">
+                    <input type="hidden" name="language" formControlName="language" [ngModel]="language">
                     <div fxLayout="column" fxLayoutGap="5px">
                         <mat-form-field>
                             <input matInput [(ngModel)]="loginCredentials['email']" placeholder="E-Mail-Adresse" name="email" formControlName="email" i18n-placeholder="login|input field placeholder">

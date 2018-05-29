@@ -18,6 +18,7 @@
             <div *ngIf="registrationFailed" class="alert-error" i18n="register|error - user already exists">Registrierung fehlgeschlagen. Der Benutzer existiert bereits.</div>
             <div fxLayout="column" fxLayoutGap="5px">
                 <form #registration action="/passport/signup" method="POST" [formGroup]="registrationForm" (ngSubmit)="onSubmit(); registration.submit()">
+                    <input type="hidden" name="language" formControlName="language" [ngModel]="language">
                     <div fxLayout="column" fxLayoutGap="5px">
                         <mat-form-field>
                             <input matInput [(ngModel)]="registrationData['first_name']" placeholder="Vorname" name="first_name" formControlName="first_name" i18n-placeholder="register|input field placeholder">

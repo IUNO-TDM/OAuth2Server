@@ -133,9 +133,13 @@ self.PassportLogin_Body = {
             type: 'string',
             minLength: 8,
             maxLength: 250
-        }
+        },
+        language: {
+            type: 'string',
+            enum: ['en', 'de']
+        },
     },
-    required: ['email', 'password'],
+    required: ['email', 'password', 'language'],
     additionalProperties: false
 };
 
@@ -172,12 +176,16 @@ self.PassportSignup_Body = {
             minLength: 1,
             maxLength: 250
         },
+        language: {
+            type: 'string',
+            enum: ['en', 'de']
+        },
         'g-recaptcha-response': {
             type: 'string',
             pattern: '[A-Za-z0-9_-]+'
         }
     },
-    required: ['first_name', 'last_name', 'email', 'password', 'g-recaptcha-response'],
+    required: ['first_name', 'last_name', 'email', 'password', 'language', 'g-recaptcha-response'],
     additionalProperties: false
 };
 
@@ -191,7 +199,11 @@ self.Verify_Query = {
         key: {
             type: 'string',
             format: 'uuid'
-        }
+        },
+        language: {
+            type: 'string',
+            enum: ['en', 'de']
+        },
     },
     additionalProperties: false
 };
@@ -208,12 +220,16 @@ self.Resend_Email_Body = {
             minLength: 8,
             maxLength: 250
         },
+        language: {
+            type: 'string',
+            enum: ['en', 'de']
+        },
         'g-recaptcha-response': {
             type: 'string',
             pattern: '[A-Za-z0-9_-]+'
         }
     },
-    required: ['email', 'password', 'g-recaptcha-response'],
+    required: ['email', 'password', 'language', 'g-recaptcha-response'],
     additionalProperties: false
 };
 
@@ -225,12 +241,16 @@ self.SendPasswordEmail_Body = {
             type: 'string',
             format: 'email'
         },
+        language: {
+            type: 'string',
+            enum: ['en', 'de']
+        },
         'g-recaptcha-response': {
             type: 'string',
             pattern: '[A-Za-z0-9_-]+'
         }
     },
-    required: ['email', 'g-recaptcha-response'],
+    required: ['email', 'language', 'g-recaptcha-response'],
     additionalProperties: false
 };
 
@@ -252,6 +272,10 @@ self.ResetPassword_Body = {
             minLength: 1,
             maxLength: 250
         },
+        language: {
+            type: 'string',
+            enum: ['en', 'de']
+        },
         'g-recaptcha-response': {
             type: 'string',
             pattern: '[A-Za-z0-9_-]+'
@@ -261,7 +285,7 @@ self.ResetPassword_Body = {
             format: 'uuid'
         }
     },
-    required: ['email', 'password', 'confirm_password', 'g-recaptcha-response', 'key'],
+    required: ['email', 'password', 'confirm_password', 'language', 'g-recaptcha-response', 'key'],
     additionalProperties: false
 };
 

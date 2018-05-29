@@ -64,45 +64,30 @@
         <note priority="1" from="meaning">login</note>
       <target state="final">Aktivierung erfolgreich!</target></trans-unit><trans-unit id="773d78a83a68876b9680e0a25464fc54207a57f0" datatype="html">
         <source>Zurück</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/login/login.component.ts</context>
-          <context context-type="linenumber">49</context>
-        </context-group>
+        
         <note priority="1" from="description">back button</note>
         <note priority="1" from="meaning">login</note>
-      <target state="final">Zurück</target></trans-unit><trans-unit id="8c04d54632d949700fa542c38cfb7ad3d128f3a5" datatype="html">
+      <target state="final">Zurück</target><context-group purpose="location"><context context-type="sourcefile">app/login/login.component.ts</context><context context-type="linenumber">50</context></context-group></trans-unit><trans-unit id="8c04d54632d949700fa542c38cfb7ad3d128f3a5" datatype="html">
         <source>Noch keinen Login?</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/login/login.component.ts</context>
-          <context context-type="linenumber">56</context>
-        </context-group>
+        
         <note priority="1" from="description">question - no login yet?</note>
         <note priority="1" from="meaning">login</note>
-      <target state="final">Noch keinen Login?</target></trans-unit><trans-unit id="4dda01a30abef2530e32db9ae9711936c66197af" datatype="html">
+      <target state="final">Noch keinen Login?</target><context-group purpose="location"><context context-type="sourcefile">app/login/login.component.ts</context><context context-type="linenumber">57</context></context-group></trans-unit><trans-unit id="4dda01a30abef2530e32db9ae9711936c66197af" datatype="html">
         <source>Jetzt registrieren</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/login/login.component.ts</context>
-          <context context-type="linenumber">58</context>
-        </context-group>
+        
         <note priority="1" from="description">signup button</note>
         <note priority="1" from="meaning">login</note>
-      <target state="final">Jetzt registrieren</target></trans-unit><trans-unit id="e63362df790da1daf6c831afbc87a578ff8c01c4" datatype="html">
+      <target state="final">Jetzt registrieren</target><context-group purpose="location"><context context-type="sourcefile">app/login/login.component.ts</context><context context-type="linenumber">59</context></context-group></trans-unit><trans-unit id="e63362df790da1daf6c831afbc87a578ff8c01c4" datatype="html">
         <source>E-Mail-Adresse</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/login/login.component.ts</context>
-          <context context-type="linenumber">43</context>
-        </context-group>
+        
         <note priority="1" from="description">input field placeholder</note>
         <note priority="1" from="meaning">login</note>
-      <target state="final">E-Mail-Adresse</target></trans-unit><trans-unit id="5149937654176bcc2f19eccb83aabd6af792362a" datatype="html">
+      <target state="final">E-Mail-Adresse</target><context-group purpose="location"><context context-type="sourcefile">app/login/login.component.ts</context><context context-type="linenumber">44</context></context-group></trans-unit><trans-unit id="5149937654176bcc2f19eccb83aabd6af792362a" datatype="html">
         <source>Passwort</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/login/login.component.ts</context>
-          <context context-type="linenumber">46</context>
-        </context-group>
+        
         <note priority="1" from="description">input field placeholder</note>
         <note priority="1" from="meaning">login</note>
-      <target state="final">Passwort</target></trans-unit><trans-unit id="6c8c11bb3eb97099d555e97933b8f38429e49bf1" datatype="html">
+      <target state="final">Passwort</target><context-group purpose="location"><context context-type="sourcefile">app/login/login.component.ts</context><context context-type="linenumber">47</context></context-group></trans-unit><trans-unit id="6c8c11bb3eb97099d555e97933b8f38429e49bf1" datatype="html">
         <source>Ihre Registrierung war erfolgreich!</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/register/register.component.ts</context>
@@ -308,13 +293,13 @@
       <target state="final">Aktivierungsmail erneut zusenden</target></trans-unit><trans-unit id="20bc51d183c7088e7e404d664deb03b062ba2752" datatype="html">
         <source>Captcha-Überprüfung fehlgeschlagen</source>
         
-      <target state="final">Captcha-Überprüfung fehlgeschlagen</target><context-group purpose="location"><context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context><context context-type="linenumber">48</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context><context context-type="linenumber">44</context></context-group></trans-unit><trans-unit id="c47252d6cffe14a672e7ef04b2cc30e761f240ae" datatype="html">
+      <target state="final">Captcha-Überprüfung fehlgeschlagen</target><context-group purpose="location"><context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context><context context-type="linenumber">48</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context><context context-type="linenumber">45</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/reset-password/reset-password.component.ts</context><context context-type="linenumber">47</context></context-group></trans-unit><trans-unit id="c47252d6cffe14a672e7ef04b2cc30e761f240ae" datatype="html">
         <source>Zurück</source>
         
-      <target state="final">Zurück</target><context-group purpose="location"><context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context><context context-type="linenumber">50</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context><context context-type="linenumber">46</context></context-group></trans-unit><trans-unit id="7bcc33990d85b0a9bc1590bb8c7bd772b28ed782" datatype="html">
+      <target state="final">Zurück</target><context-group purpose="location"><context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context><context context-type="linenumber">50</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context><context context-type="linenumber">47</context></context-group></trans-unit><trans-unit id="7bcc33990d85b0a9bc1590bb8c7bd772b28ed782" datatype="html">
         <source>Abschicken</source>
         
-      <target state="final">Abschicken</target><context-group purpose="location"><context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context><context context-type="linenumber">51</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context><context context-type="linenumber">47</context></context-group></trans-unit><trans-unit id="769bfe5bc759a2824cb12933a24122fcf63d7b8f" datatype="html">
+      <target state="final">Abschicken</target><context-group purpose="location"><context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context><context context-type="linenumber">51</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context><context context-type="linenumber">48</context></context-group></trans-unit><trans-unit id="769bfe5bc759a2824cb12933a24122fcf63d7b8f" datatype="html">
         <source>E-Mail-Adresse</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/resend-email-verification/resend-email-verification.component.ts</context>
@@ -328,15 +313,9 @@
         </context-group>
       <target state="final">Passwort</target></trans-unit><trans-unit id="257c058d23f79021e1a2c6b966e89a3c32143864" datatype="html">
         <source>Passwort zurücksetzen</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context>
-          <context context-type="linenumber">7</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context>
-          <context context-type="linenumber">28</context>
-        </context-group>
-      <target state="final">Passwort zurücksetzen</target></trans-unit><trans-unit id="8c2414393d95e19b461679cb58abeb3d5283860e" datatype="html">
+        
+        
+      <target state="final">Passwort zurücksetzen</target><context-group purpose="location"><context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context><context context-type="linenumber">7</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context><context context-type="linenumber">28</context></context-group><context-group purpose="location"><context context-type="sourcefile">app/reset-password/reset-password.component.ts</context><context context-type="linenumber">22</context></context-group></trans-unit><trans-unit id="8c2414393d95e19b461679cb58abeb3d5283860e" datatype="html">
         <source>Der Link um das Passwort zurückzusetzen wurde Ihnen per E-Mail zugesendet. Bitte übrprüfen Sie im Zweifelsfall Ihren Spam-Ordner.</source>
         <context-group purpose="location">
           <context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context>
@@ -356,10 +335,81 @@
         </context-group>
       <target state="final">Der Link um das Passwort zurückzusetzen konnte nicht gesendet werden. Die E-Mail-Adresse ist nicht bekannt.</target></trans-unit><trans-unit id="105f7878b6dde12a833d5e20475593cfc77f0b17" datatype="html">
         <source>Der Link um das Passwort zurückzusetzen wird Ihnen an die folgende E-Mail-Adresse zugesendet:</source>
+        
+      <target state="final">Der Link um das Passwort zurückzusetzen wird Ihnen an die folgende E-Mail-Adresse zugesendet:</target><context-group purpose="location"><context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context><context context-type="linenumber">36</context></context-group></trans-unit><trans-unit id="23539860e8d7fd624af337c45e4d289f14c4c47d" datatype="html">
+        <source>Passwort zurückgesetzt!</source>
         <context-group purpose="location">
-          <context context-type="sourcefile">app/reset-password-mail/reset-password-mail.component.ts</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="sourcefile">app/reset-password/reset-password.component.ts</context>
+          <context context-type="linenumber">7</context>
         </context-group>
-      <target state="final">Der Link um das Passwort zurückzusetzen wird Ihnen an die folgende E-Mail-Adresse zugesendet:</target></trans-unit></body>
+      <target state="final">Passwort zurückgesetzt!</target></trans-unit><trans-unit id="8efa0c109a5452c4b205cf80319296b3c08c3a78" datatype="html">
+        <source>Ihr Passwort konnte nicht zurückgesetzt werden.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password/reset-password.component.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      <target state="final">Ihr Passwort konnte nicht zurückgesetzt werden.</target></trans-unit><trans-unit id="aa1fe2d36b2c278f6948295b276878d7f321d6d3" datatype="html">
+        <source>Ihr Passwort konnte nicht zurückgesetzt werden. Die E-Mail-Adresse ist nicht bekannt.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password/reset-password.component.ts</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      <target state="final">Ihr Passwort konnte nicht zurückgesetzt werden. Die E-Mail-Adresse ist nicht bekannt.</target></trans-unit><trans-unit id="e8e7e69dbaab7377b6316fb8c7dec76d955eafe4" datatype="html">
+        <source>E-Mail: <x id="INTERPOLATION" equiv-text="{{email}}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password/reset-password.component.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      <target state="final">E-Mail: <x id="INTERPOLATION" equiv-text="{{email}}"/></target></trans-unit><trans-unit id="8f087641d4307253746877465bdcadce1adc83c4" datatype="html">
+        <source>Neues Passwort</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password/reset-password.component.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      <target state="final">Neues Passwort</target></trans-unit><trans-unit id="f0e5c328ae491c7d5875e88ae91bf234bb7d94bb" datatype="html">
+        <source>
+                  Das Passwort muss mindestens 8 Zeichen lang sein.
+                </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password/reset-password.component.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      <target state="final">
+                  Das Passwort muss mindestens 8 Zeichen lang sein.
+                </target></trans-unit><trans-unit id="55de98c522f30988612c529201c4f9b94fa4bb86" datatype="html">
+        <source>Passwort wiederholen</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password/reset-password.component.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      <target state="final">Passwort wiederholen</target></trans-unit><trans-unit id="0d9922a0cc5344c46bede05e13a73125b77bfa64" datatype="html">
+        <source>
+                  Die Passwörter stimmen nicht überein.
+                </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password/reset-password.component.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      <target state="final">
+                  Die Passwörter stimmen nicht überein.
+                </target></trans-unit><trans-unit id="1aac83274c9c0debcfce62481c85cab369d63f31" datatype="html">
+        <source>
+                Zurück
+              </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password/reset-password.component.ts</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      <target state="final">
+                Zurück
+              </target></trans-unit><trans-unit id="04fdc74cdafa75fb6d234b0895b9e8818ac8654e" datatype="html">
+        <source>Abschicken
+              </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/reset-password/reset-password.component.ts</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      <target state="final">Abschicken
+              </target></trans-unit></body>
   </file>
 </xliff>

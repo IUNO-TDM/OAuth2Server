@@ -34,7 +34,8 @@
                 <form #resend action="/passport/verify/send_email" method="POST" [formGroup]="resendForm"
                       (ngSubmit)="onSubmit(); resend.submit()"
                       name="resend">
-                    <div fxLayout="column" fxLayoutGap="5px">
+                      <input type="hidden" name="language" formControlName="language" [ngModel]="language">
+                      <div fxLayout="column" fxLayoutGap="5px">
                         <mat-form-field>
                             <input matInput [(ngModel)]="loginCredentials['email']" placeholder="E-Mail-Adresse" name="email" formControlName="email" i18n-placeholder>
                         </mat-form-field>

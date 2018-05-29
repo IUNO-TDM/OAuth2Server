@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, LOCALE_ID, Inject} from '@angular/core';
 import {FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {ActivatedRoute} from '@angular/router';
@@ -26,21 +26,25 @@ export class LoginComponent implements OnInit {
         email: "",
         password: ""
     };
+    language = ""
     loginCountDown = 0;
 
     constructor(private router: Router,
-                private route: ActivatedRoute,
+        @Inject(LOCALE_ID) locale: string,
+        private route: ActivatedRoute,
                 private http: HttpClient,
                 private formBuilder: FormBuilder,
                 private authenticationService: AuthenticationService,
                 private cookieService: CookieService) {
-        this.createForm();
+                    this.language = locale
+                    this.createForm();
     }
 
     createForm() {
         this.loginForm = this.formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(8)]],
+            language: ['', [Validators.required, Validators.minLength(2)]],
         });
     }
 
