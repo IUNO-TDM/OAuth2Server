@@ -12,11 +12,11 @@ self.sendResetPasswordMail = function (email, language) {
         return;
     }
 
-    // if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'docker') {
-    //     logger.info('[email_service] Development Environment - Reset password mails are disabled during development');
+    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'docker') {
+        logger.info('[email_service] Development Environment - Reset password mails are disabled during development');
 
-    //     return;
-    // }
+        return;
+    }
 
     dbUser.CreatePasswordKey(email, function (err, data) {
         if (err) {
@@ -84,14 +84,14 @@ self.sendVerificationMailForUser = function (user, language) {
         }
         const key = data['registrationkey'];
 
-        // if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'docker') {
-        //     logger.info('[email_service] Development Environment - E-Mail Verification is disabled during development');
+        if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'docker') {
+            logger.info('[email_service] Development Environment - E-Mail Verification is disabled during development');
 
-        //     dbUser.VerifyUser(user.id, key, function (err, success) {
-        //     });
+            dbUser.VerifyUser(user.id, key, function (err, success) {
+            });
 
-        //     return;
-        // }
+            return;
+        }
 
         var transporter = nodemailer.createTransport(CONFIG.SMTP_CONFIG);
 
