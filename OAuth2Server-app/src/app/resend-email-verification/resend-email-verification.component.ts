@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
@@ -24,24 +24,28 @@ export class ResendEmailVerificationComponent implements OnInit {
     resendRunning = false;
     resendSuccess = false;
     captchaFailed = false;
+    language = ""
     loginCredentials = {
         email: "",
         password: ""
     };
 
     constructor(private router: Router,
+        @Inject(LOCALE_ID) locale: string,
         private route: ActivatedRoute,
         private http: HttpClient,
         private formBuilder: FormBuilder,
         private authenticationService: AuthenticationService,
         private cookieService: CookieService) {
-        this.createForm();
+            this.language = locale
+            this.createForm();
     }
 
     createForm() {
         this.resendForm = this.formBuilder.group({
             email: ['', [Validators.required, Validators.email]],
             password: ['', [Validators.required, Validators.minLength(8)]],
+            language: ['', [Validators.required, Validators.minLength(2)]],
             recaptcha: [null, Validators.required],
         });
     }

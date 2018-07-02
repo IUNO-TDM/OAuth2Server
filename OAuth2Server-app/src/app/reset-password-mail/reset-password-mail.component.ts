@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, LOCALE_ID, Inject } from '@angular/core';
 import {FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {ActivatedRoute} from '@angular/router';
@@ -18,18 +18,22 @@ export class ResetPasswordMailComponent implements OnInit {
   resetFailed = false;
   resetFailedUnknownUser = false;
   email = "";
+  language = ""
 
   constructor(private router: Router,
     private route: ActivatedRoute,
     private http: HttpClient,
     private formBuilder: FormBuilder,
+    @Inject(LOCALE_ID) locale: string,
     private cookieService: CookieService) {
-    this.createForm();
+      this.language = locale
+      this.createForm();
   }
 
   createForm() {
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
+      language: [null],
       recaptcha: [null, Validators.required],
     });
   }
