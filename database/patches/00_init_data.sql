@@ -1225,6 +1225,7 @@ Begin
     update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41735'::uuid where username = 'MarketplaceCoreUser';
     update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41736'::uuid where username = 'MixerControlUser';
     update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41737'::uuid where username = 'JuiceMachineServiceUser';
+    update users set useruuid = 'adb4c297-8768-45df-8faa-ae6b0ac6fee1'::uuid where username = 'AdditiveManufacturingUser';
 
     update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41738'::uuid where rolename = 'Public';
     update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41739'::uuid where rolename = 'MachineOperator';
@@ -1251,11 +1252,21 @@ Begin
     vUserUUID := (select useruuid from users where username = 'JuiceMachineServiceUser');
     vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
     perform createclient('JuiceMachineService','IsSecret',vuseruuid, '{client_credentials}', vRedirectUris,null);
+    --AdditiveManufactoringService
+    vUserUUID := (select useruuid from users where username = 'AdditiveManufacturingUser');
+    vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
+    perform createclient('AdditiveManufacturingService','IsSecret',vuseruuid, '{client_credentgitials}', '{}', null);
+    --AdditiveManufactoringService
+    vUserUUID := (select useruuid from users where username = 'AdditiveManufacturingUser');
+    vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
+    perform createclient('ProductionManager','IsSecret',vuseruuid, '{client_credentials}', '{}', null);
 
     -- Set fixes UUIDs for the clients
     update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41744' where clientname = 'JuiceWebSite';
     update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41745' where clientname = 'MarketplaceCore';
     update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41746' where clientname = 'MixerControl';
     update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41747' where clientname = 'JuiceMachineService';
+    update clients set clientuuid = 'adb4c297-e41b-48e3-9397-f09a1ce06b2d' where clientname = 'AdditiveManufacturingService';
+    update clients set clientuuid = 'adb4c297-5f53-4332-88ff-07398ee44b6e' where clientname = 'ProductionManager';
 END;
 $$;
