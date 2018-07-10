@@ -1216,6 +1216,7 @@ Begin
     perform setuser(null, 'MarketplaceCoreUser', null, null, 'marketplacecoreuser@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
     perform setuser(null, 'MixerControlUser', null, null, 'mixercontrol@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
     perform setuser(null, 'JuiceMachineServiceUser', null, null, 'juicemachineservice@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
+    perform setuser(null, 'AdditiveManufacturingUser', null, null, 'amu@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
 
     update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41730'::uuid where username = 'Admin';
     update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41731'::uuid where username = 'MaxMuster';
