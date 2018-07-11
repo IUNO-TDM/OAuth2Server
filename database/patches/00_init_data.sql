@@ -1256,7 +1256,7 @@ Begin
     --AdditiveManufactoringService
     vUserUUID := (select useruuid from users where username = 'AdditiveManufacturingUser');
     vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
-    perform createclient('AdditiveManufacturingService','IsSecret',vuseruuid, '{client_credentgitials}', '{}', null);
+    perform createclient('AdditiveManufacturingService','IsSecret',vuseruuid, '{client_credentials}', '{}', null);
     --AdditiveManufactoringService
     vUserUUID := (select useruuid from users where username = 'AdditiveManufacturingUser');
     vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
