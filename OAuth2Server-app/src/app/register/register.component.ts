@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { ElementRef, ViewChild } from '@angular/core';
 import { FormControl, AbstractControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -23,6 +23,7 @@ export class RegisterComponent implements OnInit {
   captchaFailed = false;
   registrationForm: FormGroup;
   recaptcha = new FormControl(false);
+  language = ""
   registrationData = {
     firstName: "",
     lastName: "",
@@ -32,6 +33,7 @@ export class RegisterComponent implements OnInit {
   // @ViewChild('captchaControl') captchaRef: RecaptchaComponent;
 
   constructor(
+    @Inject(LOCALE_ID) locale: string,
     private router: Router,
     private route: ActivatedRoute,
     private elementRef: ElementRef,
@@ -39,6 +41,7 @@ export class RegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private cookieService: CookieService    
   ) {
+    this.language = locale
     this.createForm();
   }
 
@@ -62,6 +65,7 @@ export class RegisterComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(8)]],
       confirm_password: ['', Validators.required],
       recaptcha: [null, Validators.required],
+      language: ['', [Validators.required, Validators.minLength(2)]],
     }, {
         validator: this.checkPasswordMatch('password', 'confirm_password')
       });

@@ -129,7 +129,8 @@ module.exports = function (passport) {
     // =============================================================================
 
     const failCallback = function (req, res, next, nextValidRequestDate) {
-        return res.redirect('/login?failure=INVALID_CREDENTIALS&next-valid-request-time=' + nextValidRequestDate.getTime());
+        const language = req.body['language'];
+        return res.redirect('/'+language+'/login?failure=INVALID_CREDENTIALS&next-valid-request-time=' + nextValidRequestDate.getTime());
     };
 
     const loginBrute = new ExpressBrute(store, {
@@ -147,17 +148,17 @@ module.exports = function (passport) {
         }),
         function (req, res, next) {
             logger.info('iuno login');
-
+            const language = req.body['language'];
             passport.authenticate('local-login', function (err, user, info) {
 
                 if (err && info && info.code) {
-                    return res.redirect('/login?failure=' + info.code || 'true');
+                    return res.redirect('/'+language+'/login?failure=' + info.code || 'true');
                 }
 
                 if (!err && user) {
                     req.logIn(user, function (err) {
                         if (err) {
-                            return res.redirect('/login?failure=true');
+                            return res.redirect('/'+language+'/login?failure=true');
                         }
 
                         req.brute.reset();
@@ -167,10 +168,10 @@ module.exports = function (passport) {
                 }
 
                 if (info) {
-                    return res.redirect('/login?failure=' + info.code || 'true');
+                    return res.redirect('/'+language+'/login?failure=' + info.code || 'true');
                 }
 
-                return res.redirect('/login?failure=true');
+                return res.redirect('/'+language+'/login?failure=true');
 
             })(req, res, next);
         });
@@ -182,22 +183,23 @@ module.exports = function (passport) {
         logger.info('iuno signup');
 
         const captchaResponse = req.body['g-recaptcha-response'];
+        const language = req.body['language'];
 
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
-                res.redirect('/register?failure=captcha');
+                res.redirect('/'+language+'/register?failure=captcha');
             } else { // captcha success
                 passport.authenticate('local-signup', function (err, user, info) {
 
                     if (err && info && info.code) {
-                        return res.redirect('/register?failure=' + info.code || 'true');
+                        return res.redirect('/'+language+'/register?failure=' + info.code || 'true');
                     }
 
                     if (!err && !user && info && info.code === 'VERIFICATION_REQUIRED') {
-                        return res.redirect('/register?success');
+                        return res.redirect('/'+language+'/register?success');
                     }
 
-                    return res.redirect('/register?failure=true');
+                    return res.redirect('/'+language+'/register?failure=true');
 
                 })(req, res, next);
             }
@@ -208,20 +210,23 @@ module.exports = function (passport) {
         query: validation_schema.Verify_Query,
         body: validation_schema.Empty
     }), function (req, res, next) {
-
+        var language = req.query['language'] || 'en'
+        if (!language) {
+            language = "en"
+        }
         dbUser.getUserByID(req.query['user'], function (err, user) {
             if (err || !user || user.isVerified) {
-                return res.redirect('/login?failure=verification_user_unknown');
+                return res.redirect('/'+language+'/login?failure=verification_user_unknown');
                 // return res.sendStatus(400);
             }
 
             dbUser.VerifyUser(req.query['user'], req.query['key'], function (err, success) {
                 if (!success) {
-                    return res.redirect('/login?failure=verification');
+                    return res.redirect('/'+language+'/login?failure=verification');
                     // return res.sendStatus(400);
                 }
 
-                return res.redirect('/login/' + user.useremail + "?verified");
+                return res.redirect('/'+language+'/login/' + user.useremail + "?verified");
             });
         });
     });
@@ -232,11 +237,12 @@ module.exports = function (passport) {
     }), function (req, res, next) {
 
         const captchaResponse = req.body['g-recaptcha-response'];
+        const language = req.body['language'];
 
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
                 logger.warn('[routes/users] Invalid google captcha response');
-                return res.redirect('/resend-email-verification?failure=captcha');
+                return res.redirect('/'+language+'/resend-email-verification?failure=captcha');
             } else { // captcha success
 
                 const email = req.body['email'];
@@ -244,19 +250,19 @@ module.exports = function (passport) {
                 dbUser.getUser(email, password, function (err, user) {
                     if (!user) {
                         logger.warn('[routes/users] Registration email for unknown user (' + email + ') requested.');
-                        return res.redirect('/resend-email-verification?failure=unknown_user');
+                        return res.redirect('/'+language+'/resend-email-verification?failure=unknown_user');
                         // return res.sendStatus(400);
                     }
 
                     if (user.isVerified) {
                         logger.warn('[routes/users] User (' + email + ') already verified.');
-                        return res.redirect('/resend-email-verification?failure=already_verified');
+                        return res.redirect('/'+language+'/resend-email-verification?failure=already_verified');
                         // return res.sendStatus(400);
                     }
 
-                    emailService.sendVerificationMailForUser(user);
+                    emailService.sendVerificationMailForUser(user, language);
 
-                    return res.redirect('/resend-email-verification?success=true');
+                    return res.redirect('/'+language+'/resend-email-verification?success=true');
                 });
 
             }
@@ -269,18 +275,19 @@ module.exports = function (passport) {
     }), function (req, res, next) {
 
         const captchaResponse = req.body['g-recaptcha-response'];
+        const language = req.body['language'];
 
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
                 logger.warn('[routes/users] Invalid google captcha response');
-                return res.redirect('/reset-password-mail?failure=captcha');
+                return res.redirect('/'+language+'/reset-password-mail?failure=captcha');
             } else { // captcha success
 
                 const email = req.body['email'];
 
-                emailService.sendResetPasswordMail(email);
+                emailService.sendResetPasswordMail(email, language);
 
-                return res.redirect('/reset-password-mail?success');
+                return res.redirect('/'+language+'/reset-password-mail?success');
             }
         });
     });
@@ -292,11 +299,12 @@ module.exports = function (passport) {
     }), function (req, res, next) {
 
         const captchaResponse = req.body['g-recaptcha-response'];
+        const language = req.body['language'];
 
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
                 logger.warn('[routes/users] Invalid google captcha response');
-                return res.redirect('/reset-password?failure=captcha');
+                return res.redirect('/'+language+'/reset-password?failure=captcha');
             } else { // captcha success
 
                 const email = req.body['email'];
@@ -306,12 +314,12 @@ module.exports = function (passport) {
                 dbUser.ResetPassword(email, passwordKey, password, function (err, success) {
 
                     if (err || !success) {
-                        return res.redirect('/reset-password?failure=true');
+                        return res.redirect('/'+language+'/reset-password?failure=true');
                     }
 
                     req.brute.reset();
 
-                    return res.redirect('/reset-password/' + email + '?success');
+                    return res.redirect('/'+language+'/reset-password/' + email + '?success');
                 });
             }
         });

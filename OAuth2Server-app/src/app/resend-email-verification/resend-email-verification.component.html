@@ -4,29 +4,22 @@
         <img fxFlexAlign="center" class="iuno-logo" src="assets/images/iuno.svg"/>
         <div *ngIf="resendSuccess" fxLayout="column">
             <div>
-                <p class="title">Aktivierungsmail erneut versendet.</p>
+                <p class="title" i18n>Aktivierungsmail erneut versendet.</p>
             </div>
             <div>
-                <p class="message">Die Aktivierungsmail wurde Ihnen erneut zugesendet. Bitte übrprüfen Sie im
-                    Zweifelsfall Ihren Spam-Ordner.</p>
+                <p class="message" i18n>Die Aktivierungsmail wurde Ihnen erneut zugesendet. Bitte übrprüfen Sie im Zweifelsfall Ihren Spam-Ordner.</p>
             </div>
             <div fxLayout="row" fxLayoutGap="15px" fxFlex="grow" fxLayoutAlign="center center">
-                <button mat-button type='button' fxFlex="50" class="iuno-primary-button" routerLink="/login">Zurück zur
-                    Login Seite
-                </button>
+                <button mat-button type='button' fxFlex="50" class="iuno-primary-button" routerLink="/login" i18n>Zurück zur Login Seite</button>
             </div>
 
         </div>
         <div *ngIf="!resendSuccess">
-            <div *ngIf="resendFailed" class="alert-error">Die Aktivierungsmail konnte nicht gesendet werden.</div>
-            <div *ngIf="resendFailedUnknownUser" class="alert-error">Die Aktivierungsmail konnte nicht gesendet werden.
-                Die E-Mail-Adresse ist nicht bekannt oder das Passwort ist falsch.
+            <div *ngIf="resendFailed" class="alert-error" i18n>Die Aktivierungsmail konnte nicht gesendet werden.</div>
+            <div *ngIf="resendFailedUnknownUser" class="alert-error" i18n>Die Aktivierungsmail konnte nicht gesendet werden. Die E-Mail-Adresse ist nicht bekannt oder das Passwort ist falsch.
             </div>
-            <div *ngIf="resendFailedAlreadyVerified" class="alert-error">Die E-Mail-Adresse wurde bereits bestätigt.
-            </div>
-            <div *ngIf="resendSuccess" class="alert-info">Die Aktivierungsmail wurde Ihnen erneut zugesendet. Bitte
-                überprüfen Sie im Zweifelsfall Ihren Spam-Ordner.
-            </div>
+            <div *ngIf="resendFailedAlreadyVerified" class="alert-error" i18n>Die E-Mail-Adresse wurde bereits bestätigt.</div>
+            <div *ngIf="resendSuccess" class="alert-info" i18n>Die Aktivierungsmail wurde Ihnen erneut zugesendet. Bitte überprüfen Sie im Zweifelsfall Ihren Spam-Ordner.</div>
             <!--
             <div *ngIf="notVerified" class="alert-error" fxLayout="column" fxLayoutGap="15px">
               <div>Login fehlgeschlagen. Die E-Mail-Adresse wurde noch nicht bestätigt.</div>
@@ -35,33 +28,28 @@
               </div>
             </div> -->
             <div>
-                <p class="title">Aktivierungsmail erneut zusenden</p>
+                <p class="title" i18n>Aktivierungsmail erneut zusenden</p>
             </div>
             <div fxLayout="column" fxLayoutGap="5px">
                 <form #resend action="/passport/verify/send_email" method="POST" [formGroup]="resendForm"
                       (ngSubmit)="onSubmit(); resend.submit()"
                       name="resend">
-                    <div fxLayout="column" fxLayoutGap="5px">
+                      <input type="hidden" name="language" formControlName="language" [ngModel]="language">
+                      <div fxLayout="column" fxLayoutGap="5px">
                         <mat-form-field>
-                            <input matInput [(ngModel)]="loginCredentials['email']" placeholder="E-Mail-Adresse"
-                                   name="email" formControlName="email">
+                            <input matInput [(ngModel)]="loginCredentials['email']" placeholder="E-Mail-Adresse" name="email" formControlName="email" i18n-placeholder>
                         </mat-form-field>
                         <mat-form-field>
-                            <input matInput type="password" placeholder="Passwort" name="password"
-                                   formControlName="password">
+                            <input matInput type="password" placeholder="Passwort" name="password" formControlName="password" i18n-placeholder>
                         </mat-form-field>
                         <div fxLayoutAlign="center center">
                             <re-captcha #captchaControl formControlName="recaptcha"
                                         siteKey="6LcFUDMUAAAAANHdh_RtQvy67IGG1hnKkbeqwHgj" required></re-captcha>
                         </div>
-                        <div *ngIf="captchaFailed" class="alert-error">Captcha-Überprüfung fehlgeschlagen</div>
+                        <div *ngIf="captchaFailed" class="alert-error" i18n>Captcha-Überprüfung fehlgeschlagen</div>
                         <div fxLayout="row" fxLayoutGap="15px" fxFlex="grow">
-                            <button mat-button type='button' fxFlex="50" class="iuno-cancel-button" routerLink="/login">
-                                Zurück
-                            </button>
-                            <button mat-button type="submit" [disabled]="resendForm.invalid" fxFlex="50"
-                                    class="iuno-primary-button">Abschicken
-                            </button>
+                            <button mat-button type='button' fxFlex="50" class="iuno-cancel-button" routerLink="/login" i18n>Zurück</button>
+                            <button mat-button type="submit" [disabled]="resendForm.invalid" fxFlex="50" class="iuno-primary-button" i18n>Abschicken</button>
                         </div>
                     </div>
                 </form>
