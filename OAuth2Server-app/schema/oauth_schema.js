@@ -45,7 +45,7 @@ self.Token_Body = {
         }
     },
     required: ['grant_type'],
-    additionalProperties: true
+    additionalProperties: false
 };
 
 self.Authorise_Query = {
