@@ -1217,6 +1217,7 @@ Begin
     perform setuser(null, 'MixerControlUser', null, null, 'mixercontrol@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
     perform setuser(null, 'JuiceMachineServiceUser', null, null, 'juicemachineservice@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
     perform setuser(null, 'AdditiveManufacturingUser', null, null, 'amu@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
+    perform setuser(null, 'ProductionManagerUser', null, null, 'pmu@iuno.com', null, null, null,'{TechnologyDataOwner, MachineOperator}', 'IsSecret');
 
     update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41730'::uuid where username = 'Admin';
     update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41731'::uuid where username = 'MaxMuster';
@@ -1227,6 +1228,7 @@ Begin
     update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41736'::uuid where username = 'MixerControlUser';
     update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41737'::uuid where username = 'JuiceMachineServiceUser';
     update users set useruuid = 'adb4c297-8768-45df-8faa-ae6b0ac6fee1'::uuid where username = 'AdditiveManufacturingUser';
+    update users set useruuid = 'adb4c297-8768-45df-8faa-fca4b3e06bc0'::uuid where username = 'ProductionManagerUser';
 
     update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41738'::uuid where rolename = 'Public';
     update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41739'::uuid where rolename = 'MachineOperator';
@@ -1258,7 +1260,7 @@ Begin
     vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
     perform createclient('AdditiveManufacturingService','IsSecret',vuseruuid, '{client_credentials}', '{}', null);
     --AdditiveManufactoringService
-    vUserUUID := (select useruuid from users where username = 'AdditiveManufacturingUser');
+    vUserUUID := (select useruuid from users where username = 'ProductionManagerUser');
     vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
     perform createclient('ProductionManager','IsSecret',vuseruuid, '{client_credentials}', '{}', null);
 
