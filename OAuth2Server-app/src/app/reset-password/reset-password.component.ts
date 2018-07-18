@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import {FormControl, FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {ActivatedRoute} from '@angular/router';
@@ -20,13 +20,16 @@ export class ResetPasswordComponent implements OnInit {
   resetFailedUnknownUser = false;
   email = "";
   key = "";
+  language = ""
 
   constructor(private router: Router,
+    @Inject(LOCALE_ID) locale: string,
     private route: ActivatedRoute,
     private http: HttpClient,
     private formBuilder: FormBuilder,
     private cookieService: CookieService) {
-    this.createForm();
+      this.language = locale
+      this.createForm();
   }
 
   checkPasswordMatch(passwordFieldName: string, passwordConfirmFieldName: string) {
@@ -46,6 +49,7 @@ export class ResetPasswordComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       key: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8)]],
+      language: ['', [Validators.required, Validators.minLength(2)]],
       confirm_password: ['', Validators.required],
       recaptcha: [null, Validators.required],
     }, {

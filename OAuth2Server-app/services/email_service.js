@@ -7,7 +7,7 @@ const path = require('path');
 
 const self = {};
 
-self.sendResetPasswordMail = function (email) {
+self.sendResetPasswordMail = function (email, language) {
     if (!email) {
         return;
     }
@@ -33,8 +33,8 @@ self.sendResetPasswordMail = function (email) {
         const HOST = CONFIG.HOST_SETTINGS.HOST ? CONFIG.HOST_SETTINGS.HOST : 'tdm-jmw.axoom.cloud';
         const PORT = CONFIG.HOST_SETTINGS.PORT ? ':' + CONFIG.HOST_SETTINGS.PORT : '';
 
-        const template = 'assets/mail_templates/reset_password.html';
-        const resetPasswordUrl = '{0}://{1}{2}/reset-password?email={3}&key={4}'.format(
+        const template = 'assets/mail_templates/reset_password_'+language+'.html';
+        const resetPasswordUrl = ('{0}://{1}{2}/'+language+'/reset-password?email={3}&key={4}').format(
             PROTOCOL,
             HOST,
             PORT,
@@ -45,7 +45,7 @@ self.sendResetPasswordMail = function (email) {
             '\\${RESET_PASSWORD_URL}': resetPasswordUrl
         };
 
-        loadHTMLTemplate(template, placeHolders, function (err, template) {
+        loadHTMLTemplate(template, placeHolders, function (err, template, subject) {
             if (err) {
                 logger.warn('[email_service] could not load html template for password reset.');
                 return;
@@ -54,9 +54,11 @@ self.sendResetPasswordMail = function (email) {
             var mailOptions = {
                 from: CONFIG.SMTP_CONFIG.email,
                 to: email,
-                subject: 'IUNO - Technologiedatenmarktplatz: E-Mail Passwort zurücksetzen',
+                subject: subject,
                 html: template
             };
+
+            console.log(template)
 
             transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
@@ -69,7 +71,7 @@ self.sendResetPasswordMail = function (email) {
     });
 };
 
-self.sendVerificationMailForUser = function (user) {
+self.sendVerificationMailForUser = function (user, language) {
     if (!user) {
         return;
     }
@@ -94,25 +96,26 @@ self.sendVerificationMailForUser = function (user) {
         var transporter = nodemailer.createTransport(CONFIG.SMTP_CONFIG);
 
 
-        const template = 'assets/mail_templates/email_verification.html';
+        const template = 'assets/mail_templates/email_verification_'+language+'.html';
 
         const PROTOCOL = CONFIG.HOST_SETTINGS.PROTOCOL ? CONFIG.HOST_SETTINGS.PROTOCOL : 'https';
         const HOST = CONFIG.HOST_SETTINGS.HOST ? CONFIG.HOST_SETTINGS.HOST : 'tdm-jmw.axoom.cloud';
         const PORT = CONFIG.HOST_SETTINGS.PORT ? ':' + CONFIG.HOST_SETTINGS.PORT : '';
 
 
-        const verificationUrl = '{0}://{1}{2}/passport/verify?user={3}&key={4}'.format(
+        const verificationUrl = ('{0}://{1}{2}/passport/verify?user={3}&key={4}&language={5}').format(
             PROTOCOL,
             HOST,
             PORT,
             user.id,
-            key
+            key,
+            language
         );
         const placeHolders = {
             '\\${VERIFICATION_URL}': verificationUrl
         };
 
-        loadHTMLTemplate(template, placeHolders, function (err, template) {
+        loadHTMLTemplate(template, placeHolders, function (err, template, subject) {
             if (err) {
                 logger.warn('[email_service] could not load html template for email verification.');
                 return;
@@ -121,7 +124,7 @@ self.sendVerificationMailForUser = function (user) {
             var mailOptions = {
                 from: CONFIG.SMTP_CONFIG.email,
                 to: user.useremail,
-                subject: 'IUNO - Technologiedatenmarktplatz: E-Mail Adresse bestätigen',
+                subject: subject,
                 html: template
             };
 
@@ -144,11 +147,16 @@ function loadHTMLTemplate(templateName, placeholders, callback) {
             return callback(err);
         }
 
+        var subject = "IUNO Technology Data Marketplace"
+        var metadataSubject = data.match(new RegExp("<meta name=\"e-mail-subject\" content=\"(.*)\">", "i"))
+        if (metadataSubject) {
+            subject = metadataSubject[1]
+        }
         for (var key in placeholders) {
             data = data.replace(new RegExp(key, 'g'), placeholders[key]);
         }
 
-        callback(null, data);
+        callback(null, data, subject);
     });
 }
 
