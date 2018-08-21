@@ -34,6 +34,9 @@ self.GoogleCallback_Query = {
             type: 'string',
             minLength: 20,
             maxLength: 1000
+        },
+        scope: {
+            type: 'string'
         }
     },
     required: ['code'],
