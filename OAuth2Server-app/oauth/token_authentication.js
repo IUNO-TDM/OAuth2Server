@@ -1,11 +1,11 @@
 /**
  * Created by beuttlerma on 14.07.17.
  */
-var oauthServer = require('oauth2-server');
-var Request = oauthServer.Request;
-var Response = oauthServer.Response;
-var helper = require('../services/helper_service');
-var oauth = require('./oauth')('default');
+const oauthServer = require('oauth2-server');
+const Request = oauthServer.Request;
+const Response = oauthServer.Response;
+const helper = require('../services/helper_service');
+const oauth = require('./oauth')('default');
 
 function unauthorized(res) {
     res.set('WWW-Authenticate', 'Bearer realm=OAUTH Token required');
@@ -13,21 +13,36 @@ function unauthorized(res) {
 }
 
 module.exports = function (req, res, next) {
-    var request = new Request({
+    const request = new Request({
         headers: {authorization: req.headers.authorization},
         method: req.method,
         query: req.query,
         body: req.body
     });
-    var response = new Response(res);
+    const response = new Response(res);
 
     oauth.authenticate(request, response, {})
         .then(function (token) {
-            if (!token || helper.isArray(token)) {
-                return unauthorized(res);
+            let authorized = false;
+
+            if (token && !helper.isArray(token) && token.user) {
+                // Only allow access to MachineOperators and TechnologyDataOwner
+                if (token.user.roles.indexOf('MachineOperator') >= 0) {
+                    authorized = true;
+                }
+                if (token.user.roles.indexOf('TechnologyDataOwner') >= 0) {
+                    authorized = true;
+                }
             }
-            req.user = token;
-            next()
+
+
+            if (authorized) {
+                req.user = token;
+                next()
+            }
+            else {
+                unauthorized(res);
+            }
         })
         .catch(function (err) {
             // Request is not authorized.
