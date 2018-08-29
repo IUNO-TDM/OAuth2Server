@@ -3,8 +3,8 @@
  */
 
 
-var oAuth = require('../oauth/strategy/default');
-var basicAuth = require('basic-auth');
+const oAuth = require('../oauth/strategy/default');
+const basicAuth = require('basic-auth');
 
 
 module.exports = function (req, res, next) {
@@ -13,15 +13,19 @@ module.exports = function (req, res, next) {
         return res.sendStatus(401);
     }
 
-    var user = basicAuth(req);
+    const user = basicAuth(req);
 
     if (!user || !user.name || !user.pass) {
         return unauthorized(res);
     }
 
-    if (oAuth.getClient(user.name, user.pass)) {
-        return next();
-    } else {
-        return unauthorized(res);
-    }
+    oAuth.getClient(user.name, user.pass).then((client) => {
+        if (client) {
+
+            return next();
+        } else {
+            return unauthorized(res);
+        }
+    });
+
 };

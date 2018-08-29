@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "develop": "nodemon ./app.js",
-    "build": "ng build && tsc -p public/",
+    "build": "npm run build-i18n",
     "start": "node ./bin/www",
     "lint": "tslint ./src/**/*.ts -t verbose",
     "extract-i18n": "ng xi18n --output-path src/i18n && for i in de en; do xliffmerge --profile xliffmerge.json de $i; done",
