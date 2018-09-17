@@ -747,8 +747,6 @@ $BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION public.getuserbyexternalid(character varying, character varying)
-  OWNER TO postgres;
 -- ##########################################################################
 --GetClient
  CREATE FUNCTION public.getclient(
@@ -1180,8 +1178,6 @@ $BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION public.getauthorizationcode(character varying)
-  OWNER TO postgres;
 
 -- ##########################################################################
 -- Author: Marcel Ely Gomes
@@ -1216,6 +1212,8 @@ Begin
     perform setuser(null, 'MarketplaceCoreUser', null, null, 'marketplacecoreuser@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
     perform setuser(null, 'MixerControlUser', null, null, 'mixercontrol@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
     perform setuser(null, 'JuiceMachineServiceUser', null, null, 'juicemachineservice@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
+    perform setuser(null, 'AdditiveManufacturingUser', null, null, 'amu@iuno.com', null, null, null,'{MarketplaceComponent}', 'IsSecret');
+    perform setuser(null, 'ProductionManagerUser', null, null, 'pmu@iuno.com', null, null, null,'{TechnologyDataOwner, MachineOperator}', 'IsSecret');
 
     update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41730'::uuid where username = 'Admin';
     update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41731'::uuid where username = 'MaxMuster';
@@ -1225,6 +1223,8 @@ Begin
     update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41735'::uuid where username = 'MarketplaceCoreUser';
     update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41736'::uuid where username = 'MixerControlUser';
     update users set useruuid = 'adb4c297-45bd-437e-ac90-9179eea41737'::uuid where username = 'JuiceMachineServiceUser';
+    update users set useruuid = 'adb4c297-8768-45df-8faa-ae6b0ac6fee1'::uuid where username = 'AdditiveManufacturingUser';
+    update users set useruuid = 'adb4c297-8768-45df-8faa-fca4b3e06bc0'::uuid where username = 'ProductionManagerUser';
 
     update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41738'::uuid where rolename = 'Public';
     update roles set roleuuid = 'adb4c297-45bd-437e-ac90-9179eea41739'::uuid where rolename = 'MachineOperator';
@@ -1251,11 +1251,21 @@ Begin
     vUserUUID := (select useruuid from users where username = 'JuiceMachineServiceUser');
     vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
     perform createclient('JuiceMachineService','IsSecret',vuseruuid, '{client_credentials}', vRedirectUris,null);
+    --AdditiveManufactoringService
+    vUserUUID := (select useruuid from users where username = 'AdditiveManufacturingUser');
+    vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
+    perform createclient('AdditiveManufacturingService','IsSecret',vuseruuid, '{client_credentials}', '{}', null);
+    --AdditiveManufactoringService
+    vUserUUID := (select useruuid from users where username = 'ProductionManagerUser');
+    vRoleUUID := (select roleuuid from roles where rolename = 'MarketplaceComponent');
+    perform createclient('ProductionManager','IsSecret',vuseruuid, '{client_credentials}', '{}', null);
 
     -- Set fixes UUIDs for the clients
     update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41744' where clientname = 'JuiceWebSite';
     update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41745' where clientname = 'MarketplaceCore';
     update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41746' where clientname = 'MixerControl';
     update clients set clientuuid = 'adb4c297-45bd-437e-ac90-9179eea41747' where clientname = 'JuiceMachineService';
+    update clients set clientuuid = 'adb4c297-e41b-48e3-9397-f09a1ce06b2d' where clientname = 'AdditiveManufacturingService';
+    update clients set clientuuid = 'adb4c297-5f53-4332-88ff-07398ee44b6e' where clientname = 'ProductionManager';
 END;
 $$;
