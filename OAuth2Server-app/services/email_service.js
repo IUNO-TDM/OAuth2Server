@@ -72,7 +72,8 @@ self.sendResetPasswordMail = function (email, language) {
 };
 
 self.sendVerificationMailForUser = function (user, language) {
-    if (!user) {
+    if (!user || !user.useremail || !user.id) {
+        logger.crit('[email_service] can not send emails to invalid user');
         return;
     }
 
