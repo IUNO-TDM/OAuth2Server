@@ -148,7 +148,10 @@ module.exports = function (passport) {
         }),
         function (req, res, next) {
             logger.info('iuno login');
-            const language = req.body['language'];
+            let language = req.body['language'] || 'en';
+            if (!language) {
+                language = "en"
+            }
             passport.authenticate('local-login', function (err, user, info) {
 
                 if (err && info && info.code) {
@@ -183,7 +186,10 @@ module.exports = function (passport) {
         logger.info('iuno signup');
 
         const captchaResponse = req.body['g-recaptcha-response'];
-        const language = req.body['language'];
+        let language = req.body['language'] || 'en';
+        if (!language) {
+            language = "en"
+        }
 
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
@@ -210,7 +216,7 @@ module.exports = function (passport) {
         query: validation_schema.Verify_Query,
         body: validation_schema.Empty
     }), function (req, res, next) {
-        var language = req.query['language'] || 'en'
+        let language = req.query['language'] || 'en';
         if (!language) {
             language = "en"
         }
@@ -237,7 +243,10 @@ module.exports = function (passport) {
     }), function (req, res, next) {
 
         const captchaResponse = req.body['g-recaptcha-response'];
-        const language = req.body['language'];
+        let language = req.body['language'] || 'en';
+        if (!language) {
+            language = "en"
+        }
 
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
@@ -251,15 +260,14 @@ module.exports = function (passport) {
                     if (!user) {
                         logger.warn('[routes/users] Registration email for unknown user (' + email + ') requested.');
                         return res.redirect('/'+language+'/resend-email-verification?failure=unknown_user');
-                        // return res.sendStatus(400);
                     }
 
                     if (user.isVerified) {
                         logger.warn('[routes/users] User (' + email + ') already verified.');
                         return res.redirect('/'+language+'/resend-email-verification?failure=already_verified');
-                        // return res.sendStatus(400);
                     }
 
+                    user.useremail = email;
                     emailService.sendVerificationMailForUser(user, language);
 
                     return res.redirect('/'+language+'/resend-email-verification?success=true');
@@ -275,7 +283,10 @@ module.exports = function (passport) {
     }), function (req, res, next) {
 
         const captchaResponse = req.body['g-recaptcha-response'];
-        const language = req.body['language'];
+        let language = req.body['language'] || 'en';
+        if (!language) {
+            language = "en"
+        }
 
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {
@@ -299,7 +310,10 @@ module.exports = function (passport) {
     }), function (req, res, next) {
 
         const captchaResponse = req.body['g-recaptcha-response'];
-        const language = req.body['language'];
+        let language = req.body['language'] || 'en';
+        if (!language) {
+            language = "en"
+        }
 
         captchaAdapter.verifyReCaptchaResponse(captchaResponse, function (err, success) {
             if (err || !success) {

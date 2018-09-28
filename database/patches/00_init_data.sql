@@ -747,8 +747,6 @@ $BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION public.getuserbyexternalid(character varying, character varying)
-  OWNER TO postgres;
 -- ##########################################################################
 --GetClient
  CREATE FUNCTION public.getclient(
@@ -1180,8 +1178,6 @@ $BODY$
   LANGUAGE sql VOLATILE
   COST 100
   ROWS 1000;
-ALTER FUNCTION public.getauthorizationcode(character varying)
-  OWNER TO postgres;
 
 -- ##########################################################################
 -- Author: Marcel Ely Gomes
