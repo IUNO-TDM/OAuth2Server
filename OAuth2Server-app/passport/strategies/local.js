@@ -46,6 +46,11 @@ module.exports = function (passport) {
                 email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
             }
 
+            let language = req.body['language'] || 'en';
+            if (!language) {
+                language = "en"
+            }
+
             // asynchronous
             process.nextTick(function () {
 
@@ -72,7 +77,7 @@ module.exports = function (passport) {
                         });
                     }
 
-                    emailService.sendVerificationMailForUser(user);
+                    emailService.sendVerificationMailForUser(user, language);
 
                     return done(false, null, {
                         code: 'VERIFICATION_REQUIRED',
