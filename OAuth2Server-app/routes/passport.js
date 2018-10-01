@@ -223,16 +223,14 @@ module.exports = function (passport) {
         dbUser.getUserByID(req.query['user'], function (err, user) {
             if (err || !user || user.isVerified) {
                 return res.redirect('/'+language+'/login?failure=verification_user_unknown');
-                // return res.sendStatus(400);
             }
 
             dbUser.VerifyUser(req.query['user'], req.query['key'], function (err, success) {
                 if (!success) {
                     return res.redirect('/'+language+'/login?failure=verification');
-                    // return res.sendStatus(400);
                 }
 
-                return res.redirect('/'+language+'/login/' + user.useremail + "?verified");
+                return res.redirect('/'+language+'/login?verified');
             });
         });
     });
