@@ -40,7 +40,7 @@ self.GoogleCallback_Query = {
         }
     },
     required: ['code'],
-    additionalProperties: false
+    additionalProperties: true
 };
 
 self.TwitterCallback_Query = {
