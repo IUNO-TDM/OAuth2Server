@@ -44,7 +44,7 @@
     "morgan": "~1.9.1",
     "ng-recaptcha": "^3.0.3",
     "ngx-cookie": "^2.0.1",
-    "nodemailer": "^4.4.2",
+    "nodemailer": "^6.4.16",
     "oauth2-server": "^3.0.1",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
